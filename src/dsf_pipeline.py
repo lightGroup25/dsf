@@ -65,6 +65,12 @@ class DSFPipelineConfig:
             "label": 4,
             "debit_columns": [24, 21, 17, 11],
             "credit_columns": [27, 26, 20, 14, 13],
+            "opening_debit_columns": [11],
+            "opening_credit_columns": [14, 13],
+            "movement_debit_columns": [17],
+            "movement_credit_columns": [20],
+            "closing_debit_columns": [24, 21],
+            "closing_credit_columns": [27, 26],
         }
     )
 
@@ -195,6 +201,7 @@ class DSFPipeline:
             self.config.balance_input,
             self.inventory,
             fuzzy_threshold=self.config.fuzzy_threshold,
+            column_overrides=self.config.balance_column_overrides,
         )
         filler.load()
         filled = filler.fill()

@@ -1,0 +1,3521 @@
+{
+  "validation": {
+    "total_cells_processed": 438,
+    "successful_assignments": 50,
+    "unmatched_cells": 388,
+    "success_rate": 11.415525114155251,
+    "total_amount_assigned": 54365405932.0,
+    "high_confidence_assignments": 30,
+    "medium_confidence_assignments": 20,
+    "low_confidence_assignments": 0,
+    "assignments_by_sheet": {
+      "BILAN PAYSAGE": 14,
+      "COMPTE DE RESULTAT": 14,
+      "NOTE 3A": 10,
+      "NOTE 3B": 6,
+      "NOTE  3C": 3,
+      "NOTE 4 ": 1,
+      "NOTE 28": 2
+    },
+    "unmatched_by_sheet": {
+      "BILAN PAYSAGE": 102,
+      "COMPTE DE RESULTAT": 70,
+      "TABLEAU DES FLUX DE TRESORERIE": 60,
+      "NOTE 3A": 48,
+      "NOTE 3B": 27,
+      "NOTE  3C": 14,
+      "NOTE 4 ": 13,
+      "NOTE 13 ": 7,
+      "C2-NOTE 25": 30,
+      "NOTE 28": 17
+    }
+  },
+  "assignments": [
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "D12",
+      "row_label": "IMMOBILISATIONS INCORPORELLES",
+      "col_label": "EXERCICE au 31/12/N | BRUT",
+      "is_total": true,
+      "total_amount": 1304594152.0,
+      "confidence": 0.9,
+      "source_accounts": [
+        "21",
+        "481100"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "21",
+          "label": "IMMOBILISATIONS INCORPORELLES",
+          "amount": 1300232362.0,
+          "side": "debit",
+          "similarity": 0.9
+        },
+        {
+          "compte": "481100",
+          "label": "Immobilisations incorporelles",
+          "amount": 4361790.0,
+          "side": "credit",
+          "similarity": 0.9
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "K12",
+      "row_label": "IMMOBILISATIONS INCORPORELLES",
+      "col_label": "EXERCICE au 31/12/N | NET",
+      "is_total": true,
+      "total_amount": 4361790.0,
+      "confidence": 0.88,
+      "source_accounts": [
+        "481100"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "481100",
+          "label": "Immobilisations incorporelles",
+          "amount": 4361790.0,
+          "side": "credit",
+          "similarity": 0.88
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "D17",
+      "row_label": "IMMOBILISATIONS CORPORELLES",
+      "col_label": "EXERCICE au 31/12/N | BRUT",
+      "is_total": true,
+      "total_amount": 291536195.0,
+      "confidence": 0.9,
+      "source_accounts": [
+        "481200"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "481200",
+          "label": "Immobilisations corporelles",
+          "amount": 291536195.0,
+          "side": "credit",
+          "similarity": 0.9
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "K17",
+      "row_label": "IMMOBILISATIONS CORPORELLES",
+      "col_label": "EXERCICE au 31/12/N | NET",
+      "is_total": true,
+      "total_amount": 291536195.0,
+      "confidence": 0.88,
+      "source_accounts": [
+        "481200"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "481200",
+          "label": "Immobilisations corporelles",
+          "amount": 291536195.0,
+          "side": "credit",
+          "similarity": 0.88
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "D21",
+      "row_label": "Matériel, mobilier et actifs biologiques",
+      "col_label": "EXERCICE au 31/12/N | BRUT",
+      "is_total": false,
+      "total_amount": 4249983680.0,
+      "confidence": 0.7922739726027397,
+      "source_accounts": [
+        "24"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "24",
+          "label": "MATERIEL, MOBILIER ET ACTIFS BIOLOG",
+          "amount": 4249983680.0,
+          "side": "debit",
+          "similarity": 0.7922739726027397
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "D22",
+      "row_label": "Matériel de transport",
+      "col_label": "EXERCICE au 31/12/N | BRUT",
+      "is_total": false,
+      "total_amount": 1072044801.0,
+      "confidence": 1.0,
+      "source_accounts": [
+        "245"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "245",
+          "label": "MATÉRIEL DE TRANSPORT",
+          "amount": 1072044801.0,
+          "side": "debit",
+          "similarity": 1.0
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "D23",
+      "row_label": "AVANCES ET ACOMPTES VERSES SUR IMMOBILISATION",
+      "col_label": "EXERCICE au 31/12/N | BRUT",
+      "is_total": true,
+      "total_amount": 39177126.0,
+      "confidence": 0.7595,
+      "source_accounts": [
+        "25",
+        "252",
+        "252000"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "25",
+          "label": "AVANCES ET ACOMPTES VERSES SUR IMMO",
+          "amount": 13059042.0,
+          "side": "debit",
+          "similarity": 0.7595
+        },
+        {
+          "compte": "252",
+          "label": "AVANCES ET ACOMPTES VERSÉS SUR IMMOBILISATIONS CORPORELLES",
+          "amount": 13059042.0,
+          "side": "debit",
+          "similarity": 0.7167961165048543
+        },
+        {
+          "compte": "252000",
+          "label": "AVANCES ET ACOMPTES VERSÉS SUR IMMOBILISATIONS CORPORELLES",
+          "amount": 13059042.0,
+          "side": "debit",
+          "similarity": 0.7167961165048543
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "K23",
+      "row_label": "AVANCES ET ACOMPTES VERSES SUR IMMOBILISATION",
+      "col_label": "EXERCICE au 31/12/N | NET",
+      "is_total": true,
+      "total_amount": 222784308.0,
+      "confidence": 0.6766666666666666,
+      "source_accounts": [
+        "449200"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "449200",
+          "label": "État, avances et acomptes versés sur impôts",
+          "amount": 222784308.0,
+          "side": "credit",
+          "similarity": 0.6766666666666666
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "D25",
+      "row_label": "Titres de participation",
+      "col_label": "EXERCICE au 31/12/N | BRUT",
+      "is_total": false,
+      "total_amount": 1432653817.0,
+      "confidence": 0.9,
+      "source_accounts": [
+        "26"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "26",
+          "label": "TITRES DE PARTICIPATION",
+          "amount": 1432653817.0,
+          "side": "debit",
+          "similarity": 0.9
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "D26",
+      "row_label": "Autres immobilisations financières",
+      "col_label": "EXERCICE au 31/12/N | BRUT",
+      "is_total": false,
+      "total_amount": 400079126.0,
+      "confidence": 1.0,
+      "source_accounts": [
+        "27"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "27",
+          "label": "AUTRES IMMOBILISATIONS FINANCIERES",
+          "amount": 400079126.0,
+          "side": "debit",
+          "similarity": 1.0
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "D32",
+      "row_label": "Clients",
+      "col_label": "EXERCICE au 31/12/N | BRUT",
+      "is_total": false,
+      "total_amount": 9621841870.0,
+      "confidence": 1.0,
+      "source_accounts": [
+        "411"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "411",
+          "label": "CLIENTS",
+          "amount": 9621841870.0,
+          "side": "credit",
+          "similarity": 1.0
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "K32",
+      "row_label": "Clients",
+      "col_label": "EXERCICE au 31/12/N | NET",
+      "is_total": false,
+      "total_amount": 1037675003.0,
+      "confidence": 1.0,
+      "source_accounts": [
+        "411100"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "411100",
+          "label": "Clients",
+          "amount": 1037675003.0,
+          "side": "credit",
+          "similarity": 1.0
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "D39",
+      "row_label": "Ecart de conversion - Actif",
+      "col_label": "EXERCICE au 31/12/N | BRUT",
+      "is_total": false,
+      "total_amount": 186329571.0,
+      "confidence": 0.7786274509803921,
+      "source_accounts": [
+        "478"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "478",
+          "label": "ÉCARTS DE CONVERSION - ACTIF",
+          "amount": 186329571.0,
+          "side": "credit",
+          "similarity": 0.7786274509803921
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "K39",
+      "row_label": "Ecart de conversion - Actif",
+      "col_label": "EXERCICE au 31/12/N | NET",
+      "is_total": false,
+      "total_amount": 186329571.0,
+      "confidence": 0.7586274509803921,
+      "source_accounts": [
+        "478"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "478",
+          "label": "ÉCARTS DE CONVERSION - ACTIF",
+          "amount": 186329571.0,
+          "side": "credit",
+          "similarity": 0.7586274509803921
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "E11",
+      "row_label": "vente de marchandises",
+      "col_label": "EXERCICE AU 31/12/N | NET",
+      "is_total": false,
+      "total_amount": 2699786522.0,
+      "confidence": 0.7065116279069767,
+      "source_accounts": [
+        "701"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "701",
+          "label": "VENTES DE MARCHANDISES",
+          "amount": 2699786522.0,
+          "side": "credit",
+          "similarity": 0.7065116279069767
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "E16",
+      "row_label": "Travaux, services vendus    C",
+      "col_label": "EXERCICE AU 31/12/N | NET",
+      "is_total": false,
+      "total_amount": 37021988.0,
+      "confidence": 0.7149999999999999,
+      "source_accounts": [
+        "706"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "706",
+          "label": "SERVICES VENDUS",
+          "amount": 37021988.0,
+          "side": "credit",
+          "similarity": 0.7149999999999999
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "E17",
+      "row_label": "Produits accessoires             D",
+      "col_label": "EXERCICE AU 31/12/N | NET",
+      "is_total": false,
+      "total_amount": 75000.0,
+      "confidence": 0.9723809523809523,
+      "source_accounts": [
+        "707"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "707",
+          "label": "PRODUITS ACCESSOIRES",
+          "amount": 75000.0,
+          "side": "credit",
+          "similarity": 0.9723809523809523
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "E22",
+      "row_label": "Autres produits",
+      "col_label": "EXERCICE AU 31/12/N | NET",
+      "is_total": false,
+      "total_amount": 4370480.0,
+      "confidence": 1.0,
+      "source_accounts": [
+        "75"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "75",
+          "label": "AUTRES PRODUITS",
+          "amount": 4370480.0,
+          "side": "credit",
+          "similarity": 1.0
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "E26",
+      "row_label": "Autres achats",
+      "col_label": "EXERCICE AU 31/12/N | NET",
+      "is_total": false,
+      "total_amount": 136055941.0,
+      "confidence": 1.0,
+      "source_accounts": [
+        "605"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "605",
+          "label": "AUTRES ACHATS",
+          "amount": 136055941.0,
+          "side": "debit",
+          "similarity": 1.0
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "E28",
+      "row_label": "Transports",
+      "col_label": "EXERCICE AU 31/12/N | NET",
+      "is_total": false,
+      "total_amount": 51146278.0,
+      "confidence": 1.0,
+      "source_accounts": [
+        "61"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "61",
+          "label": "TRANSPORTS",
+          "amount": 51146278.0,
+          "side": "debit",
+          "similarity": 1.0
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "E29",
+      "row_label": "Services extérieurs",
+      "col_label": "EXERCICE AU 31/12/N | NET",
+      "is_total": false,
+      "total_amount": 1160671032.0,
+      "confidence": 1.0,
+      "source_accounts": [
+        "62"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "62",
+          "label": "SERVICES EXTERIEURS",
+          "amount": 1160671032.0,
+          "side": "debit",
+          "similarity": 1.0
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "E30",
+      "row_label": "Impôts et taxes",
+      "col_label": "EXERCICE AU 31/12/N | NET",
+      "is_total": false,
+      "total_amount": 268547506.0,
+      "confidence": 0.9,
+      "source_accounts": [
+        "64"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "64",
+          "label": "IMPOTS ET TAXES",
+          "amount": 268547506.0,
+          "side": "debit",
+          "similarity": 0.9
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "E31",
+      "row_label": "Autres charges",
+      "col_label": "EXERCICE AU 31/12/N | NET",
+      "is_total": false,
+      "total_amount": 456553002.0,
+      "confidence": 1.0,
+      "source_accounts": [
+        "65"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "65",
+          "label": "AUTRES CHARGES",
+          "amount": 456553002.0,
+          "side": "debit",
+          "similarity": 1.0
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "E33",
+      "row_label": "Charges de personnel",
+      "col_label": "EXERCICE AU 31/12/N | NET",
+      "is_total": false,
+      "total_amount": 740385558.0,
+      "confidence": 0.8709999999999999,
+      "source_accounts": [
+        "66"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "66",
+          "label": "CHARGES DU PERSONNEL",
+          "amount": 740385558.0,
+          "side": "debit",
+          "similarity": 0.8709999999999999
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "E40",
+      "row_label": "Transfert de charges financières",
+      "col_label": "EXERCICE AU 31/12/N | NET",
+      "is_total": false,
+      "total_amount": 1041306.0,
+      "confidence": 0.7261538461538461,
+      "source_accounts": [
+        "78"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "78",
+          "label": "TRANSFERT DE CHARGES",
+          "amount": 1041306.0,
+          "side": "credit",
+          "similarity": 0.7261538461538461
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "E41",
+      "row_label": "Frais financiers et charges assimilées",
+      "col_label": "EXERCICE AU 31/12/N | NET",
+      "is_total": false,
+      "total_amount": 444796755.0,
+      "confidence": 0.6802739726027397,
+      "source_accounts": [
+        "67"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "67",
+          "label": "FRAIS FINANCIERS ET CAHRGES ASSIMIL",
+          "amount": 444796755.0,
+          "side": "debit",
+          "similarity": 0.6802739726027397
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "E46",
+      "row_label": "Autres Produits HAO",
+      "col_label": "EXERCICE AU 31/12/N | NET",
+      "is_total": false,
+      "total_amount": 4370480.0,
+      "confidence": 0.7717647058823529,
+      "source_accounts": [
+        "75"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "75",
+          "label": "AUTRES PRODUITS",
+          "amount": 4370480.0,
+          "side": "credit",
+          "similarity": 0.7717647058823529
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "E48",
+      "row_label": "Autres charges HAO",
+      "col_label": "EXERCICE AU 31/12/N | NET",
+      "is_total": false,
+      "total_amount": 456553002.0,
+      "confidence": 0.7674999999999998,
+      "source_accounts": [
+        "65"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "65",
+          "label": "AUTRES CHARGES",
+          "amount": 456553002.0,
+          "side": "debit",
+          "similarity": 0.7674999999999998
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "G14",
+      "row_label": "IMMOBILISATIONS INCORPORELLES",
+      "col_label": "SUITE A UNE REEVALUATION PRATIQUEE AU COURS DE L'EXERCICE",
+      "is_total": true,
+      "total_amount": 1300232362.0,
+      "confidence": 0.88,
+      "source_accounts": [
+        "21"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "21",
+          "label": "IMMOBILISATIONS INCORPORELLES",
+          "amount": 1300232362.0,
+          "side": "debit",
+          "similarity": 0.88
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "G18",
+      "row_label": "Autres immobilisations incorporelles",
+      "col_label": "SUITE A UNE REEVALUATION PRATIQUEE AU COURS DE L'EXERCICE",
+      "is_total": false,
+      "total_amount": 1300232362.0,
+      "confidence": 0.6575384615384615,
+      "source_accounts": [
+        "21"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "21",
+          "label": "IMMOBILISATIONS INCORPORELLES",
+          "amount": 1300232362.0,
+          "side": "debit",
+          "similarity": 0.6575384615384615
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "G19",
+      "row_label": "IMMOBILISATIONS CORPORELLES",
+      "col_label": "SUITE A UNE REEVALUATION PRATIQUEE AU COURS DE L'EXERCICE",
+      "is_total": true,
+      "total_amount": 1300232362.0,
+      "confidence": 0.6392857142857142,
+      "source_accounts": [
+        "21"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "21",
+          "label": "IMMOBILISATIONS INCORPORELLES",
+          "amount": 1300232362.0,
+          "side": "debit",
+          "similarity": 0.6392857142857142
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "G25",
+      "row_label": "Matériel, mobilier et actif biologiques",
+      "col_label": "SUITE A UNE REEVALUATION PRATIQUEE AU COURS DE L'EXERCICE",
+      "is_total": false,
+      "total_amount": 4249983680.0,
+      "confidence": 0.6516666666666666,
+      "source_accounts": [
+        "24"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "24",
+          "label": "MATERIEL, MOBILIER ET ACTIFS BIOLOG",
+          "amount": 4249983680.0,
+          "side": "debit",
+          "similarity": 0.6516666666666666
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "G26",
+      "row_label": "Matériel de transport",
+      "col_label": "SUITE A UNE REEVALUATION PRATIQUEE AU COURS DE L'EXERCICE",
+      "is_total": false,
+      "total_amount": 1072044801.0,
+      "confidence": 0.98,
+      "source_accounts": [
+        "245"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "245",
+          "label": "MATÉRIEL DE TRANSPORT",
+          "amount": 1072044801.0,
+          "side": "debit",
+          "similarity": 0.98
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "G27",
+      "row_label": "AVANCES ET ACOMPTES VERSEES SUR IMMOBILISATIONS",
+      "col_label": "SUITE A UNE REEVALUATION PRATIQUEE AU COURS DE L'EXERCICE",
+      "is_total": true,
+      "total_amount": 26118084.0,
+      "confidence": 0.6981904761904761,
+      "source_accounts": [
+        "252",
+        "252000"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "252",
+          "label": "AVANCES ET ACOMPTES VERSÉS SUR IMMOBILISATIONS CORPORELLES",
+          "amount": 13059042.0,
+          "side": "debit",
+          "similarity": 0.6981904761904761
+        },
+        {
+          "compte": "252000",
+          "label": "AVANCES ET ACOMPTES VERSÉS SUR IMMOBILISATIONS CORPORELLES",
+          "amount": 13059042.0,
+          "side": "debit",
+          "similarity": 0.6981904761904761
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "G28",
+      "row_label": "Immobilisations incorporelles",
+      "col_label": "SUITE A UNE REEVALUATION PRATIQUEE AU COURS DE L'EXERCICE",
+      "is_total": false,
+      "total_amount": 1300232362.0,
+      "confidence": 0.8200000000000001,
+      "source_accounts": [
+        "21"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "21",
+          "label": "IMMOBILISATIONS INCORPORELLES",
+          "amount": 1300232362.0,
+          "side": "debit",
+          "similarity": 0.8200000000000001
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "G30",
+      "row_label": "IMMOBILISATIONS FINANCIERES",
+      "col_label": "SUITE A UNE REEVALUATION PRATIQUEE AU COURS DE L'EXERCICE",
+      "is_total": true,
+      "total_amount": 1037206346.0,
+      "confidence": 0.7771428571428571,
+      "source_accounts": [
+        "278",
+        "278400",
+        "278800",
+        "27"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "278",
+          "label": "IMMOBILISATIONS FINANCIÈRES DIVERSES",
+          "amount": 369753894.0,
+          "side": "debit",
+          "similarity": 0.7771428571428571
+        },
+        {
+          "compte": "278400",
+          "label": "IMMOBILISATIONS FINANCIÈRES DIVERSES",
+          "amount": 185373326.0,
+          "side": "debit",
+          "similarity": 0.7771428571428571
+        },
+        {
+          "compte": "278800",
+          "label": "IMMOBILISATIONS FINANCIÈRES DIVERSES",
+          "amount": 82000000.0,
+          "side": "debit",
+          "similarity": 0.7771428571428571
+        },
+        {
+          "compte": "27",
+          "label": "AUTRES IMMOBILISATIONS FINANCIERES",
+          "amount": 400079126.0,
+          "side": "debit",
+          "similarity": 0.7734426229508196
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "G31",
+      "row_label": "Titres de participation",
+      "col_label": "SUITE A UNE REEVALUATION PRATIQUEE AU COURS DE L'EXERCICE",
+      "is_total": false,
+      "total_amount": 1432653817.0,
+      "confidence": 0.88,
+      "source_accounts": [
+        "26"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "26",
+          "label": "TITRES DE PARTICIPATION",
+          "amount": 1432653817.0,
+          "side": "debit",
+          "similarity": 0.88
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "G32",
+      "row_label": "Autres immobilisations financières",
+      "col_label": "SUITE A UNE REEVALUATION PRATIQUEE AU COURS DE L'EXERCICE",
+      "is_total": false,
+      "total_amount": 400079126.0,
+      "confidence": 0.96,
+      "source_accounts": [
+        "27"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "27",
+          "label": "AUTRES IMMOBILISATIONS FINANCIERES",
+          "amount": 400079126.0,
+          "side": "debit",
+          "similarity": 0.96
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "NOTE 3B",
+      "cell": "I22",
+      "row_label": "Terrains",
+      "col_label": "SUITE A UNE REEVALUATION PRATIQUEE AU COURS DE L'EXERCICE",
+      "is_total": false,
+      "total_amount": 69540000.0,
+      "confidence": 1.0,
+      "source_accounts": [
+        "22"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "22",
+          "label": "TERRAINS",
+          "amount": 69540000.0,
+          "side": "debit",
+          "similarity": 1.0
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "NOTE 3B",
+      "cell": "N22",
+      "row_label": "Terrains",
+      "col_label": "MONTANT BRUT A LA CLOTURE DE L'EXERCICE",
+      "is_total": false,
+      "total_amount": 69540000.0,
+      "confidence": 0.98,
+      "source_accounts": [
+        "22"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "22",
+          "label": "TERRAINS",
+          "amount": 69540000.0,
+          "side": "debit",
+          "similarity": 0.98
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "NOTE 3B",
+      "cell": "I25",
+      "row_label": "Matériel, mobilier et actifs biologiques",
+      "col_label": "SUITE A UNE REEVALUATION PRATIQUEE AU COURS DE L'EXERCICE",
+      "is_total": false,
+      "total_amount": 4249983680.0,
+      "confidence": 0.7522739726027396,
+      "source_accounts": [
+        "24"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "24",
+          "label": "MATERIEL, MOBILIER ET ACTIFS BIOLOG",
+          "amount": 4249983680.0,
+          "side": "debit",
+          "similarity": 0.7522739726027396
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "NOTE 3B",
+      "cell": "N25",
+      "row_label": "Matériel, mobilier et actifs biologiques",
+      "col_label": "MONTANT BRUT A LA CLOTURE DE L'EXERCICE",
+      "is_total": false,
+      "total_amount": 4249983680.0,
+      "confidence": 0.7322739726027396,
+      "source_accounts": [
+        "24"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "24",
+          "label": "MATERIEL, MOBILIER ET ACTIFS BIOLOG",
+          "amount": 4249983680.0,
+          "side": "debit",
+          "similarity": 0.7322739726027396
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "NOTE 3B",
+      "cell": "I26",
+      "row_label": "Matériel de transport",
+      "col_label": "SUITE A UNE REEVALUATION PRATIQUEE AU COURS DE L'EXERCICE",
+      "is_total": false,
+      "total_amount": 1072044801.0,
+      "confidence": 0.96,
+      "source_accounts": [
+        "245"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "245",
+          "label": "MATÉRIEL DE TRANSPORT",
+          "amount": 1072044801.0,
+          "side": "debit",
+          "similarity": 0.96
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "NOTE 3B",
+      "cell": "N26",
+      "row_label": "Matériel de transport",
+      "col_label": "MONTANT BRUT A LA CLOTURE DE L'EXERCICE",
+      "is_total": false,
+      "total_amount": 1072044801.0,
+      "confidence": 0.94,
+      "source_accounts": [
+        "245"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "245",
+          "label": "MATÉRIEL DE TRANSPORT",
+          "amount": 1072044801.0,
+          "side": "debit",
+          "similarity": 0.94
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "NOTE  3C",
+      "cell": "E15",
+      "row_label": "Brevets, licences, logiciels et droits similaires",
+      "col_label": "CUMUL DES AMORTISSEMENTS A LA CLOTURE DE L'EXERCICE",
+      "is_total": false,
+      "total_amount": 30960190.0,
+      "confidence": 0.8456363636363635,
+      "source_accounts": [
+        "634"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "634",
+          "label": "REDEVANCES POUR BREVETS, LICENCES, LOGICIELS ET DROITS SIMILAIRES",
+          "amount": 30960190.0,
+          "side": "debit",
+          "similarity": 0.8456363636363635
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "NOTE  3C",
+      "cell": "E17",
+      "row_label": "Autres immobilisations incorporelles",
+      "col_label": "CUMUL DES AMORTISSEMENTS A LA CLOTURE DE L'EXERCICE",
+      "is_total": false,
+      "total_amount": 4361790.0,
+      "confidence": 0.6575384615384615,
+      "source_accounts": [
+        "481100"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "481100",
+          "label": "Immobilisations incorporelles",
+          "amount": 4361790.0,
+          "side": "credit",
+          "similarity": 0.6575384615384615
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "NOTE  3C",
+      "cell": "E25",
+      "row_label": "Matériel de transport",
+      "col_label": "CUMUL DES AMORTISSEMENTS A LA CLOTURE DE L'EXERCICE",
+      "is_total": false,
+      "total_amount": 1072044801.0,
+      "confidence": 0.92,
+      "source_accounts": [
+        "245"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "245",
+          "label": "MATÉRIEL DE TRANSPORT",
+          "amount": 1072044801.0,
+          "side": "debit",
+          "similarity": 0.92
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "NOTE 4 ",
+      "cell": "G22",
+      "row_label": "Dépréciations autres immobilisations",
+      "col_label": "Créances à plus de deux ans",
+      "is_total": false,
+      "total_amount": 1000741152.0,
+      "confidence": 0.8088235294117647,
+      "source_accounts": [
+        "29"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "29",
+          "label": "DEPRECIATIONS DE IMMOBILISATIONS",
+          "amount": 1000741152.0,
+          "side": "credit",
+          "similarity": 0.8088235294117647
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "NOTE 28",
+      "cell": "I14",
+      "row_label": "2. Provisions financières pour risques et charges",
+      "col_label": "PROVISIONS A LA CLOTURE DE L'EXERCICE",
+      "is_total": false,
+      "total_amount": 252102528.0,
+      "confidence": 0.8758019801980199,
+      "source_accounts": [
+        "198"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "198",
+          "label": "AUTRES PROVISIONS FINANCIÈRES POUR RISQUES ET CHARGES",
+          "amount": 252102528.0,
+          "side": "credit",
+          "similarity": 0.8758019801980199
+        }
+      ],
+      "notes": "source=final; year=n"
+    },
+    {
+      "sheet": "NOTE 28",
+      "cell": "I15",
+      "row_label": "3. Dépréciation des immobilisations",
+      "col_label": "PROVISIONS A LA CLOTURE DE L'EXERCICE",
+      "is_total": false,
+      "total_amount": 1000741152.0,
+      "confidence": 0.6648484848484848,
+      "source_accounts": [
+        "29"
+      ],
+      "matched_accounts": [
+        {
+          "compte": "29",
+          "label": "DEPRECIATIONS DE IMMOBILISATIONS",
+          "amount": 1000741152.0,
+          "side": "debit",
+          "similarity": 0.6648484848484848
+        }
+      ],
+      "notes": "source=final; year=n"
+    }
+  ],
+  "unmatched": [
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "G12",
+      "row_label": "IMMOBILISATIONS INCORPORELLES",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "L12",
+      "row_label": "IMMOBILISATIONS INCORPORELLES",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "D13",
+      "row_label": "Frais de développement et de prospection",
+      "col_label": "EXERCICE au 31/12/N | BRUT"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "G13",
+      "row_label": "Frais de développement et de prospection",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "K13",
+      "row_label": "Frais de développement et de prospection",
+      "col_label": "EXERCICE au 31/12/N | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "L13",
+      "row_label": "Frais de développement et de prospection",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "D14",
+      "row_label": "Brevet, licences, logiciels et droits similaires",
+      "col_label": "EXERCICE au 31/12/N | BRUT"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "G14",
+      "row_label": "Brevet, licences, logiciels et droits similaires",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "K14",
+      "row_label": "Brevet, licences, logiciels et droits similaires",
+      "col_label": "EXERCICE au 31/12/N | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "L14",
+      "row_label": "Brevet, licences, logiciels et droits similaires",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "D15",
+      "row_label": "Fond commercial et droit au bail",
+      "col_label": "EXERCICE au 31/12/N | BRUT"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "G15",
+      "row_label": "Fond commercial et droit au bail",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "K15",
+      "row_label": "Fond commercial et droit au bail",
+      "col_label": "EXERCICE au 31/12/N | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "L15",
+      "row_label": "Fond commercial et droit au bail",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "D16",
+      "row_label": "Autres immpobilisations incorporelles",
+      "col_label": "EXERCICE au 31/12/N | BRUT"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "G16",
+      "row_label": "Autres immpobilisations incorporelles",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "K16",
+      "row_label": "Autres immpobilisations incorporelles",
+      "col_label": "EXERCICE au 31/12/N | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "L16",
+      "row_label": "Autres immpobilisations incorporelles",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "G17",
+      "row_label": "IMMOBILISATIONS CORPORELLES",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "L17",
+      "row_label": "IMMOBILISATIONS CORPORELLES",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "D18",
+      "row_label": "Terrains (1)\n(1) dont placement en net……………………./…...............",
+      "col_label": "EXERCICE au 31/12/N | BRUT"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "G18",
+      "row_label": "Terrains (1)\n(1) dont placement en net……………………./…...............",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "K18",
+      "row_label": "Terrains (1)\n(1) dont placement en net……………………./…...............",
+      "col_label": "EXERCICE au 31/12/N | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "L18",
+      "row_label": "Terrains (1)\n(1) dont placement en net……………………./…...............",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "D19",
+      "row_label": "Bâtiments\n(1) dont placement net ………………../…......................",
+      "col_label": "EXERCICE au 31/12/N | BRUT"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "G19",
+      "row_label": "Bâtiments\n(1) dont placement net ………………../…......................",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "K19",
+      "row_label": "Bâtiments\n(1) dont placement net ………………../…......................",
+      "col_label": "EXERCICE au 31/12/N | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "L19",
+      "row_label": "Bâtiments\n(1) dont placement net ………………../…......................",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "D20",
+      "row_label": "Aménagements, agencements et installations",
+      "col_label": "EXERCICE au 31/12/N | BRUT"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "G20",
+      "row_label": "Aménagements, agencements et installations",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "K20",
+      "row_label": "Aménagements, agencements et installations",
+      "col_label": "EXERCICE au 31/12/N | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "L20",
+      "row_label": "Aménagements, agencements et installations",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "G21",
+      "row_label": "Matériel, mobilier et actifs biologiques",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "K21",
+      "row_label": "Matériel, mobilier et actifs biologiques",
+      "col_label": "EXERCICE au 31/12/N | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "L21",
+      "row_label": "Matériel, mobilier et actifs biologiques",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "G22",
+      "row_label": "Matériel de transport",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "K22",
+      "row_label": "Matériel de transport",
+      "col_label": "EXERCICE au 31/12/N | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "L22",
+      "row_label": "Matériel de transport",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "G23",
+      "row_label": "AVANCES ET ACOMPTES VERSES SUR IMMOBILISATION",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "L23",
+      "row_label": "AVANCES ET ACOMPTES VERSES SUR IMMOBILISATION",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "D24",
+      "row_label": "IMMOBILISATION FINANCIERES",
+      "col_label": "EXERCICE au 31/12/N | BRUT"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "G24",
+      "row_label": "IMMOBILISATION FINANCIERES",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "K24",
+      "row_label": "IMMOBILISATION FINANCIERES",
+      "col_label": "EXERCICE au 31/12/N | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "L24",
+      "row_label": "IMMOBILISATION FINANCIERES",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "G25",
+      "row_label": "Titres de participation",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "K25",
+      "row_label": "Titres de participation",
+      "col_label": "EXERCICE au 31/12/N | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "L25",
+      "row_label": "Titres de participation",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "G26",
+      "row_label": "Autres immobilisations financières",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "K26",
+      "row_label": "Autres immobilisations financières",
+      "col_label": "EXERCICE au 31/12/N | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "L26",
+      "row_label": "Autres immobilisations financières",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "D27",
+      "row_label": "TOTAL ACTIF IMMOBILISE",
+      "col_label": "EXERCICE au 31/12/N | BRUT"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "G27",
+      "row_label": "TOTAL ACTIF IMMOBILISE",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "K27",
+      "row_label": "TOTAL ACTIF IMMOBILISE",
+      "col_label": "EXERCICE au 31/12/N | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "L27",
+      "row_label": "TOTAL ACTIF IMMOBILISE",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "D28",
+      "row_label": "Actif circulant HAO",
+      "col_label": "EXERCICE au 31/12/N | BRUT"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "G28",
+      "row_label": "Actif circulant HAO",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "K28",
+      "row_label": "Actif circulant HAO",
+      "col_label": "EXERCICE au 31/12/N | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "L28",
+      "row_label": "Actif circulant HAO",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "D29",
+      "row_label": "Stocks et encours",
+      "col_label": "EXERCICE au 31/12/N | BRUT"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "G29",
+      "row_label": "Stocks et encours",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "K29",
+      "row_label": "Stocks et encours",
+      "col_label": "EXERCICE au 31/12/N | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "L29",
+      "row_label": "Stocks et encours",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "D30",
+      "row_label": "Créances et emplois assimilés",
+      "col_label": "EXERCICE au 31/12/N | BRUT"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "G30",
+      "row_label": "Créances et emplois assimilés",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "K30",
+      "row_label": "Créances et emplois assimilés",
+      "col_label": "EXERCICE au 31/12/N | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "L30",
+      "row_label": "Créances et emplois assimilés",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "D31",
+      "row_label": "Fournisseurs avances versées",
+      "col_label": "EXERCICE au 31/12/N | BRUT"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "G31",
+      "row_label": "Fournisseurs avances versées",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "K31",
+      "row_label": "Fournisseurs avances versées",
+      "col_label": "EXERCICE au 31/12/N | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "L31",
+      "row_label": "Fournisseurs avances versées",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "G32",
+      "row_label": "Clients",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "L32",
+      "row_label": "Clients",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "D33",
+      "row_label": "Autres créances",
+      "col_label": "EXERCICE au 31/12/N | BRUT"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "G33",
+      "row_label": "Autres créances",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "K33",
+      "row_label": "Autres créances",
+      "col_label": "EXERCICE au 31/12/N | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "L33",
+      "row_label": "Autres créances",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "D34",
+      "row_label": "TOTAL ACTIF CIRCULANT",
+      "col_label": "EXERCICE au 31/12/N | BRUT"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "G34",
+      "row_label": "TOTAL ACTIF CIRCULANT",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "K34",
+      "row_label": "TOTAL ACTIF CIRCULANT",
+      "col_label": "EXERCICE au 31/12/N | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "L34",
+      "row_label": "TOTAL ACTIF CIRCULANT",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "D35",
+      "row_label": "Titres de placement",
+      "col_label": "EXERCICE au 31/12/N | BRUT"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "G35",
+      "row_label": "Titres de placement",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "K35",
+      "row_label": "Titres de placement",
+      "col_label": "EXERCICE au 31/12/N | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "L35",
+      "row_label": "Titres de placement",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "D36",
+      "row_label": "Valeurs à encaisser",
+      "col_label": "EXERCICE au 31/12/N | BRUT"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "G36",
+      "row_label": "Valeurs à encaisser",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "K36",
+      "row_label": "Valeurs à encaisser",
+      "col_label": "EXERCICE au 31/12/N | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "L36",
+      "row_label": "Valeurs à encaisser",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "D37",
+      "row_label": "Banques, chèques postaux, caisse et assimilés",
+      "col_label": "EXERCICE au 31/12/N | BRUT"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "G37",
+      "row_label": "Banques, chèques postaux, caisse et assimilés",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "K37",
+      "row_label": "Banques, chèques postaux, caisse et assimilés",
+      "col_label": "EXERCICE au 31/12/N | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "L37",
+      "row_label": "Banques, chèques postaux, caisse et assimilés",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "D38",
+      "row_label": "TOTAL TRESORERIE - ACTIF",
+      "col_label": "EXERCICE au 31/12/N | BRUT"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "G38",
+      "row_label": "TOTAL TRESORERIE - ACTIF",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "K38",
+      "row_label": "TOTAL TRESORERIE - ACTIF",
+      "col_label": "EXERCICE au 31/12/N | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "L38",
+      "row_label": "TOTAL TRESORERIE - ACTIF",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "G39",
+      "row_label": "Ecart de conversion - Actif",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "L39",
+      "row_label": "Ecart de conversion - Actif",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "D40",
+      "row_label": "TOTAL GENERAL",
+      "col_label": "EXERCICE au 31/12/N | BRUT"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "G40",
+      "row_label": "TOTAL GENERAL",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "K40",
+      "row_label": "TOTAL GENERAL",
+      "col_label": "EXERCICE au 31/12/N | NET"
+    },
+    {
+      "sheet": "BILAN PAYSAGE",
+      "cell": "L40",
+      "row_label": "TOTAL GENERAL",
+      "col_label": "EXERCICE au 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "F11",
+      "row_label": "vente de marchandises",
+      "col_label": "EXERCICE AU 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "E12",
+      "row_label": "Achat de marchandises",
+      "col_label": "EXERCICE AU 31/12/N | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "F12",
+      "row_label": "Achat de marchandises",
+      "col_label": "EXERCICE AU 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "E13",
+      "row_label": "Variation de stock de marchandises",
+      "col_label": "EXERCICE AU 31/12/N | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "F13",
+      "row_label": "Variation de stock de marchandises",
+      "col_label": "EXERCICE AU 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "E14",
+      "row_label": "MARGE COMMERCIALE (Somme TA à RB)",
+      "col_label": "EXERCICE AU 31/12/N | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "F14",
+      "row_label": "MARGE COMMERCIALE (Somme TA à RB)",
+      "col_label": "EXERCICE AU 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "E15",
+      "row_label": "Vente de produits fabriqués   B",
+      "col_label": "EXERCICE AU 31/12/N | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "F15",
+      "row_label": "Vente de produits fabriqués   B",
+      "col_label": "EXERCICE AU 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "F16",
+      "row_label": "Travaux, services vendus    C",
+      "col_label": "EXERCICE AU 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "F17",
+      "row_label": "Produits accessoires             D",
+      "col_label": "EXERCICE AU 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "E18",
+      "row_label": "CHIFFRE D'AFFAIRES (A+B+C+D)",
+      "col_label": "EXERCICE AU 31/12/N | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "F18",
+      "row_label": "CHIFFRE D'AFFAIRES (A+B+C+D)",
+      "col_label": "EXERCICE AU 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "E19",
+      "row_label": "Produits stockés (ou destokage)",
+      "col_label": "EXERCICE AU 31/12/N | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "F19",
+      "row_label": "Produits stockés (ou destokage)",
+      "col_label": "EXERCICE AU 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "E20",
+      "row_label": "Production immobilisée",
+      "col_label": "EXERCICE AU 31/12/N | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "F20",
+      "row_label": "Production immobilisée",
+      "col_label": "EXERCICE AU 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "E21",
+      "row_label": "Subventions d'exploitation",
+      "col_label": "EXERCICE AU 31/12/N | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "F21",
+      "row_label": "Subventions d'exploitation",
+      "col_label": "EXERCICE AU 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "F22",
+      "row_label": "Autres produits",
+      "col_label": "EXERCICE AU 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "E23",
+      "row_label": "Transfert de charges d'exploitation",
+      "col_label": "EXERCICE AU 31/12/N | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "F23",
+      "row_label": "Transfert de charges d'exploitation",
+      "col_label": "EXERCICE AU 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "E24",
+      "row_label": "Achats de matières premières et fournitures liées",
+      "col_label": "EXERCICE AU 31/12/N | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "F24",
+      "row_label": "Achats de matières premières et fournitures liées",
+      "col_label": "EXERCICE AU 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "E25",
+      "row_label": "Variation de stocks de matières premières et fornitures liées",
+      "col_label": "EXERCICE AU 31/12/N | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "F25",
+      "row_label": "Variation de stocks de matières premières et fornitures liées",
+      "col_label": "EXERCICE AU 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "F26",
+      "row_label": "Autres achats",
+      "col_label": "EXERCICE AU 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "E27",
+      "row_label": "Variation de stock d'autres approvisionnement",
+      "col_label": "EXERCICE AU 31/12/N | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "F27",
+      "row_label": "Variation de stock d'autres approvisionnement",
+      "col_label": "EXERCICE AU 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "F28",
+      "row_label": "Transports",
+      "col_label": "EXERCICE AU 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "F29",
+      "row_label": "Services extérieurs",
+      "col_label": "EXERCICE AU 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "F30",
+      "row_label": "Impôts et taxes",
+      "col_label": "EXERCICE AU 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "F31",
+      "row_label": "Autres charges",
+      "col_label": "EXERCICE AU 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "E32",
+      "row_label": "VALEUR AJOUTEE (XR + RA + RB) + (somme TE à RJ)",
+      "col_label": "EXERCICE AU 31/12/N | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "F32",
+      "row_label": "VALEUR AJOUTEE (XR + RA + RB) + (somme TE à RJ)",
+      "col_label": "EXERCICE AU 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "F33",
+      "row_label": "Charges de personnel",
+      "col_label": "EXERCICE AU 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "E34",
+      "row_label": "EXEDENT BRUT D'EXPLOITATION (XC+RK)",
+      "col_label": "EXERCICE AU 31/12/N | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "F34",
+      "row_label": "EXEDENT BRUT D'EXPLOITATION (XC+RK)",
+      "col_label": "EXERCICE AU 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "E35",
+      "row_label": "Reprises d'amortissements, provisions et dépréciations",
+      "col_label": "EXERCICE AU 31/12/N | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "F35",
+      "row_label": "Reprises d'amortissements, provisions et dépréciations",
+      "col_label": "EXERCICE AU 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "E36",
+      "row_label": "Dotations aux amortissements, aux provisions et dépréciations",
+      "col_label": "EXERCICE AU 31/12/N | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "F36",
+      "row_label": "Dotations aux amortissements, aux provisions et dépréciations",
+      "col_label": "EXERCICE AU 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "E37",
+      "row_label": "RESULTAT D'EXPLOITATIIONS (XD + TJ + Rlà",
+      "col_label": "EXERCICE AU 31/12/N | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "F37",
+      "row_label": "RESULTAT D'EXPLOITATIIONS (XD + TJ + Rlà",
+      "col_label": "EXERCICE AU 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "E38",
+      "row_label": "Revenus financiers et assimilés",
+      "col_label": "EXERCICE AU 31/12/N | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "F38",
+      "row_label": "Revenus financiers et assimilés",
+      "col_label": "EXERCICE AU 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "E39",
+      "row_label": "Reprises de provisions et dépréciations financières",
+      "col_label": "EXERCICE AU 31/12/N | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "F39",
+      "row_label": "Reprises de provisions et dépréciations financières",
+      "col_label": "EXERCICE AU 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "F40",
+      "row_label": "Transfert de charges financières",
+      "col_label": "EXERCICE AU 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "F41",
+      "row_label": "Frais financiers et charges assimilées",
+      "col_label": "EXERCICE AU 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "E42",
+      "row_label": "Dotations aux provisions et aux dépréciations financières",
+      "col_label": "EXERCICE AU 31/12/N | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "F42",
+      "row_label": "Dotations aux provisions et aux dépréciations financières",
+      "col_label": "EXERCICE AU 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "E43",
+      "row_label": "RESULTATS FINANCIERS (somme TK à RN)",
+      "col_label": "EXERCICE AU 31/12/N | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "F43",
+      "row_label": "RESULTATS FINANCIERS (somme TK à RN)",
+      "col_label": "EXERCICE AU 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "E44",
+      "row_label": "RESULTAT DES ACTIVITES ORDINAIRES",
+      "col_label": "EXERCICE AU 31/12/N | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "F44",
+      "row_label": "RESULTAT DES ACTIVITES ORDINAIRES",
+      "col_label": "EXERCICE AU 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "E45",
+      "row_label": "Produits et cessions d'immobilisations",
+      "col_label": "EXERCICE AU 31/12/N | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "F45",
+      "row_label": "Produits et cessions d'immobilisations",
+      "col_label": "EXERCICE AU 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "F46",
+      "row_label": "Autres Produits HAO",
+      "col_label": "EXERCICE AU 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "E47",
+      "row_label": "Valeurs comptables de cessiions d'immobilisations",
+      "col_label": "EXERCICE AU 31/12/N | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "F47",
+      "row_label": "Valeurs comptables de cessiions d'immobilisations",
+      "col_label": "EXERCICE AU 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "F48",
+      "row_label": "Autres charges HAO",
+      "col_label": "EXERCICE AU 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "E49",
+      "row_label": "RESULTATS ACTIVITES ORDINAIRES (somme TN à RP)",
+      "col_label": "EXERCICE AU 31/12/N | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "F49",
+      "row_label": "RESULTATS ACTIVITES ORDINAIRES (somme TN à RP)",
+      "col_label": "EXERCICE AU 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "E50",
+      "row_label": "Participation des travailleurs",
+      "col_label": "EXERCICE AU 31/12/N | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "F50",
+      "row_label": "Participation des travailleurs",
+      "col_label": "EXERCICE AU 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "E51",
+      "row_label": "Impôt sur le résultat",
+      "col_label": "EXERCICE AU 31/12/N | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "F51",
+      "row_label": "Impôt sur le résultat",
+      "col_label": "EXERCICE AU 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "E52",
+      "row_label": "RESULTAT NET (XG+XH+RQ+RS)",
+      "col_label": "EXERCICE AU 31/12/N | NET"
+    },
+    {
+      "sheet": "COMPTE DE RESULTAT",
+      "cell": "F52",
+      "row_label": "RESULTAT NET (XG+XH+RQ+RS)",
+      "col_label": "EXERCICE AU 31/12/N-1 | NET"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "E11",
+      "row_label": "Flux de trésorerie provenant des activités opéraionnelles",
+      "col_label": "EXERCICE AU 31/12/N"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "F11",
+      "row_label": "Flux de trésorerie provenant des activités opéraionnelles",
+      "col_label": "EXERCICE AU 31/12/N-1"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "E12",
+      "row_label": "Capacité d'Autofinancement Globale(C+A-F=G)",
+      "col_label": "EXERCICE AU 31/12/N"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "F12",
+      "row_label": "Capacité d'Autofinancement Globale(C+A-F=G)",
+      "col_label": "EXERCICE AU 31/12/N-1"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "E13",
+      "row_label": "-Actif circulant HAO",
+      "col_label": "EXERCICE AU 31/12/N"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "F13",
+      "row_label": "-Actif circulant HAO",
+      "col_label": "EXERCICE AU 31/12/N-1"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "E14",
+      "row_label": "-Variation des stocks",
+      "col_label": "EXERCICE AU 31/12/N"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "F14",
+      "row_label": "-Variation des stocks",
+      "col_label": "EXERCICE AU 31/12/N-1"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "E15",
+      "row_label": "-Variation des créances",
+      "col_label": "EXERCICE AU 31/12/N"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "F15",
+      "row_label": "-Variation des créances",
+      "col_label": "EXERCICE AU 31/12/N-1"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "E16",
+      "row_label": "Variation du passif circulant",
+      "col_label": "EXERCICE AU 31/12/N"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "F16",
+      "row_label": "Variation du passif circulant",
+      "col_label": "EXERCICE AU 31/12/N-1"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "E17",
+      "row_label": "Variation du BF lié au activités opérationnelles (FB+FC+FD+FE):…………………...",
+      "col_label": "EXERCICE AU 31/12/N"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "F17",
+      "row_label": "Variation du BF lié au activités opérationnelles (FB+FC+FD+FE):…………………...",
+      "col_label": "EXERCICE AU 31/12/N-1"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "E18",
+      "row_label": "Flux de trésorerie provenant des activités opéraionnelles (somme FA à FE)",
+      "col_label": "EXERCICE AU 31/12/N"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "F18",
+      "row_label": "Flux de trésorerie provenant des activités opéraionnelles (somme FA à FE)",
+      "col_label": "EXERCICE AU 31/12/N-1"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "E19",
+      "row_label": "Flux de trésorerie provenant des activités d'investissements",
+      "col_label": "EXERCICE AU 31/12/N"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "F19",
+      "row_label": "Flux de trésorerie provenant des activités d'investissements",
+      "col_label": "EXERCICE AU 31/12/N-1"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "E20",
+      "row_label": "-Décaissements liés aux acquisitions d'immobilisation incorporelles",
+      "col_label": "EXERCICE AU 31/12/N"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "F20",
+      "row_label": "-Décaissements liés aux acquisitions d'immobilisation incorporelles",
+      "col_label": "EXERCICE AU 31/12/N-1"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "E21",
+      "row_label": "-Décaissements liés aux acquisitions d'immobilisation corporelles",
+      "col_label": "EXERCICE AU 31/12/N"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "F21",
+      "row_label": "-Décaissements liés aux acquisitions d'immobilisation corporelles",
+      "col_label": "EXERCICE AU 31/12/N-1"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "E22",
+      "row_label": "-Décaissements liés aux acquisitions d'immobilisation financières",
+      "col_label": "EXERCICE AU 31/12/N"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "F22",
+      "row_label": "-Décaissements liés aux acquisitions d'immobilisation financières",
+      "col_label": "EXERCICE AU 31/12/N-1"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "E23",
+      "row_label": "+ Encaissement liés aux cessions d’immobilisations incorporelles et corporelles",
+      "col_label": "EXERCICE AU 31/12/N"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "F23",
+      "row_label": "+ Encaissement liés aux cessions d’immobilisations incorporelles et corporelles",
+      "col_label": "EXERCICE AU 31/12/N-1"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "E24",
+      "row_label": "+ Encaissement liés aux cessions d’immobilisations financières",
+      "col_label": "EXERCICE AU 31/12/N"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "F24",
+      "row_label": "+ Encaissement liés aux cessions d’immobilisations financières",
+      "col_label": "EXERCICE AU 31/12/N-1"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "E25",
+      "row_label": "Flux de trésorerie provenant des activités d'investissements (somme FF à FJ)",
+      "col_label": "EXERCICE AU 31/12/N"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "F25",
+      "row_label": "Flux de trésorerie provenant des activités d'investissements (somme FF à FJ)",
+      "col_label": "EXERCICE AU 31/12/N-1"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "E26",
+      "row_label": "Flux de trésorerie provenant du financement par les capitaux propres",
+      "col_label": "EXERCICE AU 31/12/N"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "F26",
+      "row_label": "Flux de trésorerie provenant du financement par les capitaux propres",
+      "col_label": "EXERCICE AU 31/12/N-1"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "E27",
+      "row_label": "+Augmentation de capital par rapport au nouveau",
+      "col_label": "EXERCICE AU 31/12/N"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "F27",
+      "row_label": "+Augmentation de capital par rapport au nouveau",
+      "col_label": "EXERCICE AU 31/12/N-1"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "E28",
+      "row_label": "+Subventions d'investissement reçues",
+      "col_label": "EXERCICE AU 31/12/N"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "F28",
+      "row_label": "+Subventions d'investissement reçues",
+      "col_label": "EXERCICE AU 31/12/N-1"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "E29",
+      "row_label": "-Prélèvement sur le capital",
+      "col_label": "EXERCICE AU 31/12/N"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "F29",
+      "row_label": "-Prélèvement sur le capital",
+      "col_label": "EXERCICE AU 31/12/N-1"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "E30",
+      "row_label": "-Dividendes versés",
+      "col_label": "EXERCICE AU 31/12/N"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "F30",
+      "row_label": "-Dividendes versés",
+      "col_label": "EXERCICE AU 31/12/N-1"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "E31",
+      "row_label": "Flux de trésorerie provenant des capitaux propres(somme FK à FN)",
+      "col_label": "EXERCICE AU 31/12/N"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "F31",
+      "row_label": "Flux de trésorerie provenant des capitaux propres(somme FK à FN)",
+      "col_label": "EXERCICE AU 31/12/N-1"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "E32",
+      "row_label": "Trésorerie provenant du financement par les capitaux étrangers",
+      "col_label": "EXERCICE AU 31/12/N"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "F32",
+      "row_label": "Trésorerie provenant du financement par les capitaux étrangers",
+      "col_label": "EXERCICE AU 31/12/N-1"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "E33",
+      "row_label": "Emprunts",
+      "col_label": "EXERCICE AU 31/12/N"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "F33",
+      "row_label": "Emprunts",
+      "col_label": "EXERCICE AU 31/12/N-1"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "E34",
+      "row_label": "Autres dettes financières",
+      "col_label": "EXERCICE AU 31/12/N"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "F34",
+      "row_label": "Autres dettes financières",
+      "col_label": "EXERCICE AU 31/12/N-1"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "E35",
+      "row_label": "Remboursemement des emprunts et aux dettes financières",
+      "col_label": "EXERCICE AU 31/12/N"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "F35",
+      "row_label": "Remboursemement des emprunts et aux dettes financières",
+      "col_label": "EXERCICE AU 31/12/N-1"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "E36",
+      "row_label": "Flux de trésorerie provenant des capitaux étrangers (somme FO à FQ)",
+      "col_label": "EXERCICE AU 31/12/N"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "F36",
+      "row_label": "Flux de trésorerie provenant des capitaux étrangers (somme FO à FQ)",
+      "col_label": "EXERCICE AU 31/12/N-1"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "E37",
+      "row_label": "Flux de trésorerie provenant des activités de financement (D+F)",
+      "col_label": "EXERCICE AU 31/12/N"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "F37",
+      "row_label": "Flux de trésorerie provenant des activités de financement (D+F)",
+      "col_label": "EXERCICE AU 31/12/N-1"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "E38",
+      "row_label": "VARIATION DE LA TRESORERIE NETTE DE LA PERIODE (B+C+F)",
+      "col_label": "EXERCICE AU 31/12/N"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "F38",
+      "row_label": "VARIATION DE LA TRESORERIE NETTE DE LA PERIODE (B+C+F)",
+      "col_label": "EXERCICE AU 31/12/N-1"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "E39",
+      "row_label": "Trésorerie nette au 31 décembre (C+A)\nContrôle trésorerie actif N+ Trésorerie passif N=",
+      "col_label": "EXERCICE AU 31/12/N"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "F39",
+      "row_label": "Trésorerie nette au 31 décembre (C+A)\nContrôle trésorerie actif N+ Trésorerie passif N=",
+      "col_label": "EXERCICE AU 31/12/N-1"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "E40",
+      "row_label": "[1] à l’exclusion des variations des créances et dettes liées aux activités d’investissement (variation des créances sur cession d’immobilisation et des dettes sur acquisition ou production d’immobilisation) et de financement (par exemple variation des créances sur subventions d’investissements reçues).",
+      "col_label": "EXERCICE AU 31/12/N"
+    },
+    {
+      "sheet": "TABLEAU DES FLUX DE TRESORERIE",
+      "cell": "F40",
+      "row_label": "[1] à l’exclusion des variations des créances et dettes liées aux activités d’investissement (variation des créances sur cession d’immobilisation et des dettes sur acquisition ou production d’immobilisation) et de financement (par exemple variation des créances sur subventions d’investissements reçues).",
+      "col_label": "EXERCICE AU 31/12/N-1"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "D14",
+      "row_label": "IMMOBILISATIONS INCORPORELLES",
+      "col_label": "MONTANT BRUTE A L'OUVERTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "D15",
+      "row_label": "Frais de développement et de prospection",
+      "col_label": "MONTANT BRUTE A L'OUVERTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "G15",
+      "row_label": "Frais de développement et de prospection",
+      "col_label": "SUITE A UNE REEVALUATION PRATIQUEE AU COURS DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "D16",
+      "row_label": "Brevets, licences, logiciels et droits similaires",
+      "col_label": "MONTANT BRUTE A L'OUVERTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "G16",
+      "row_label": "Brevets, licences, logiciels et droits similaires",
+      "col_label": "SUITE A UNE REEVALUATION PRATIQUEE AU COURS DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "D17",
+      "row_label": "Fonds commercial et droit de bail",
+      "col_label": "MONTANT BRUTE A L'OUVERTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "G17",
+      "row_label": "Fonds commercial et droit de bail",
+      "col_label": "SUITE A UNE REEVALUATION PRATIQUEE AU COURS DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "D18",
+      "row_label": "Autres immobilisations incorporelles",
+      "col_label": "MONTANT BRUTE A L'OUVERTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "D19",
+      "row_label": "IMMOBILISATIONS CORPORELLES",
+      "col_label": "MONTANT BRUTE A L'OUVERTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "D20",
+      "row_label": "Terrains hors immeubles de placement",
+      "col_label": "MONTANT BRUTE A L'OUVERTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "G20",
+      "row_label": "Terrains hors immeubles de placement",
+      "col_label": "SUITE A UNE REEVALUATION PRATIQUEE AU COURS DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "D21",
+      "row_label": "Terrains - immeubles de placement",
+      "col_label": "MONTANT BRUTE A L'OUVERTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "G21",
+      "row_label": "Terrains - immeubles de placement",
+      "col_label": "SUITE A UNE REEVALUATION PRATIQUEE AU COURS DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "D22",
+      "row_label": "Bâtiments hors immeubles de placement",
+      "col_label": "MONTANT BRUTE A L'OUVERTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "G22",
+      "row_label": "Bâtiments hors immeubles de placement",
+      "col_label": "SUITE A UNE REEVALUATION PRATIQUEE AU COURS DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "D23",
+      "row_label": "Bâtiments - immeubles de placement",
+      "col_label": "MONTANT BRUTE A L'OUVERTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "G23",
+      "row_label": "Bâtiments - immeubles de placement",
+      "col_label": "SUITE A UNE REEVALUATION PRATIQUEE AU COURS DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "D24",
+      "row_label": "Aménagements, agencements et installations",
+      "col_label": "MONTANT BRUTE A L'OUVERTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "G24",
+      "row_label": "Aménagements, agencements et installations",
+      "col_label": "SUITE A UNE REEVALUATION PRATIQUEE AU COURS DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "D25",
+      "row_label": "Matériel, mobilier et actif biologiques",
+      "col_label": "MONTANT BRUTE A L'OUVERTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "D26",
+      "row_label": "Matériel de transport",
+      "col_label": "MONTANT BRUTE A L'OUVERTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "D27",
+      "row_label": "AVANCES ET ACOMPTES VERSEES SUR IMMOBILISATIONS",
+      "col_label": "MONTANT BRUTE A L'OUVERTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "D28",
+      "row_label": "Immobilisations incorporelles",
+      "col_label": "MONTANT BRUTE A L'OUVERTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "D29",
+      "row_label": "Immobilisation corporelles",
+      "col_label": "MONTANT BRUTE A L'OUVERTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "G29",
+      "row_label": "Immobilisation corporelles",
+      "col_label": "SUITE A UNE REEVALUATION PRATIQUEE AU COURS DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "D30",
+      "row_label": "IMMOBILISATIONS FINANCIERES",
+      "col_label": "MONTANT BRUTE A L'OUVERTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "D31",
+      "row_label": "Titres de participation",
+      "col_label": "MONTANT BRUTE A L'OUVERTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "D32",
+      "row_label": "Autres immobilisations financières",
+      "col_label": "MONTANT BRUTE A L'OUVERTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "D33",
+      "row_label": "TOTAL GENERAL",
+      "col_label": "MONTANT BRUTE A L'OUVERTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "G33",
+      "row_label": "TOTAL GENERAL",
+      "col_label": "SUITE A UNE REEVALUATION PRATIQUEE AU COURS DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "D35",
+      "row_label": "Commentaires:",
+      "col_label": "MONTANT BRUTE A L'OUVERTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "G35",
+      "row_label": "Commentaires:",
+      "col_label": "SUITE A UNE REEVALUATION PRATIQUEE AU COURS DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "D37",
+      "row_label": "Toute variation significative doit être commentée,",
+      "col_label": "MONTANT BRUTE A L'OUVERTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "G37",
+      "row_label": "Toute variation significative doit être commentée,",
+      "col_label": "SUITE A UNE REEVALUATION PRATIQUEE AU COURS DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "D38",
+      "row_label": "Détailler les éléments constructifs du fonds commercial et indiquer la date d'acquisition",
+      "col_label": "MONTANT BRUTE A L'OUVERTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "G38",
+      "row_label": "Détailler les éléments constructifs du fonds commercial et indiquer la date d'acquisition",
+      "col_label": "SUITE A UNE REEVALUATION PRATIQUEE AU COURS DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "D39",
+      "row_label": "Pour l'immobilisation incorporelle relative à la concession, faire un descriptif de l'accord",
+      "col_label": "MONTANT BRUTE A L'OUVERTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "G39",
+      "row_label": "Pour l'immobilisation incorporelle relative à la concession, faire un descriptif de l'accord",
+      "col_label": "SUITE A UNE REEVALUATION PRATIQUEE AU COURS DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "D40",
+      "row_label": "Indiquer:",
+      "col_label": "MONTANT BRUTE A L'OUVERTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "G40",
+      "row_label": "Indiquer:",
+      "col_label": "SUITE A UNE REEVALUATION PRATIQUEE AU COURS DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "D41",
+      "row_label": "La nature de la créance",
+      "col_label": "MONTANT BRUTE A L'OUVERTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "G41",
+      "row_label": "La nature de la créance",
+      "col_label": "SUITE A UNE REEVALUATION PRATIQUEE AU COURS DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "D43",
+      "row_label": "L'échéance",
+      "col_label": "MONTANT BRUTE A L'OUVERTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "G43",
+      "row_label": "L'échéance",
+      "col_label": "SUITE A UNE REEVALUATION PRATIQUEE AU COURS DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "D44",
+      "row_label": "Indiquer les créances du groupe avec la nature et la date d'échéance",
+      "col_label": "MONTANT BRUTE A L'OUVERTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "G44",
+      "row_label": "Indiquer les créances du groupe avec la nature et la date d'échéance",
+      "col_label": "SUITE A UNE REEVALUATION PRATIQUEE AU COURS DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "D45",
+      "row_label": "Pour les banques DAT indiquer le nom de la banque le montant et la date de l'échéance",
+      "col_label": "MONTANT BRUTE A L'OUVERTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3A",
+      "cell": "G45",
+      "row_label": "Pour les banques DAT indiquer le nom de la banque le montant et la date de l'échéance",
+      "col_label": "SUITE A UNE REEVALUATION PRATIQUEE AU COURS DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3B",
+      "cell": "E17",
+      "row_label": "Brevets, licences, logiciels et droits similaires",
+      "col_label": "MONTANT BRUT A L'OUVERTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3B",
+      "cell": "I17",
+      "row_label": "Brevets, licences, logiciels et droits similaires",
+      "col_label": "SUITE A UNE REEVALUATION PRATIQUEE AU COURS DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3B",
+      "cell": "N17",
+      "row_label": "Brevets, licences, logiciels et droits similaires",
+      "col_label": "MONTANT BRUT A LA CLOTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3B",
+      "cell": "E18",
+      "row_label": "Fonds commercial et droit au bail",
+      "col_label": "MONTANT BRUT A L'OUVERTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3B",
+      "cell": "I18",
+      "row_label": "Fonds commercial et droit au bail",
+      "col_label": "SUITE A UNE REEVALUATION PRATIQUEE AU COURS DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3B",
+      "cell": "N18",
+      "row_label": "Fonds commercial et droit au bail",
+      "col_label": "MONTANT BRUT A LA CLOTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3B",
+      "cell": "E19",
+      "row_label": "Autres immobilisations incorporelles",
+      "col_label": "MONTANT BRUT A L'OUVERTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3B",
+      "cell": "I19",
+      "row_label": "Autres immobilisations incorporelles",
+      "col_label": "SUITE A UNE REEVALUATION PRATIQUEE AU COURS DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3B",
+      "cell": "N19",
+      "row_label": "Autres immobilisations incorporelles",
+      "col_label": "MONTANT BRUT A LA CLOTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3B",
+      "cell": "E21",
+      "row_label": "SOUS TOTAL : IMMOBILISATIONS INCORPORELLES",
+      "col_label": "MONTANT BRUT A L'OUVERTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3B",
+      "cell": "I21",
+      "row_label": "SOUS TOTAL : IMMOBILISATIONS INCORPORELLES",
+      "col_label": "SUITE A UNE REEVALUATION PRATIQUEE AU COURS DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3B",
+      "cell": "N21",
+      "row_label": "SOUS TOTAL : IMMOBILISATIONS INCORPORELLES",
+      "col_label": "MONTANT BRUT A LA CLOTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3B",
+      "cell": "E22",
+      "row_label": "Terrains",
+      "col_label": "MONTANT BRUT A L'OUVERTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3B",
+      "cell": "E23",
+      "row_label": "Bâtiments",
+      "col_label": "MONTANT BRUT A L'OUVERTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3B",
+      "cell": "I23",
+      "row_label": "Bâtiments",
+      "col_label": "SUITE A UNE REEVALUATION PRATIQUEE AU COURS DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3B",
+      "cell": "N23",
+      "row_label": "Bâtiments",
+      "col_label": "MONTANT BRUT A LA CLOTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3B",
+      "cell": "E24",
+      "row_label": "Aménagements, agencements et installations",
+      "col_label": "MONTANT BRUT A L'OUVERTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3B",
+      "cell": "I24",
+      "row_label": "Aménagements, agencements et installations",
+      "col_label": "SUITE A UNE REEVALUATION PRATIQUEE AU COURS DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3B",
+      "cell": "N24",
+      "row_label": "Aménagements, agencements et installations",
+      "col_label": "MONTANT BRUT A LA CLOTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3B",
+      "cell": "E25",
+      "row_label": "Matériel, mobilier et actifs biologiques",
+      "col_label": "MONTANT BRUT A L'OUVERTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3B",
+      "cell": "E26",
+      "row_label": "Matériel de transport",
+      "col_label": "MONTANT BRUT A L'OUVERTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3B",
+      "cell": "E27",
+      "row_label": "SOUS TOTAL : IMMOBILISATIONS CORPORELLES",
+      "col_label": "MONTANT BRUT A L'OUVERTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3B",
+      "cell": "I27",
+      "row_label": "SOUS TOTAL : IMMOBILISATIONS CORPORELLES",
+      "col_label": "SUITE A UNE REEVALUATION PRATIQUEE AU COURS DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3B",
+      "cell": "N27",
+      "row_label": "SOUS TOTAL : IMMOBILISATIONS CORPORELLES",
+      "col_label": "MONTANT BRUT A LA CLOTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3B",
+      "cell": "E28",
+      "row_label": "TOTAL GENERAL",
+      "col_label": "MONTANT BRUT A L'OUVERTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3B",
+      "cell": "I28",
+      "row_label": "TOTAL GENERAL",
+      "col_label": "SUITE A UNE REEVALUATION PRATIQUEE AU COURS DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 3B",
+      "cell": "N28",
+      "row_label": "TOTAL GENERAL",
+      "col_label": "MONTANT BRUT A LA CLOTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE  3C",
+      "cell": "E14",
+      "row_label": "Frais de développement et de prospection",
+      "col_label": "CUMUL DES AMORTISSEMENTS A LA CLOTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE  3C",
+      "cell": "E16",
+      "row_label": "Fond commercial et droit de bail",
+      "col_label": "CUMUL DES AMORTISSEMENTS A LA CLOTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE  3C",
+      "cell": "E18",
+      "row_label": "SOUS TOTAL : IMMOBILISATIONS INCORPORELLES",
+      "col_label": "CUMUL DES AMORTISSEMENTS A LA CLOTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE  3C",
+      "cell": "E19",
+      "row_label": "Terrains hors immeubles de placement",
+      "col_label": "CUMUL DES AMORTISSEMENTS A LA CLOTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE  3C",
+      "cell": "E20",
+      "row_label": "Terrains - immeubles de placement",
+      "col_label": "CUMUL DES AMORTISSEMENTS A LA CLOTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE  3C",
+      "cell": "E21",
+      "row_label": "Bâtiments hors immeubles de placement",
+      "col_label": "CUMUL DES AMORTISSEMENTS A LA CLOTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE  3C",
+      "cell": "E22",
+      "row_label": "Bâtiments - immeubles de placement",
+      "col_label": "CUMUL DES AMORTISSEMENTS A LA CLOTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE  3C",
+      "cell": "E23",
+      "row_label": "Aménagements, agencements et installations",
+      "col_label": "CUMUL DES AMORTISSEMENTS A LA CLOTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE  3C",
+      "cell": "E24",
+      "row_label": "Matériel, mobilier et actif biologiques",
+      "col_label": "CUMUL DES AMORTISSEMENTS A LA CLOTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE  3C",
+      "cell": "E26",
+      "row_label": "SOUS TOTAL : IMMOBILISATIONS CORPORELLES",
+      "col_label": "CUMUL DES AMORTISSEMENTS A LA CLOTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE  3C",
+      "cell": "E28",
+      "row_label": "TOTAL GENERAL",
+      "col_label": "CUMUL DES AMORTISSEMENTS A LA CLOTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE  3C",
+      "cell": "E29",
+      "row_label": "Commentaires:",
+      "col_label": "CUMUL DES AMORTISSEMENTS A LA CLOTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE  3C",
+      "cell": "E31",
+      "row_label": "Indiquer:",
+      "col_label": "CUMUL DES AMORTISSEMENTS A LA CLOTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE  3C",
+      "cell": "E32",
+      "row_label": "- les modes d'amortissement utilisés ;",
+      "col_label": "CUMUL DES AMORTISSEMENTS A LA CLOTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 4 ",
+      "cell": "G13",
+      "row_label": "Titres de participation",
+      "col_label": "Créances à plus de deux ans"
+    },
+    {
+      "sheet": "NOTE 4 ",
+      "cell": "G14",
+      "row_label": "Prêts et créances",
+      "col_label": "Créances à plus de deux ans"
+    },
+    {
+      "sheet": "NOTE 4 ",
+      "cell": "G15",
+      "row_label": "Prêt au personnel",
+      "col_label": "Créances à plus de deux ans"
+    },
+    {
+      "sheet": "NOTE 4 ",
+      "cell": "G16",
+      "row_label": "Créances sur l'Etat",
+      "col_label": "Créances à plus de deux ans"
+    },
+    {
+      "sheet": "NOTE 4 ",
+      "cell": "G17",
+      "row_label": "Titres immobilisés",
+      "col_label": "Créances à plus de deux ans"
+    },
+    {
+      "sheet": "NOTE 4 ",
+      "cell": "G18",
+      "row_label": "Dépôts et cautionnements",
+      "col_label": "Créances à plus de deux ans"
+    },
+    {
+      "sheet": "NOTE 4 ",
+      "cell": "G19",
+      "row_label": "Intérêts courus",
+      "col_label": "Créances à plus de deux ans"
+    },
+    {
+      "sheet": "NOTE 4 ",
+      "cell": "G20",
+      "row_label": "TOTAL BRUT",
+      "col_label": "Créances à plus de deux ans"
+    },
+    {
+      "sheet": "NOTE 4 ",
+      "cell": "G21",
+      "row_label": "Dépréciations titres de participation",
+      "col_label": "Créances à plus de deux ans"
+    },
+    {
+      "sheet": "NOTE 4 ",
+      "cell": "G24",
+      "row_label": "TOTAL NET DE DEPRECIATION",
+      "col_label": "Créances à plus de deux ans"
+    },
+    {
+      "sheet": "NOTE 4 ",
+      "cell": "G43",
+      "row_label": "Justifier toute variation significative",
+      "col_label": "Créances à plus de deux ans"
+    },
+    {
+      "sheet": "NOTE 4 ",
+      "cell": "G45",
+      "row_label": "Pour les créances relatives à la concession, faire un descriptif de l'accord,",
+      "col_label": "Créances à plus de deux ans"
+    },
+    {
+      "sheet": "NOTE 4 ",
+      "cell": "G50",
+      "row_label": "Indiquer le nombre et la date d'acquisition des actions ou parts propres",
+      "col_label": "Créances à plus de deux ans"
+    },
+    {
+      "sheet": "NOTE 13 ",
+      "cell": "F21",
+      "row_label": "Apporteurs, capital non appelé",
+      "col_label": "Cessions ou remboursements en cours d’exercice"
+    },
+    {
+      "sheet": "NOTE 13 ",
+      "cell": "F22",
+      "row_label": "TOTAL",
+      "col_label": "Cessions ou remboursements en cours d’exercice"
+    },
+    {
+      "sheet": "NOTE 13 ",
+      "cell": "F26",
+      "row_label": "Commentaire :",
+      "col_label": "Cessions ou remboursements en cours d’exercice"
+    },
+    {
+      "sheet": "NOTE 13 ",
+      "cell": "F28",
+      "row_label": "·         Indiquer si possible le montant du capital à la constitution",
+      "col_label": "Cessions ou remboursements en cours d’exercice"
+    },
+    {
+      "sheet": "NOTE 13 ",
+      "cell": "F29",
+      "row_label": "·         Indiquer si possible les dates des AGE et le montant du capital augmenté en cas d’augmentation de capital",
+      "col_label": "Cessions ou remboursements en cours d’exercice"
+    },
+    {
+      "sheet": "NOTE 13 ",
+      "cell": "F30",
+      "row_label": "·         Indiquer si possible les dates des AGE et le montant du capital diminué en cas de réduction de capital.",
+      "col_label": "Cessions ou remboursements en cours d’exercice"
+    },
+    {
+      "sheet": "NOTE 13 ",
+      "cell": "F32",
+      "row_label": "·         Apporteurs, capital non appelé : indiquer le délai restant pour appeler le capital.",
+      "col_label": "Cessions ou remboursements en cours d’exercice"
+    },
+    {
+      "sheet": "C2-NOTE 25",
+      "cell": "J11",
+      "row_label": "Boissons gazeuses, sodas et autres boissons sucrées importées",
+      "col_label": "Droits d’accises payés pendant l’exercice"
+    },
+    {
+      "sheet": "C2-NOTE 25",
+      "cell": "J12",
+      "row_label": "Bières ayant un degré d’alcool ≤ 5,5",
+      "col_label": "Droits d’accises payés pendant l’exercice"
+    },
+    {
+      "sheet": "C2-NOTE 25",
+      "cell": "J13",
+      "row_label": "Bières ayant un dégré d'alcool ˃ 5,5",
+      "col_label": "Droits d’accises payés pendant l’exercice"
+    },
+    {
+      "sheet": "C2-NOTE 25",
+      "cell": "J14",
+      "row_label": "Tabacs*",
+      "col_label": "Droits d’accises payés pendant l’exercice"
+    },
+    {
+      "sheet": "C2-NOTE 25",
+      "cell": "J15",
+      "row_label": "Jeux de hasard et divertissement non soumis à la taxe sur les jeux",
+      "col_label": "Droits d’accises payés pendant l’exercice"
+    },
+    {
+      "sheet": "C2-NOTE 25",
+      "cell": "J16",
+      "row_label": "Communication téléphonie mobile et de services internet",
+      "col_label": "Droits d’accises payés pendant l’exercice"
+    },
+    {
+      "sheet": "C2-NOTE 25",
+      "cell": "J17",
+      "row_label": "Sous total (a)",
+      "col_label": "Droits d’accises payés pendant l’exercice"
+    },
+    {
+      "sheet": "C2-NOTE 25",
+      "cell": "J18",
+      "row_label": "B- DROITS D’ACCISES SPECIFIQUES",
+      "col_label": "Droits d’accises payés pendant l’exercice"
+    },
+    {
+      "sheet": "C2-NOTE 25",
+      "cell": "J21",
+      "row_label": "Bières 65 cl",
+      "col_label": "Droits d’accises payés pendant l’exercice"
+    },
+    {
+      "sheet": "C2-NOTE 25",
+      "cell": "J22",
+      "row_label": "Bières 33 cl",
+      "col_label": "Droits d’accises payés pendant l’exercice"
+    },
+    {
+      "sheet": "C2-NOTE 25",
+      "cell": "J23",
+      "row_label": "Bières autre contenance",
+      "col_label": "Droits d’accises payés pendant l’exercice"
+    },
+    {
+      "sheet": "C2-NOTE 25",
+      "cell": "J24",
+      "row_label": "Spiritueux dits alcools mix produits localement",
+      "col_label": "Droits d’accises payés pendant l’exercice"
+    },
+    {
+      "sheet": "C2-NOTE 25",
+      "cell": "J25",
+      "row_label": "Spiritueux dits alcools mix de gamme inférieure importés",
+      "col_label": "Droits d’accises payés pendant l’exercice"
+    },
+    {
+      "sheet": "C2-NOTE 25",
+      "cell": "J26",
+      "row_label": "Spiritueux dits alcools mix de gamme supérieure importés",
+      "col_label": "Droits d’accises payés pendant l’exercice"
+    },
+    {
+      "sheet": "C2-NOTE 25",
+      "cell": "J27",
+      "row_label": "Vins produits localement",
+      "col_label": "Droits d’accises payés pendant l’exercice"
+    },
+    {
+      "sheet": "C2-NOTE 25",
+      "cell": "J28",
+      "row_label": "Vins de gamme inférieure importés",
+      "col_label": "Droits d’accises payés pendant l’exercice"
+    },
+    {
+      "sheet": "C2-NOTE 25",
+      "cell": "J29",
+      "row_label": "Vins dit de grand cru ou haut de gamme",
+      "col_label": "Droits d’accises payés pendant l’exercice"
+    },
+    {
+      "sheet": "C2-NOTE 25",
+      "cell": "J30",
+      "row_label": "Whiskies produits localement",
+      "col_label": "Droits d’accises payés pendant l’exercice"
+    },
+    {
+      "sheet": "C2-NOTE 25",
+      "cell": "J31",
+      "row_label": "Whiskies de gamme inférieure importés",
+      "col_label": "Droits d’accises payés pendant l’exercice"
+    },
+    {
+      "sheet": "C2-NOTE 25",
+      "cell": "J32",
+      "row_label": "Whiskies haut de gamme ou de gamme supérieure importés",
+      "col_label": "Droits d’accises payés pendant l’exercice"
+    },
+    {
+      "sheet": "C2-NOTE 25",
+      "cell": "J33",
+      "row_label": "Champagnes produits localement",
+      "col_label": "Droits d’accises payés pendant l’exercice"
+    },
+    {
+      "sheet": "C2-NOTE 25",
+      "cell": "J34",
+      "row_label": "Champagnes de gamme inférieure importés",
+      "col_label": "Droits d’accises payés pendant l’exercice"
+    },
+    {
+      "sheet": "C2-NOTE 25",
+      "cell": "J35",
+      "row_label": "Champagne haut gamme importés",
+      "col_label": "Droits d’accises payés pendant l’exercice"
+    },
+    {
+      "sheet": "C2-NOTE 25",
+      "cell": "J36",
+      "row_label": "Boissons gazeuses, sodas et autres boissons sucrées importées",
+      "col_label": "Droits d’accises payés pendant l’exercice"
+    },
+    {
+      "sheet": "C2-NOTE 25",
+      "cell": "J37",
+      "row_label": "Emballages non retournables des boissons alcooliques et gazeuses",
+      "col_label": "Droits d’accises payés pendant l’exercice"
+    },
+    {
+      "sheet": "C2-NOTE 25",
+      "cell": "J38",
+      "row_label": "Emballages non retournables autres produits**",
+      "col_label": "Droits d’accises payés pendant l’exercice"
+    },
+    {
+      "sheet": "C2-NOTE 25",
+      "cell": "J39",
+      "row_label": "Sous total (b)",
+      "col_label": "Droits d’accises payés pendant l’exercice"
+    },
+    {
+      "sheet": "C2-NOTE 25",
+      "cell": "J40",
+      "row_label": "Total (a+b)",
+      "col_label": "Droits d’accises payés pendant l’exercice"
+    },
+    {
+      "sheet": "C2-NOTE 25",
+      "cell": "J41",
+      "row_label": "*le montant du droit d'accises résultant de l'application du taux de 25% ne peut être inférieur à 5 000 FCFA pour 1 000 tiges de cigarettes",
+      "col_label": "Droits d’accises payés pendant l’exercice"
+    },
+    {
+      "sheet": "C2-NOTE 25",
+      "cell": "J42",
+      "row_label": "**Plafonné à 10% de la valeur du produit",
+      "col_label": "Droits d’accises payés pendant l’exercice"
+    },
+    {
+      "sheet": "NOTE 28",
+      "cell": "I13",
+      "row_label": "1. Provisions réglementées",
+      "col_label": "PROVISIONS A LA CLOTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 28",
+      "cell": "I16",
+      "row_label": "TOTAL : DOTATIONS",
+      "col_label": "PROVISIONS A LA CLOTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 28",
+      "cell": "I18",
+      "row_label": "4. Dépréciations des stocks",
+      "col_label": "PROVISIONS A LA CLOTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 28",
+      "cell": "I19",
+      "row_label": "5. Dépréciations actif circulant HAO",
+      "col_label": "PROVISIONS A LA CLOTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 28",
+      "cell": "I20",
+      "row_label": "6. Dépréciations fournisseurs",
+      "col_label": "PROVISIONS A LA CLOTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 28",
+      "cell": "I21",
+      "row_label": "7. Dépréciations clients",
+      "col_label": "PROVISIONS A LA CLOTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 28",
+      "cell": "I22",
+      "row_label": "5. Dépréciations fournisseurs",
+      "col_label": "PROVISIONS A LA CLOTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 28",
+      "cell": "I23",
+      "row_label": "7. Dépréciations autres créances",
+      "col_label": "PROVISIONS A LA CLOTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 28",
+      "cell": "I24",
+      "row_label": "8. Dépréciations titres de placement",
+      "col_label": "PROVISIONS A LA CLOTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 28",
+      "cell": "I25",
+      "row_label": "9. Dépréciations valeurs à encaisser",
+      "col_label": "PROVISIONS A LA CLOTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 28",
+      "cell": "I26",
+      "row_label": "10. Dépréciations disponibilité",
+      "col_label": "PROVISIONS A LA CLOTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 28",
+      "cell": "I27",
+      "row_label": "11. Dépréciations et provisions pour risques à court termes exploitation",
+      "col_label": "PROVISIONS A LA CLOTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 28",
+      "cell": "I28",
+      "row_label": "12. Dépréciations et provisions pour risques à court termes à caractère financier",
+      "col_label": "PROVISIONS A LA CLOTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 28",
+      "cell": "I29",
+      "row_label": "TOTAL : CHARGES POUR DEPRECIATIONS ET PROVISIONS A COURT TERME",
+      "col_label": "PROVISIONS A LA CLOTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 28",
+      "cell": "I31",
+      "row_label": "TOTAL PROVISIONS ET DEPRECIATIONS",
+      "col_label": "PROVISIONS A LA CLOTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 28",
+      "cell": "I32",
+      "row_label": "Commentaire :",
+      "col_label": "PROVISIONS A LA CLOTURE DE L'EXERCICE"
+    },
+    {
+      "sheet": "NOTE 28",
+      "cell": "I34",
+      "row_label": "·         Indiquer les évènements et circonstances qui ont conduit à la constitution et à la reprise de la dépréciation et de la provision.",
+      "col_label": "PROVISIONS A LA CLOTURE DE L'EXERCICE"
+    }
+  ]
+}
