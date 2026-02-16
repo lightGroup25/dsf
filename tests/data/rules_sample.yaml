@@ -1,0 +1,53 @@
+version: "test"
+template_name: "test_template.xlsx"
+metadata: {}
+rules:
+  - id: actif_immos
+    label: Immobilisations incorporelles
+    section: ACTIF
+    priority: 10
+    target:
+      sheet: "BILAN PAYSAGE"
+      column: "D"
+      exercice_column_type: "exercice_n"
+      allowed_cells: ["D14"]
+    filters:
+      include_classes: ["2"]
+      include_ranges: ["20-21"]
+      require_sign: debit
+  - id: passif_capitaux
+    label: Capitaux propres
+    section: PASSIF
+    priority: 20
+    target:
+      sheet: "BILAN PAYSAGE"
+      column: "K"
+      exercice_column_type: "exercice_n"
+      allowed_cells: ["K33"]
+    filters:
+      include_classes: ["1"]
+      require_sign: credit
+  - id: charges
+    label: Charges
+    section: RESULTAT
+    priority: 30
+    target:
+      sheet: "COMPTE DE RESULTAT"
+      column: "D"
+      exercice_column_type: "exercice_n"
+      allowed_cells: ["D7"]
+    filters:
+      include_classes: ["6"]
+      require_sign: debit
+  - id: produits
+    label: Produits
+    section: RESULTAT
+    priority: 40
+    target:
+      sheet: "COMPTE DE RESULTAT"
+      column: "D"
+      exercice_column_type: "exercice_n"
+      allowed_cells: ["D5"]
+    filters:
+      include_classes: ["7"]
+      require_sign: credit

@@ -1,0 +1,11 @@
+{
+  "description": "Double mapping complet SYSCOHADA → Intermédiaire → DSF",
+  "coverage": {
+    "total_syscohada": 1182,
+    "mapped": 619,
+    "unmapped": 563,
+    "coverage_percentage": 52.36886632825719
+  },
+  "LEVEL_1_SYSCOHADA_TO_INTERMEDIATE": {
+    "101": {
+      "label": 

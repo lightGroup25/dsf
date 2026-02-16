@@ -1,0 +1,5408 @@
+{
+  "version": "1.0",
+  "description": "Complete double-mapping: SYSCOHADA (1182) → Intermediate (32) → DSF",
+  "generated_date": "2024-01-01",
+  "coverage": {
+    "total_syscohada": 1182,
+    "explicitly_mapped": 1182,
+    "coverage_percentage": 100.0
+  },
+  "LEVEL_1_SYSCOHADA_TO_INTERMEDIATE": {
+    "101": {
+      "intermediate_category": "EQ_CAPITAL",
+      "account_name": "CAPITAL SOCIAL"
+    },
+    "1011": {
+      "intermediate_category": "EQ_CAPITAL",
+      "account_name": "Capital souscrit, non appelé"
+    },
+    "1012": {
+      "intermediate_category": "EQ_CAPITAL",
+      "account_name": "Capital souscrit, appelé, non versé"
+    },
+    "1013": {
+      "intermediate_category": "EQ_CAPITAL",
+      "account_name": "Capital souscrit, appelé, versé, non amorti"
+    },
+    "1014": {
+      "intermediate_category": "EQ_CAPITAL",
+      "account_name": "Capital souscrit, appelé, versé, amorti"
+    },
+    "1018": {
+      "intermediate_category": "EQ_CAPITAL",
+      "account_name": "Capital souscrit soumis à des conditions particulières"
+    },
+    "102": {
+      "intermediate_category": "EQ_CAPITAL",
+      "account_name": "CAPITAL PAR DOTATION"
+    },
+    "1021": {
+      "intermediate_category": "EQ_CAPITAL",
+      "account_name": "Dotation initiale"
+    },
+    "1022": {
+      "intermediate_category": "EQ_CAPITAL",
+      "account_name": "Dotations complémentaires"
+    },
+    "1028": {
+      "intermediate_category": "EQ_CAPITAL",
+      "account_name": "Autres dotations"
+    },
+    "103": {
+      "intermediate_category": "EQ_CAPITAL",
+      "account_name": "CAPITAL PERSONNEL"
+    },
+    "104": {
+      "intermediate_category": "EQ_CAPITAL",
+      "account_name": "COMPTE DE L'EXPLOITANT"
+    },
+    "1041": {
+      "intermediate_category": "EQ_CAPITAL",
+      "account_name": "Apports temporaires"
+    },
+    "1042": {
+      "intermediate_category": "EQ_CAPITAL",
+      "account_name": "Opérations courantes"
+    },
+    "1043": {
+      "intermediate_category": "EQ_CAPITAL",
+      "account_name": "Rémunérations, impôts et autres charges personnelles"
+    },
+    "1047": {
+      "intermediate_category": "EQ_CAPITAL",
+      "account_name": "Prélèvements d'autoconsommation"
+    },
+    "1048": {
+      "intermediate_category": "EQ_CAPITAL",
+      "account_name": "Autres prélèvements"
+    },
+    "105": {
+      "intermediate_category": "EQ_CAPITAL",
+      "account_name": "PRIMES LIÉES AUX CAPITAUX PROPRES"
+    },
+    "1051": {
+      "intermediate_category": "EQ_CAPITAL",
+      "account_name": "Primes d'émission"
+    },
+    "1052": {
+      "intermediate_category": "EQ_CAPITAL",
+      "account_name": "Primes d'apport"
+    },
+    "1053": {
+      "intermediate_category": "EQ_CAPITAL",
+      "account_name": "Primes de fusion"
+    },
+    "1054": {
+      "intermediate_category": "EQ_CAPITAL",
+      "account_name": "Primes de conversion"
+    },
+    "1058": {
+      "intermediate_category": "EQ_CAPITAL",
+      "account_name": "Autres primes"
+    },
+    "106": {
+      "intermediate_category": "EQ_CAPITAL",
+      "account_name": "ÉCARTS DE RÉÉVALUATION"
+    },
+    "1061": {
+      "intermediate_category": "EQ_CAPITAL",
+      "account_name": "Écarts de réévaluation légale"
+    },
+    "1062": {
+      "intermediate_category": "EQ_CAPITAL",
+      "account_name": "Écarts de réévaluation libre"
+    },
+    "109": {
+      "intermediate_category": "EQ_CAPITAL",
+      "account_name": "ACTIONNAIRES, CAPITAL SOUSCRIT, NON APPELÉ"
+    },
+    "111": {
+      "intermediate_category": "EQ_RESERVES",
+      "account_name": "RÉSERVE LÉGALE"
+    },
+    "112": {
+      "intermediate_category": "EQ_RESERVES",
+      "account_name": "RÉSERVES STATUTAIRES OU CONTRACTUELLES"
+    },
+    "113": {
+      "intermediate_category": "EQ_RESERVES",
+      "account_name": "RÉSERVES RÉGLEMENTÉES"
+    },
+    "1131": {
+      "intermediate_category": "EQ_RESERVES",
+      "account_name": "Réserves de plus-values nettes à long terme"
+    },
+    "1133": {
+      "intermediate_category": "EQ_RESERVES",
+      "account_name": "Réserves consécutives à l'octroi de subventions d'investissement"
+    },
+    "1138": {
+      "intermediate_category": "EQ_RESERVES",
+      "account_name": "Autres réserves réglementées"
+    },
+    "118": {
+      "intermediate_category": "EQ_RESERVES",
+      "account_name": "AUTRES RÉSERVES"
+    },
+    "1181": {
+      "intermediate_category": "EQ_RESERVES",
+      "account_name": "Réserves facultatives"
+    },
+    "1188": {
+      "intermediate_category": "EQ_RESERVES",
+      "account_name": "Réserves diverses"
+    },
+    "121": {
+      "intermediate_category": "EQ_RESERVES",
+      "account_name": "REPORT À NOUVEAU CRÉDITEUR"
+    },
+    "129": {
+      "intermediate_category": "EQ_RESERVES",
+      "account_name": "REPORT À NOUVEAU DÉBITEUR"
+    },
+    "1291": {
+      "intermediate_category": "EQ_RESERVES",
+      "account_name": "Perte nette à reporter"
+    },
+    "1292": {
+      "intermediate_category": "EQ_RESERVES",
+      "account_name": "Perte - Amortissements réputés différés"
+    },
+    "130": {
+      "intermediate_category": "EQ_EARNINGS",
+      "account_name": "RÉSULTAT EN INSTANCE D'AFFECTATION"
+    },
+    "1301": {
+      "intermediate_category": "EQ_EARNINGS",
+      "account_name": "Résultat en instance d'affectation : Bénéfice"
+    },
+    "1309": {
+      "intermediate_category": "EQ_EARNINGS",
+      "account_name": "Résultat en instance d'affectation : Perte"
+    },
+    "131": {
+      "intermediate_category": "EQ_EARNINGS",
+      "account_name": "RÉSULTAT NET : BÉNÉFICE"
+    },
+    "132": {
+      "intermediate_category": "EQ_EARNINGS",
+      "account_name": "MARGE BRUTE"
+    },
+    "1321": {
+      "intermediate_category": "EQ_EARNINGS",
+      "account_name": "Marge brute sur marchandises"
+    },
+    "1322": {
+      "intermediate_category": "EQ_EARNINGS",
+      "account_name": "Marge brute sur matières"
+    },
+    "133": {
+      "intermediate_category": "EQ_EARNINGS",
+      "account_name": "VALEUR AJOUTÉE"
+    },
+    "134": {
+      "intermediate_category": "EQ_EARNINGS",
+      "account_name": "EXCÉDENT BRUT D'EXPLOITATION"
+    },
+    "135": {
+      "intermediate_category": "EQ_EARNINGS",
+      "account_name": "RÉSULTAT D'EXPLOITATION"
+    },
+    "136": {
+      "intermediate_category": "EQ_EARNINGS",
+      "account_name": "RÉSULTAT FINANCIER"
+    },
+    "137": {
+      "intermediate_category": "EQ_EARNINGS",
+      "account_name": "RÉSULTAT DES ACTIVITÉS ORDINAIRES"
+    },
+    "138": {
+      "intermediate_category": "EQ_EARNINGS",
+      "account_name": "RÉSULTAT HORS ACTIVITÉS ORDINAIRES"
+    },
+    "139": {
+      "intermediate_category": "EQ_EARNINGS",
+      "account_name": "RÉSULTAT NET : PERTE"
+    },
+    "141": {
+      "intermediate_category": "EQ_RESULT",
+      "account_name": "SUBVENTIONS D'ÉQUIPEMENT A"
+    },
+    "1411": {
+      "intermediate_category": "EQ_RESULT",
+      "account_name": "État"
+    },
+    "1412": {
+      "intermediate_category": "EQ_RESULT",
+      "account_name": "Régions"
+    },
+    "1413": {
+      "intermediate_category": "EQ_RESULT",
+      "account_name": "Départements"
+    },
+    "1414": {
+      "intermediate_category": "EQ_RESULT",
+      "account_name": "Communes et collectivités publiques décentralisées"
+    },
+    "1415": {
+      "intermediate_category": "EQ_RESULT",
+      "account_name": "Entreprises publiques ou mixtes"
+    },
+    "1416": {
+      "intermediate_category": "EQ_RESULT",
+      "account_name": "Entreprises et organismes privés"
+    },
+    "1417": {
+      "intermediate_category": "EQ_RESULT",
+      "account_name": "Organismes internationaux"
+    },
+    "1418": {
+      "intermediate_category": "EQ_RESULT",
+      "account_name": "Autres"
+    },
+    "142": {
+      "intermediate_category": "EQ_RESULT",
+      "account_name": "SUBVENTIONS D'ÉQUIPEMENT B"
+    },
+    "148": {
+      "intermediate_category": "EQ_RESULT",
+      "account_name": "AUTRES SUBVENTIONS D'INVESTISSEMENT"
+    },
+    "151": {
+      "intermediate_category": "EQ_SUBSIDY",
+      "account_name": "AMORTISSEMENTS DÉROGATOIRES"
+    },
+    "152": {
+      "intermediate_category": "EQ_SUBSIDY",
+      "account_name": "PLUS-VALUES DE CESSION À RÉINVESTIR"
+    },
+    "153": {
+      "intermediate_category": "EQ_SUBSIDY",
+      "account_name": "FONDS RÉGLEMENTÉS"
+    },
+    "1531": {
+      "intermediate_category": "EQ_SUBSIDY",
+      "account_name": "Fonds National"
+    },
+    "1532": {
+      "intermediate_category": "EQ_SUBSIDY",
+      "account_name": "Prélèvement pour le Budget"
+    },
+    "154": {
+      "intermediate_category": "EQ_SUBSIDY",
+      "account_name": "PROVISION SPÉCIALE DE RÉÉVALUATION"
+    },
+    "155": {
+      "intermediate_category": "EQ_SUBSIDY",
+      "account_name": "PROVISIONS RÉGLEMENTÉES RELATIVES AUX IMMOBILISATIONS"
+    },
+    "1551": {
+      "intermediate_category": "EQ_SUBSIDY",
+      "account_name": "Reconstitution des gisements miniers et pétroliers"
+    },
+    "156": {
+      "intermediate_category": "EQ_SUBSIDY",
+      "account_name": "PROVISIONS RÉGLEMENTÉES RELATIVES AUX STOCKS"
+    },
+    "1561": {
+      "intermediate_category": "EQ_SUBSIDY",
+      "account_name": "Hausse de prix"
+    },
+    "1562": {
+      "intermediate_category": "EQ_SUBSIDY",
+      "account_name": "Fluctuation des cours"
+    },
+    "157": {
+      "intermediate_category": "EQ_SUBSIDY",
+      "account_name": "PROVISIONS POUR INVESTISSEMENT"
+    },
+    "158": {
+      "intermediate_category": "EQ_SUBSIDY",
+      "account_name": "AUTRES PROVISIONS ET FONDS RÉGLEMENTÉS"
+    },
+    "161": {
+      "intermediate_category": "EQ_PROVISIONS",
+      "account_name": "EMPRUNTS OBLIGATAIRES"
+    },
+    "1611": {
+      "intermediate_category": "EQ_PROVISIONS",
+      "account_name": "Emprunts obligataires ordinaires"
+    },
+    "1612": {
+      "intermediate_category": "EQ_PROVISIONS",
+      "account_name": "Emprunts obligataires convertibles"
+    },
+    "1618": {
+      "intermediate_category": "EQ_PROVISIONS",
+      "account_name": "Autres emprunts obligataires"
+    },
+    "162": {
+      "intermediate_category": "EQ_PROVISIONS",
+      "account_name": "EMPRUNTS ET DETTES AUPRÈS DES ÉTABLISSEMENTS DE CRÉDIT"
+    },
+    "163": {
+      "intermediate_category": "EQ_PROVISIONS",
+      "account_name": "AVANCES REÇUES DE L'ÉTAT"
+    },
+    "164": {
+      "intermediate_category": "EQ_PROVISIONS",
+      "account_name": "AVANCES REÇUES ET COMPTES COURANTS BLOQUÉS"
+    },
+    "165": {
+      "intermediate_category": "EQ_PROVISIONS",
+      "account_name": "DÉPÔTS ET CAUTIONNEMENTS RECUS"
+    },
+    "1651": {
+      "intermediate_category": "EQ_PROVISIONS",
+      "account_name": "Dépôts"
+    },
+    "1652": {
+      "intermediate_category": "EQ_PROVISIONS",
+      "account_name": "Cautionnements"
+    },
+    "166": {
+      "intermediate_category": "EQ_PROVISIONS",
+      "account_name": "INTÉRÊTS COURUS"
+    },
+    "1661": {
+      "intermediate_category": "EQ_PROVISIONS",
+      "account_name": "sur emprunts obligataires"
+    },
+    "1662": {
+      "intermediate_category": "EQ_PROVISIONS",
+      "account_name": "sur emprunts et dettes auprès des établissements de crédit"
+    },
+    "1663": {
+      "intermediate_category": "EQ_PROVISIONS",
+      "account_name": "sur avances reçues de l'État"
+    },
+    "1664": {
+      "intermediate_category": "EQ_PROVISIONS",
+      "account_name": "sur avances reçues et comptes courants bloqués"
+    },
+    "1665": {
+      "intermediate_category": "EQ_PROVISIONS",
+      "account_name": "sur dépôts et cautionnements reçus"
+    },
+    "1667": {
+      "intermediate_category": "EQ_PROVISIONS",
+      "account_name": "sur avances assorties de conditions particulières"
+    },
+    "1668": {
+      "intermediate_category": "EQ_PROVISIONS",
+      "account_name": "sur autres emprunts et dettes"
+    },
+    "167": {
+      "intermediate_category": "EQ_PROVISIONS",
+      "account_name": "AVANCES ASSORTIES DE CONDITIONS PARTICULIÈRES"
+    },
+    "1671": {
+      "intermediate_category": "EQ_PROVISIONS",
+      "account_name": "Avances bloquées pour augmentation du capital"
+    },
+    "1672": {
+      "intermediate_category": "EQ_PROVISIONS",
+      "account_name": "Avances conditionnées par l'État"
+    },
+    "1673": {
+      "intermediate_category": "EQ_PROVISIONS",
+      "account_name": "Avances conditionnées par les autres organismes africains"
+    },
+    "1674": {
+      "intermediate_category": "EQ_PROVISIONS",
+      "account_name": "Avances conditionnées par les organismes internationaux"
+    },
+    "1676": {
+      "intermediate_category": "EQ_PROVISIONS",
+      "account_name": "Droits du concédant exigibles en nature"
+    },
+    "168": {
+      "intermediate_category": "EQ_PROVISIONS",
+      "account_name": "AUTRES EMPRUNTS ET DETTES"
+    },
+    "1681": {
+      "intermediate_category": "EQ_PROVISIONS",
+      "account_name": "Rentes viagères capitalisées"
+    },
+    "1682": {
+      "intermediate_category": "EQ_PROVISIONS",
+      "account_name": "Billets de fonds"
+    },
+    "1683": {
+      "intermediate_category": "EQ_PROVISIONS",
+      "account_name": "Dettes consécutives à des titres empruntés"
+    },
+    "1684": {
+      "intermediate_category": "EQ_PROVISIONS",
+      "account_name": "Dettes du concédant exigibles en nature"
+    },
+    "1685": {
+      "intermediate_category": "EQ_PROVISIONS",
+      "account_name": "Emprunts participatifs"
+    },
+    "1686": {
+      "intermediate_category": "EQ_PROVISIONS",
+      "account_name": "Participation des travailleurs aux bénéfices"
+    },
+    "172": {
+      "intermediate_category": "EQ_GEN",
+      "account_name": "EMPRUNTS ÉQUIVALENTS DE CRÉDIT-BAIL IMMOBILIER"
+    },
+    "173": {
+      "intermediate_category": "EQ_GEN",
+      "account_name": "EMPRUNTS ÉQUIVALENTS DE CRÉDIT-BAIL MOBILIER"
+    },
+    "176": {
+      "intermediate_category": "EQ_GEN",
+      "account_name": "INTÉRÊTS COURUS"
+    },
+    "1762": {
+      "intermediate_category": "EQ_GEN",
+      "account_name": "sur emprunts équivalents de crédit-bail immobilier"
+    },
+    "1763": {
+      "intermediate_category": "EQ_GEN",
+      "account_name": "sur emprunts équivalents de crédit-bail mobilier"
+    },
+    "1768": {
+      "intermediate_category": "EQ_GEN",
+      "account_name": "sur emprunts équivalents d'autres contrats"
+    },
+    "178": {
+      "intermediate_category": "EQ_GEN",
+      "account_name": "EMPRUNTS ÉQUIVALENTS D'AUTRES CONTRATS"
+    },
+    "181": {
+      "intermediate_category": "EQ_GEN",
+      "account_name": "DETTES LIÉES À DES PARTICIPATIONS"
+    },
+    "1811": {
+      "intermediate_category": "EQ_GEN",
+      "account_name": "Dettes liées à des participations"
+    },
+    "1812": {
+      "intermediate_category": "EQ_GEN",
+      "account_name": "Dettes liées à des participations"
+    },
+    "182": {
+      "intermediate_category": "EQ_GEN",
+      "account_name": "DETTES LIÉES À DES SOCIÉTÉS EN PARTICIPATION"
+    },
+    "183": {
+      "intermediate_category": "EQ_GEN",
+      "account_name": "INTÉRÊTS COURUS SUR DETTES LIÉES À DES PARTICIPATIONS"
+    },
+    "184": {
+      "intermediate_category": "EQ_GEN",
+      "account_name": "COMPTES PERMANENTS BLOQUÉS DES ÉTABLISSEMENTS ET SUCCURSALES"
+    },
+    "185": {
+      "intermediate_category": "EQ_GEN",
+      "account_name": "COMPTES PERMANENTS NON BLOQUÉS DES ÉTABLISSEMENTS ET SUCCURSALES"
+    },
+    "186": {
+      "intermediate_category": "EQ_GEN",
+      "account_name": "COMPTES DE LIAISON CHARGES"
+    },
+    "187": {
+      "intermediate_category": "EQ_GEN",
+      "account_name": "COMPTES DE LIAISON PRODUITS"
+    },
+    "188": {
+      "intermediate_category": "EQ_GEN",
+      "account_name": "COMPTES DE LIAISON DES SOCIÉTÉS EN PARTICIPATION"
+    },
+    "191": {
+      "intermediate_category": "EQ_GEN",
+      "account_name": "PROVISIONS POUR LITIGES"
+    },
+    "192": {
+      "intermediate_category": "EQ_GEN",
+      "account_name": "PROVISIONS POUR GARANTIES DONNÉES AUX CLIENTS"
+    },
+    "193": {
+      "intermediate_category": "EQ_GEN",
+      "account_name": "PROVISIONS POUR PERTES SUR MARCHÉS À ACHÈVEMENT FUTUR"
+    },
+    "194": {
+      "intermediate_category": "EQ_GEN",
+      "account_name": "PROVISIONS POUR PERTES DE CHANGE"
+    },
+    "195": {
+      "intermediate_category": "EQ_GEN",
+      "account_name": "PROVISIONS POUR IMPÔTS"
+    },
+    "196": {
+      "intermediate_category": "EQ_GEN",
+      "account_name": "PROVISIONS POUR PENSIONS ET OBLIGATIONS SIMILAIRES"
+    },
+    "197": {
+      "intermediate_category": "EQ_GEN",
+      "account_name": "PROVISIONS POUR CHARGES À RÉPARTIR SUR PLUSIEURS EXERCICES"
+    },
+    "1971": {
+      "intermediate_category": "EQ_GEN",
+      "account_name": "Provisions pour grosses réparations"
+    },
+    "198": {
+      "intermediate_category": "EQ_GEN",
+      "account_name": "AUTRES PROVISIONS FINANCIÈRES POUR RISQUES ET CHARGES"
+    },
+    "1981": {
+      "intermediate_category": "EQ_GEN",
+      "account_name": "Provisions pour amendes et pénalités"
+    },
+    "1982": {
+      "intermediate_category": "EQ_GEN",
+      "account_name": "Provisions pour renouvellement des immobilisations"
+    },
+    "1983": {
+      "intermediate_category": "EQ_GEN",
+      "account_name": "Provisions de propre assureur"
+    },
+    "1988": {
+      "intermediate_category": "EQ_GEN",
+      "account_name": "Autres provisions financières pour risques et charges"
+    },
+    "201": {
+      "intermediate_category": "FA_INTANGIBLE",
+      "account_name": "FRAIS D'ÉTABLISSEMENT"
+    },
+    "2011": {
+      "intermediate_category": "FA_INTANGIBLE",
+      "account_name": "Frais de constitution"
+    },
+    "2012": {
+      "intermediate_category": "FA_INTANGIBLE",
+      "account_name": "Frais de prospection"
+    },
+    "2013": {
+      "intermediate_category": "FA_INTANGIBLE",
+      "account_name": "Frais de publicité et de lancement"
+    },
+    "2014": {
+      "intermediate_category": "FA_INTANGIBLE",
+      "account_name": "Frais de fonctionnement antérieurs au démarrage"
+    },
+    "2015": {
+      "intermediate_category": "FA_INTANGIBLE",
+      "account_name": "Frais de modification du capital"
+    },
+    "2016": {
+      "intermediate_category": "FA_INTANGIBLE",
+      "account_name": "Frais d'entrée à la Bourse"
+    },
+    "2017": {
+      "intermediate_category": "FA_INTANGIBLE",
+      "account_name": "Frais de restructuration"
+    },
+    "2018": {
+      "intermediate_category": "FA_INTANGIBLE",
+      "account_name": "Frais divers d'établissement"
+    },
+    "202": {
+      "intermediate_category": "FA_INTANGIBLE",
+      "account_name": "CHARGES À RÉPARTIR SUR PLUSIEURS EXERCICES"
+    },
+    "2021": {
+      "intermediate_category": "FA_INTANGIBLE",
+      "account_name": "Charges différées"
+    },
+    "2022": {
+      "intermediate_category": "FA_INTANGIBLE",
+      "account_name": "Frais d'acquisition d'immobilisations"
+    },
+    "2026": {
+      "intermediate_category": "FA_INTANGIBLE",
+      "account_name": "Frais d'émission des emprunts"
+    },
+    "2028": {
+      "intermediate_category": "FA_INTANGIBLE",
+      "account_name": "Charges à étaler"
+    },
+    "206": {
+      "intermediate_category": "FA_INTANGIBLE",
+      "account_name": "PRIMES DE REMBOURSEMENT DES OBLIGATIONS"
+    },
+    "2061": {
+      "intermediate_category": "FA_INTANGIBLE",
+      "account_name": "Obligations ordinaires"
+    },
+    "2062": {
+      "intermediate_category": "FA_INTANGIBLE",
+      "account_name": "Obligations convertibles"
+    },
+    "2068": {
+      "intermediate_category": "FA_INTANGIBLE",
+      "account_name": "Autres emprunts obligataires"
+    },
+    "211": {
+      "intermediate_category": "FA_LAND",
+      "account_name": "FRAIS DE RECHERCHE ET DE DÉVELOPPEMENT"
+    },
+    "212": {
+      "intermediate_category": "FA_LAND",
+      "account_name": "BREVETS, LICENCES, CONCESSIONS ET DROITS SIMILAIRES"
+    },
+    "213": {
+      "intermediate_category": "FA_LAND",
+      "account_name": "LOGICIELS"
+    },
+    "214": {
+      "intermediate_category": "FA_LAND",
+      "account_name": "MARQUES"
+    },
+    "215": {
+      "intermediate_category": "FA_LAND",
+      "account_name": "FONDS COMMERCIAL"
+    },
+    "216": {
+      "intermediate_category": "FA_LAND",
+      "account_name": "DROIT AU BAIL"
+    },
+    "217": {
+      "intermediate_category": "FA_LAND",
+      "account_name": "INVESTISSEMENTS DE CRÉATION"
+    },
+    "218": {
+      "intermediate_category": "FA_LAND",
+      "account_name": "AUTRES DROITS ET VALEURS INCORPORELS"
+    },
+    "219": {
+      "intermediate_category": "FA_LAND",
+      "account_name": "IMMOBILISATIONS INCORPORELLES EN COURS"
+    },
+    "2191": {
+      "intermediate_category": "FA_LAND",
+      "account_name": "Frais de recherche et de développement"
+    },
+    "2193": {
+      "intermediate_category": "FA_LAND",
+      "account_name": "Logiciels"
+    },
+    "2198": {
+      "intermediate_category": "FA_LAND",
+      "account_name": "Autres droits et valeurs incorporels"
+    },
+    "221": {
+      "intermediate_category": "FA_BUILDING",
+      "account_name": "TERRAINS AGRICOLES ET FORESTIERS"
+    },
+    "2211": {
+      "intermediate_category": "FA_BUILDING",
+      "account_name": "Terrains d'exploitation agricole"
+    },
+    "2212": {
+      "intermediate_category": "FA_BUILDING",
+      "account_name": "Terrains d'exploitation forestière"
+    },
+    "2218": {
+      "intermediate_category": "FA_BUILDING",
+      "account_name": "Autres terrains"
+    },
+    "222": {
+      "intermediate_category": "FA_BUILDING",
+      "account_name": "TERRAINS NUS"
+    },
+    "2221": {
+      "intermediate_category": "FA_BUILDING",
+      "account_name": "Terrains à bâtir"
+    },
+    "2228": {
+      "intermediate_category": "FA_BUILDING",
+      "account_name": "Autres terrains nus"
+    },
+    "223": {
+      "intermediate_category": "FA_BUILDING",
+      "account_name": "TERRAINS BÂTIS"
+    },
+    "2231": {
+      "intermediate_category": "FA_BUILDING",
+      "account_name": "pour bâtiments industriels et agricoles"
+    },
+    "2232": {
+      "intermediate_category": "FA_BUILDING",
+      "account_name": "pour bâtiments administratifs et commerciaux"
+    },
+    "2234": {
+      "intermediate_category": "FA_BUILDING",
+      "account_name": "pour bâtiments affectés aux autres opérations professionnelles"
+    },
+    "2235": {
+      "intermediate_category": "FA_BUILDING",
+      "account_name": "pour bâtiments affectés aux autres opérations non professionnelles"
+    },
+    "2238": {
+      "intermediate_category": "FA_BUILDING",
+      "account_name": "Autres terrains bâtis"
+    },
+    "224": {
+      "intermediate_category": "FA_BUILDING",
+      "account_name": "TRAVAUX DE MISE EN VALEUR DES TERRAINS"
+    },
+    "2241": {
+      "intermediate_category": "FA_BUILDING",
+      "account_name": "Plantation d'arbres et d'arbustes"
+    },
+    "2248": {
+      "intermediate_category": "FA_BUILDING",
+      "account_name": "Autres travaux"
+    },
+    "225": {
+      "intermediate_category": "FA_BUILDING",
+      "account_name": "TERRAINS DE GISEMENT"
+    },
+    "2251": {
+      "intermediate_category": "FA_BUILDING",
+      "account_name": "Carrières"
+    },
+    "226": {
+      "intermediate_category": "FA_BUILDING",
+      "account_name": "TERRAINS AMÉNAGÉS"
+    },
+    "2261": {
+      "intermediate_category": "FA_BUILDING",
+      "account_name": "Parkings"
+    },
+    "227": {
+      "intermediate_category": "FA_BUILDING",
+      "account_name": "TERRAINS MIS EN CONCESSION"
+    },
+    "228": {
+      "intermediate_category": "FA_BUILDING",
+      "account_name": "AUTRES TERRAINS"
+    },
+    "2281": {
+      "intermediate_category": "FA_BUILDING",
+      "account_name": "Terrains des immeubles de rapport"
+    },
+    "2285": {
+      "intermediate_category": "FA_BUILDING",
+      "account_name": "Terrains des logements affectés au personnel"
+    },
+    "2288": {
+      "intermediate_category": "FA_BUILDING",
+      "account_name": "Autres terrains"
+    },
+    "229": {
+      "intermediate_category": "FA_BUILDING",
+      "account_name": "AMÉNAGEMENTS DE TERRAINS EN COURS"
+    },
+    "2291": {
+      "intermediate_category": "FA_BUILDING",
+      "account_name": "Terrains agricoles et forestiers"
+    },
+    "2292": {
+      "intermediate_category": "FA_BUILDING",
+      "account_name": "Terrains nus"
+    },
+    "2295": {
+      "intermediate_category": "FA_BUILDING",
+      "account_name": "Terrains de gisement"
+    },
+    "2298": {
+      "intermediate_category": "FA_BUILDING",
+      "account_name": "Autres terrains"
+    },
+    "231": {
+      "intermediate_category": "FA_INSTALL",
+      "account_name": "BÂTIMENTS INDUSTRIELS, AGRICOLES, ADMINISTRATIFS ET COMMERCIAUX SUR SOL PROPRE"
+    },
+    "2311": {
+      "intermediate_category": "FA_INSTALL",
+      "account_name": "Bâtiments industriels"
+    },
+    "2312": {
+      "intermediate_category": "FA_INSTALL",
+      "account_name": "Bâtiments agricoles"
+    },
+    "2313": {
+      "intermediate_category": "FA_INSTALL",
+      "account_name": "Bâtiments administratifs et commerciaux"
+    },
+    "2314": {
+      "intermediate_category": "FA_INSTALL",
+      "account_name": "Bâtiments affectés au logement du personnel"
+    },
+    "2315": {
+      "intermediate_category": "FA_INSTALL",
+      "account_name": "Immeubles de rapport"
+    },
+    "232": {
+      "intermediate_category": "FA_INSTALL",
+      "account_name": "BÂTIMENTS INDUSTRIELS, AGRICOLES, ADMINISTRATIFS ET COMMERCIAUX SUR SOL D'AUTRUI"
+    },
+    "2321": {
+      "intermediate_category": "FA_INSTALL",
+      "account_name": "Bâtiments industriels"
+    },
+    "2322": {
+      "intermediate_category": "FA_INSTALL",
+      "account_name": "Bâtiments agricoles"
+    },
+    "2323": {
+      "intermediate_category": "FA_INSTALL",
+      "account_name": "Bâtiments administratifs et commerciaux"
+    },
+    "2324": {
+      "intermediate_category": "FA_INSTALL",
+      "account_name": "Bâtiments affectés au logement du personnel"
+    },
+    "2325": {
+      "intermediate_category": "FA_INSTALL",
+      "account_name": "Immeubles de rapport"
+    },
+    "233": {
+      "intermediate_category": "FA_INSTALL",
+      "account_name": "OUVRAGES D'INFRASTRUCTURE"
+    },
+    "2331": {
+      "intermediate_category": "FA_INSTALL",
+      "account_name": "Voies de terre"
+    },
+    "2332": {
+      "intermediate_category": "FA_INSTALL",
+      "account_name": "Voies de fer"
+    },
+    "2333": {
+      "intermediate_category": "FA_INSTALL",
+      "account_name": "Voies d'eau"
+    },
+    "2334": {
+      "intermediate_category": "FA_INSTALL",
+      "account_name": "Barrages, Digues"
+    },
+    "2335": {
+      "intermediate_category": "FA_INSTALL",
+      "account_name": "Pistes d'aérodrome"
+    },
+    "2338": {
+      "intermediate_category": "FA_INSTALL",
+      "account_name": "Autres"
+    },
+    "234": {
+      "intermediate_category": "FA_INSTALL",
+      "account_name": "INSTALLATIONS TECHNIQUES"
+    },
+    "2341": {
+      "intermediate_category": "FA_INSTALL",
+      "account_name": "Installations complexes spécialisées sur sol propre"
+    },
+    "2342": {
+      "intermediate_category": "FA_INSTALL",
+      "account_name": "Installations complexes spécialisées sur sol d'autrui"
+    },
+    "2343": {
+      "intermediate_category": "FA_INSTALL",
+      "account_name": "Installations à caractère spécifique sur sol propre"
+    },
+    "2344": {
+      "intermediate_category": "FA_INSTALL",
+      "account_name": "Installations à caractère spécifique sur sol d'autrui"
+    },
+    "235": {
+      "intermediate_category": "FA_INSTALL",
+      "account_name": "AMÉNAGEMENTS DE BUREAUX"
+    },
+    "2351": {
+      "intermediate_category": "FA_INSTALL",
+      "account_name": "Installations générales"
+    },
+    "2358": {
+      "intermediate_category": "FA_INSTALL",
+      "account_name": "Autres"
+    },
+    "237": {
+      "intermediate_category": "FA_INSTALL",
+      "account_name": "BÂTIMENTS INDUSTRIELS, AGRICOLES ET COMMERCIAUX MIS EN CONCESSION"
+    },
+    "238": {
+      "intermediate_category": "FA_INSTALL",
+      "account_name": "AUTRES INSTALLATIONS ET AGENCEMENTS"
+    },
+    "239": {
+      "intermediate_category": "FA_INSTALL",
+      "account_name": "BÂTIMENTS ET INSTALLATIONS EN COURS"
+    },
+    "241": {
+      "intermediate_category": "FA_EQUIPMENT",
+      "account_name": "MATÉRIEL ET OUTILLAGE INDUSTRIEL ET COMMERCIAL"
+    },
+    "2411": {
+      "intermediate_category": "FA_EQUIPMENT",
+      "account_name": "Matériel industriel"
+    },
+    "2412": {
+      "intermediate_category": "FA_EQUIPMENT",
+      "account_name": "Outillage industriel"
+    },
+    "2413": {
+      "intermediate_category": "FA_EQUIPMENT",
+      "account_name": "Matériel commercial"
+    },
+    "2414": {
+      "intermediate_category": "FA_EQUIPMENT",
+      "account_name": "Outillage commercial"
+    },
+    "242": {
+      "intermediate_category": "FA_EQUIPMENT",
+      "account_name": "MATÉRIEL ET OUTILLAGE AGRICOLE"
+    },
+    "2421": {
+      "intermediate_category": "FA_EQUIPMENT",
+      "account_name": "Matériel agricole"
+    },
+    "2422": {
+      "intermediate_category": "FA_EQUIPMENT",
+      "account_name": "Outillage agricole"
+    },
+    "243": {
+      "intermediate_category": "FA_EQUIPMENT",
+      "account_name": "MATÉRIEL D'EMBALLAGE RÉCUPÉRABLE ET IDENTIFIABLE"
+    },
+    "244": {
+      "intermediate_category": "FA_EQUIPMENT",
+      "account_name": "MATÉRIEL ET MOBILIER"
+    },
+    "2441": {
+      "intermediate_category": "FA_EQUIPMENT",
+      "account_name": "Matériel de bureau"
+    },
+    "2442": {
+      "intermediate_category": "FA_EQUIPMENT",
+      "account_name": "Matériel informatique"
+    },
+    "2443": {
+      "intermediate_category": "FA_EQUIPMENT",
+      "account_name": "Matériel bureautique"
+    },
+    "2444": {
+      "intermediate_category": "FA_EQUIPMENT",
+      "account_name": "Mobilier de bureau"
+    },
+    "2446": {
+      "intermediate_category": "FA_EQUIPMENT",
+      "account_name": "Matériel et mobilier des immeubles de rapport"
+    },
+    "2447": {
+      "intermediate_category": "FA_EQUIPMENT",
+      "account_name": "Matériel et mobilier des logements du personnel"
+    },
+    "245": {
+      "intermediate_category": "FA_EQUIPMENT",
+      "account_name": "MATÉRIEL DE TRANSPORT"
+    },
+    "2451": {
+      "intermediate_category": "FA_EQUIPMENT",
+      "account_name": "Matériel automobile"
+    },
+    "2452": {
+      "intermediate_category": "FA_EQUIPMENT",
+      "account_name": "Matériel ferroviaire"
+    },
+    "2453": {
+      "intermediate_category": "FA_EQUIPMENT",
+      "account_name": "Matériel fluvial, lagunaire"
+    },
+    "2454": {
+      "intermediate_category": "FA_EQUIPMENT",
+      "account_name": "Matériel naval"
+    },
+    "2455": {
+      "intermediate_category": "FA_EQUIPMENT",
+      "account_name": "Matériel aérien"
+    },
+    "2456": {
+      "intermediate_category": "FA_EQUIPMENT",
+      "account_name": "Matériel hippomobile"
+    },
+    "2458": {
+      "intermediate_category": "FA_EQUIPMENT",
+      "account_name": "Autres"
+    },
+    "246": {
+      "intermediate_category": "FA_EQUIPMENT",
+      "account_name": "IMMOBILISATIONS ANIMALES ET AGRICOLES"
+    },
+    "2461": {
+      "intermediate_category": "FA_EQUIPMENT",
+      "account_name": "Cheptel, animaux de trait"
+    },
+    "2462": {
+      "intermediate_category": "FA_EQUIPMENT",
+      "account_name": "Cheptel, animaux reproducteurs"
+    },
+    "2463": {
+      "intermediate_category": "FA_EQUIPMENT",
+      "account_name": "Animaux de garde"
+    },
+    "2465": {
+      "intermediate_category": "FA_EQUIPMENT",
+      "account_name": "Plantations agricoles"
+    },
+    "2468": {
+      "intermediate_category": "FA_EQUIPMENT",
+      "account_name": "Autres"
+    },
+    "247": {
+      "intermediate_category": "FA_EQUIPMENT",
+      "account_name": "AGENCEMENTS ET AMÉNAGEMENTS DU MATÉRIEL"
+    },
+    "248": {
+      "intermediate_category": "FA_EQUIPMENT",
+      "account_name": "AUTRES MATÉRIELS"
+    },
+    "2481": {
+      "intermediate_category": "FA_EQUIPMENT",
+      "account_name": "Collections et œuvres d'art"
+    },
+    "249": {
+      "intermediate_category": "FA_EQUIPMENT",
+      "account_name": "MATÉRIEL EN COURS"
+    },
+    "2491": {
+      "intermediate_category": "FA_EQUIPMENT",
+      "account_name": "Matériel et outillage industriel et commercial"
+    },
+    "2492": {
+      "intermediate_category": "FA_EQUIPMENT",
+      "account_name": "Matériel et outillage agricole"
+    },
+    "2493": {
+      "intermediate_category": "FA_EQUIPMENT",
+      "account_name": "Matériel d'emballage récupérable et identifiable"
+    },
+    "2494": {
+      "intermediate_category": "FA_EQUIPMENT",
+      "account_name": "Matériel et mobilier de bureau"
+    },
+    "2495": {
+      "intermediate_category": "FA_EQUIPMENT",
+      "account_name": "Matériel de transport"
+    },
+    "2496": {
+      "intermediate_category": "FA_EQUIPMENT",
+      "account_name": "Immobilisations animales et agricoles"
+    },
+    "2497": {
+      "intermediate_category": "FA_EQUIPMENT",
+      "account_name": "Agencements et aménagements du matériel"
+    },
+    "2498": {
+      "intermediate_category": "FA_EQUIPMENT",
+      "account_name": "Autres matériels"
+    },
+    "251": {
+      "intermediate_category": "FA_TRANSPORT",
+      "account_name": "AVANCES ET ACOMPTES VERSÉS SUR IMMOBILISATIONS INCORPORELLES"
+    },
+    "252": {
+      "intermediate_category": "FA_TRANSPORT",
+      "account_name": "AVANCES ET ACOMPTES VERSÉS SUR IMMOBILISATIONS CORPORELLES"
+    },
+    "261": {
+      "intermediate_category": "FA_FURNITURE",
+      "account_name": "TITRES DE PARTICIPATION DANS DES SOCIÉTÉS SOUS CONTRÔLE EXCLUSIF"
+    },
+    "262": {
+      "intermediate_category": "FA_FURNITURE",
+      "account_name": "TITRES DE PARTICIPATION DANS DES SOCIÉTÉS SOUS CONTRÔLE CONJOINT"
+    },
+    "263": {
+      "intermediate_category": "FA_FURNITURE",
+      "account_name": "TITRES DE PARTICIPATION DANS DES SOCIÉTÉS CONFÉRANT UNE INFLUENCE NOTABLE"
+    },
+    "265": {
+      "intermediate_category": "FA_FURNITURE",
+      "account_name": "PARTICIPATIONS DANS DES ORGANISMES PROFESSIONNELS"
+    },
+    "266": {
+      "intermediate_category": "FA_FURNITURE",
+      "account_name": "PARTS DANS DES GROUPEMENTS D'INTÉRÊT ÉCONOMIQUE"
+    },
+    "268": {
+      "intermediate_category": "FA_FURNITURE",
+      "account_name": "AUTRES TITRES DE PARTICIPATION"
+    },
+    "271": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "PRÊTS ET CRÉANCES NON COMMERCIALES"
+    },
+    "2711": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "Prêts participatifs"
+    },
+    "2712": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "Prêts aux associés"
+    },
+    "2713": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "Billets de fonds"
+    },
+    "2714": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "Titres prêtés"
+    },
+    "272": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "PRÊTS AU PERSONNEL"
+    },
+    "2721": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "Prêts immobiliers"
+    },
+    "2722": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "Prêts mobiliers et d'installation"
+    },
+    "2728": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "Autres prêts"
+    },
+    "273": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "CRÉANCES SUR L'ÉTAT"
+    },
+    "2731": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "Retenues de garantie"
+    },
+    "2733": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "Fonds réglementé"
+    },
+    "2738": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "Autres"
+    },
+    "274": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "TITRES IMMOBILISÉS"
+    },
+    "2741": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "Titres immobilisés de l'activité de portefeuille"
+    },
+    "2742": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "Titres participatifs"
+    },
+    "2743": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "Certificats d'investissement"
+    },
+    "2744": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "Parts de fonds commun de placement"
+    },
+    "2748": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "Autres titres immobilisés"
+    },
+    "275": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "DÉPÔTS ET CAUTIONNEMENTS VERSÉS"
+    },
+    "2751": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "Dépôts pour loyers d'avance"
+    },
+    "2752": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "Dépôts pour l'électricité"
+    },
+    "2753": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "Dépôts pour l'eau"
+    },
+    "2754": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "Dépôts pour le gaz"
+    },
+    "2755": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "Dépôts pour le téléphone, le télex, la télécopie"
+    },
+    "2756": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "Cautionnements sur marchés publics"
+    },
+    "2757": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "Cautionnements sur autres opérations"
+    },
+    "2758": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "Autres dépôts et cautionnements"
+    },
+    "276": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "INTÉRÊTS COURUS"
+    },
+    "2761": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "Prêts et créances non commerciales"
+    },
+    "2762": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "Prêts au personnel"
+    },
+    "2763": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "Créances sur l'Etat"
+    },
+    "2764": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "Titres immobilisés"
+    },
+    "2765": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "Dépôts et cautionnements versés"
+    },
+    "2767": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "Créances rattachées à des participations"
+    },
+    "2768": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "Immobilisations financières diverses"
+    },
+    "277": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "CRÉANCES RATTACHÉES À DES PARTICIPATIONS ET AVANCES À DES G.I.E."
+    },
+    "2771": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "Créances rattachées à des participations"
+    },
+    "2772": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "Créances rattachées à des participations"
+    },
+    "2773": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "Créances rattachées à des sociétés en participation"
+    },
+    "2774": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "Avances à des Groupements d'intérêt économique"
+    },
+    "278": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "IMMOBILISATIONS FINANCIÈRES DIVERSES"
+    },
+    "2781": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "Créances diverses groupe"
+    },
+    "2782": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "Créances divers hors groupe"
+    },
+    "2785": {
+      "intermediate_category": "FA_AMORTIZATION",
+      "account_name": "Or et métaux précieux"
+    },
+    "281": {
+      "intermediate_category": "FA_FINANCIAL",
+      "account_name": "AMORTISSEMENTS DES IMMOBILISATIONS INCORPORELLES"
+    },
+    "2811": {
+      "intermediate_category": "FA_FINANCIAL",
+      "account_name": "Amortissements des frais de recherche et de développement"
+    },
+    "2812": {
+      "intermediate_category": "FA_FINANCIAL",
+      "account_name": "Amortissements des brevets, licences, concessions et droits similaires"
+    },
+    "2813": {
+      "intermediate_category": "FA_FINANCIAL",
+      "account_name": "Amortissements des logiciels"
+    },
+    "2814": {
+      "intermediate_category": "FA_FINANCIAL",
+      "account_name": "Amortissements des marques"
+    },
+    "2815": {
+      "intermediate_category": "FA_FINANCIAL",
+      "account_name": "Amortissements du fonds commercial"
+    },
+    "2816": {
+      "intermediate_category": "FA_FINANCIAL",
+      "account_name": "Amortissements du droit au bail"
+    },
+    "2817": {
+      "intermediate_category": "FA_FINANCIAL",
+      "account_name": "Amortissements des investissements de création"
+    },
+    "2818": {
+      "intermediate_category": "FA_FINANCIAL",
+      "account_name": "Amortissements des autres droits et valeurs incorporels"
+    },
+    "282": {
+      "intermediate_category": "FA_FINANCIAL",
+      "account_name": "AMORTISSEMENTS DES TERRAINS"
+    },
+    "2821": {
+      "intermediate_category": "FA_FINANCIAL",
+      "account_name": "Amortissements des terrains agricoles et forestiers"
+    },
+    "2824": {
+      "intermediate_category": "FA_FINANCIAL",
+      "account_name": "Amortissements des travaux de mise en valeur des terrains"
+    },
+    "2825": {
+      "intermediate_category": "FA_FINANCIAL",
+      "account_name": "Amortissements des terrains de gisement"
+    },
+    "283": {
+      "intermediate_category": "FA_FINANCIAL",
+      "account_name": "AMORTISSEMENTS DES BÂTIMENTS, INSTALLATIONS TECHNIQUES ET AGENCEMENTS"
+    },
+    "2831": {
+      "intermediate_category": "FA_FINANCIAL",
+      "account_name": "Amortissements des bâtiments industriels, agricoles, administratifs et commerciaux sur sol propre"
+    },
+    "2832": {
+      "intermediate_category": "FA_FINANCIAL",
+      "account_name": "Amortissements des bâtiments industriels, agricoles, administratifs et commerciaux sur sol d'autrui"
+    },
+    "2833": {
+      "intermediate_category": "FA_FINANCIAL",
+      "account_name": "Amortissements des ouvrages d'infrastructure"
+    },
+    "2834": {
+      "intermediate_category": "FA_FINANCIAL",
+      "account_name": "Amortissements des installations techniques"
+    },
+    "2835": {
+      "intermediate_category": "FA_FINANCIAL",
+      "account_name": "Amortissements des aménagements de bureaux"
+    },
+    "2837": {
+      "intermediate_category": "FA_FINANCIAL",
+      "account_name": "Amortissements des bâtiments industriels, agricoles et commerciaux mis en concession"
+    },
+    "2838": {
+      "intermediate_category": "FA_FINANCIAL",
+      "account_name": "Amortissements des autres installations et agencements"
+    },
+    "284": {
+      "intermediate_category": "FA_FINANCIAL",
+      "account_name": "AMORTISSEMENTS DU MATÉRIEL"
+    },
+    "2841": {
+      "intermediate_category": "FA_FINANCIAL",
+      "account_name": "Amortissements du matériel et outillage industriel et commercial"
+    },
+    "2842": {
+      "intermediate_category": "FA_FINANCIAL",
+      "account_name": "Amortissements du matériel et outillage agricole"
+    },
+    "2843": {
+      "intermediate_category": "FA_FINANCIAL",
+      "account_name": "Amortissements du matériel d'emballage récupérable et identifiable"
+    },
+    "2844": {
+      "intermediate_category": "FA_FINANCIAL",
+      "account_name": "Amortissements du matériel et mobilier"
+    },
+    "2845": {
+      "intermediate_category": "FA_FINANCIAL",
+      "account_name": "Amortissements du matériel de transport"
+    },
+    "2846": {
+      "intermediate_category": "FA_FINANCIAL",
+      "account_name": "Amortissements des immobilisations animales et agricoles"
+    },
+    "2847": {
+      "intermediate_category": "FA_FINANCIAL",
+      "account_name": "Amortissements des agencements et aménagements du matériel"
+    },
+    "2848": {
+      "intermediate_category": "FA_FINANCIAL",
+      "account_name": "Amortissements des autres matériels"
+    },
+    "291": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "PROVISIONS POUR DÉPRÉCIATION DES IMMOBILISATIONS INCORPORELLES"
+    },
+    "2912": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation des brevets, licences, concessions et droits similaires"
+    },
+    "2913": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation des logiciels"
+    },
+    "2914": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation des marques"
+    },
+    "2915": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation du fonds commercial"
+    },
+    "2916": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation du droit au bail"
+    },
+    "2917": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation des investissements de création"
+    },
+    "2918": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation des autres droits et valeurs incorporels"
+    },
+    "2919": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation des immobilisations incorporelles en cours"
+    },
+    "292": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "PROVISIONS POUR DÉPRÉCIATION DES TERRAINS"
+    },
+    "2921": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation des terrains agrícolas et forestiers"
+    },
+    "2922": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation des terrains nus"
+    },
+    "2923": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation des terrains bâtis"
+    },
+    "2924": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation des travaux de mise en valeur des terrains"
+    },
+    "2925": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation des terrains de gisement"
+    },
+    "2926": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation des terrains aménagés"
+    },
+    "2927": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation des terrains mis en concession"
+    },
+    "2928": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation des autres terrains"
+    },
+    "2929": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation des aménagements de terrains en cours"
+    },
+    "293": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "PROVISIONS POUR DÉPRÉCIATION DES BÂTIMENTS, INSTALLATIONS TECHNIQUES ET AGENCEMENTS"
+    },
+    "2931": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation des bâtiments industriels, agricoles, administratifs et commerciaux sur sol propre"
+    },
+    "2932": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation des bâtiments industriels, agricoles, administratifs et commerciaux sur sol d'autrui"
+    },
+    "2933": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation des ouvrages d'infrastructures"
+    },
+    "2934": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation des installations techniques"
+    },
+    "2935": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation des aménagements de bureaux"
+    },
+    "2937": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation des bâtiments industriels, agricoles et commerciaux mis en concession"
+    },
+    "2938": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation des autres installations et agencements"
+    },
+    "2939": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation des bâtiments et installations en cours"
+    },
+    "294": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "PROVISIONS POUR DÉPRÉCIATION DE MATÉRIEL"
+    },
+    "2941": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation du matériel et outillage industriel et commercial"
+    },
+    "2942": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation du matériel et outillage agricole"
+    },
+    "2943": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation du matériel d'emballage récupérable et identifiable"
+    },
+    "2944": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation du matériel et mobilier"
+    },
+    "2945": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation du matériel de transport"
+    },
+    "2946": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation des immobilisations animales et agricoles"
+    },
+    "2947": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation des agencements et aménagements du matériel"
+    },
+    "2948": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation des autres matériels"
+    },
+    "2949": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation de matériel en cours"
+    },
+    "295": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "PROVISIONS POUR DÉPRÉCIATION DES AVANCES ET ACOMPTES VERSÉS SUR IMMOBILISATIONS"
+    },
+    "2951": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation des avances et acomptes versés sur immobilisations incorporelles"
+    },
+    "2952": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation des avances et acomptes versés sur immobilisations corporelles"
+    },
+    "296": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "PROVISIONS POUR DÉPRÉCIATION DES TITRES DE PARTICIPATION"
+    },
+    "2961": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation des titres de participation dans des sociétés sous contrôle exclusif"
+    },
+    "2962": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation des titres de participation dans les sociétés sous contrôle conjoint"
+    },
+    "2963": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation des titres de participation dans les sociétés conférant une influence notable"
+    },
+    "2965": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation des participations dans des organismes professionnels"
+    },
+    "2966": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation des parts dans des GIE"
+    },
+    "2968": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation des autres titres de participation"
+    },
+    "297": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "PROVISIONS POUR DÉPRÉCIATION DES AUTRES IMMOBILISATIONS FINANCIÈRES"
+    },
+    "2971": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation des prêts et créances non commerciales"
+    },
+    "2972": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation des prêts au personnel"
+    },
+    "2973": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation des créances sur l'Etat"
+    },
+    "2974": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation des titres immobilisés"
+    },
+    "2975": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation des dépôts et cautionnements versés"
+    },
+    "2977": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation des créances rattachées à des participations et avances à des GIE"
+    },
+    "2978": {
+      "intermediate_category": "FA_DEPRECIATION",
+      "account_name": "Provisions pour dépréciation des créances financières diverses"
+    },
+    "311": {
+      "intermediate_category": "CA_INVENTORY",
+      "account_name": "MARCHANDISES A"
+    },
+    "3111": {
+      "intermediate_category": "CA_INVENTORY",
+      "account_name": "Marchandises A1"
+    },
+    "3112": {
+      "intermediate_category": "CA_INVENTORY",
+      "account_name": "Marchandises A2"
+    },
+    "312": {
+      "intermediate_category": "CA_INVENTORY",
+      "account_name": "MARCHANDISES B"
+    },
+    "3121": {
+      "intermediate_category": "CA_INVENTORY",
+      "account_name": "Marchandises B1"
+    },
+    "3122": {
+      "intermediate_category": "CA_INVENTORY",
+      "account_name": "Marchandises B2"
+    },
+    "318": {
+      "intermediate_category": "CA_INVENTORY",
+      "account_name": "MARCHANDISES HORS ACTIVITÉS ORDINAIRES"
+    },
+    "321": {
+      "intermediate_category": "CA_RECEIVABLES",
+      "account_name": "MATIÈRES A"
+    },
+    "322": {
+      "intermediate_category": "CA_RECEIVABLES",
+      "account_name": "MATIÈRES B"
+    },
+    "323": {
+      "intermediate_category": "CA_RECEIVABLES",
+      "account_name": "FOURNITURES"
+    },
+    "331": {
+      "intermediate_category": "CA_PREPAID",
+      "account_name": "MATIÈRES CONSOMMABLES"
+    },
+    "332": {
+      "intermediate_category": "CA_PREPAID",
+      "account_name": "FOURNITURES D'ATELIER ET D'USINE"
+    },
+    "333": {
+      "intermediate_category": "CA_PREPAID",
+      "account_name": "FOURNITURES DE MAGASIN"
+    },
+    "334": {
+      "intermediate_category": "CA_PREPAID",
+      "account_name": "FOURNITURES DE BUREAU"
+    },
+    "335": {
+      "intermediate_category": "CA_PREPAID",
+      "account_name": "EMBALLAGES"
+    },
+    "3351": {
+      "intermediate_category": "CA_PREPAID",
+      "account_name": "Emballages perdus"
+    },
+    "3352": {
+      "intermediate_category": "CA_PREPAID",
+      "account_name": "Emballages récupérables non identifiables"
+    },
+    "3353": {
+      "intermediate_category": "CA_PREPAID",
+      "account_name": "Emballages à usage mixte"
+    },
+    "3358": {
+      "intermediate_category": "CA_PREPAID",
+      "account_name": "Autres emballages"
+    },
+    "338": {
+      "intermediate_category": "CA_PREPAID",
+      "account_name": "AUTRES MATIÈRES"
+    },
+    "341": {
+      "intermediate_category": "CA_CASH",
+      "account_name": "PRODUITS EN COURS"
+    },
+    "3411": {
+      "intermediate_category": "CA_CASH",
+      "account_name": "Produits en cours P1"
+    },
+    "3412": {
+      "intermediate_category": "CA_CASH",
+      "account_name": "Produits en cours P2"
+    },
+    "342": {
+      "intermediate_category": "CA_CASH",
+      "account_name": "TRAVAUX EN COURS"
+    },
+    "3421": {
+      "intermediate_category": "CA_CASH",
+      "account_name": "Travaux en cours T1"
+    },
+    "3422": {
+      "intermediate_category": "CA_CASH",
+      "account_name": "Travaux en cours T2"
+    },
+    "343": {
+      "intermediate_category": "CA_CASH",
+      "account_name": "PRODUITS INTERMÉDIAIRES EN COURS"
+    },
+    "3431": {
+      "intermediate_category": "CA_CASH",
+      "account_name": "Produits intermédiaires A"
+    },
+    "3432": {
+      "intermediate_category": "CA_CASH",
+      "account_name": "Produits intermédiaires B"
+    },
+    "344": {
+      "intermediate_category": "CA_CASH",
+      "account_name": "PRODUITS RÉSIDUELS EN COURS"
+    },
+    "3441": {
+      "intermediate_category": "CA_CASH",
+      "account_name": "Produits résiduels A"
+    },
+    "3442": {
+      "intermediate_category": "CA_CASH",
+      "account_name": "Produits résiduels B"
+    },
+    "351": {
+      "intermediate_category": "CA_CASH",
+      "account_name": "ÉTUDES EN COURS"
+    },
+    "3511": {
+      "intermediate_category": "CA_CASH",
+      "account_name": "Études en cours E1"
+    },
+    "3512": {
+      "intermediate_category": "CA_CASH",
+      "account_name": "Études en cours E2"
+    },
+    "352": {
+      "intermediate_category": "CA_CASH",
+      "account_name": "PRESTATIONS DE SERVICES EN COURS"
+    },
+    "3521": {
+      "intermediate_category": "CA_CASH",
+      "account_name": "Prestations de services S1"
+    },
+    "3522": {
+      "intermediate_category": "CA_CASH",
+      "account_name": "Prestations de services S2"
+    },
+    "361": {
+      "intermediate_category": "CA_CASH",
+      "account_name": "PRODUITS FINIS A"
+    },
+    "362": {
+      "intermediate_category": "CA_CASH",
+      "account_name": "PRODUITS FINIS B"
+    },
+    "371": {
+      "intermediate_category": "CA_CASH",
+      "account_name": "PRODUITS INTERMÉDIAIRES"
+    },
+    "3711": {
+      "intermediate_category": "CA_CASH",
+      "account_name": "Produits intermédiaires A"
+    },
+    "3712": {
+      "intermediate_category": "CA_CASH",
+      "account_name": "Produits intermédiaires B"
+    },
+    "372": {
+      "intermediate_category": "CA_CASH",
+      "account_name": "PRODUITS RÉSIDUELS"
+    },
+    "3721": {
+      "intermediate_category": "CA_CASH",
+      "account_name": "Déchets"
+    },
+    "3722": {
+      "intermediate_category": "CA_CASH",
+      "account_name": "Rebuts"
+    },
+    "3723": {
+      "intermediate_category": "CA_CASH",
+      "account_name": "Matières de Récupération"
+    },
+    "381": {
+      "intermediate_category": "CA_OTHER",
+      "account_name": "MARCHANDISES EN COURS DE ROUTE"
+    },
+    "382": {
+      "intermediate_category": "CA_OTHER",
+      "account_name": "MATIÈRES PREMIÈRES ET FOURNITURES LIÉES EN COURS DE ROUTE"
+    },
+    "383": {
+      "intermediate_category": "CA_OTHER",
+      "account_name": "AUTRES APPROVISIONNEMENTS EN COURS DE ROUTE"
+    },
+    "386": {
+      "intermediate_category": "CA_OTHER",
+      "account_name": "PRODUITS FINIS EN COURS DE ROUTE"
+    },
+    "387": {
+      "intermediate_category": "CA_OTHER",
+      "account_name": "STOCK EN CONSIGNATION OU EN DÉPÔT"
+    },
+    "3871": {
+      "intermediate_category": "CA_OTHER",
+      "account_name": "Stock en consignation"
+    },
+    "3872": {
+      "intermediate_category": "CA_OTHER",
+      "account_name": "Stock en dépôt"
+    },
+    "388": {
+      "intermediate_category": "CA_OTHER",
+      "account_name": "STOCK PROVENANT D'IMMOBILISATIONS MISES HORS SERVICE OU AU REBUT"
+    },
+    "391": {
+      "intermediate_category": "CA_OTHER",
+      "account_name": "DÉPRéciations DES STOCKS DE MARCHANDISES"
+    },
+    "392": {
+      "intermediate_category": "CA_OTHER",
+      "account_name": "DÉPRéciations DES STOCKS DE MATIÈRES PREMIÈRES ET FOURNITURES LIÉES"
+    },
+    "393": {
+      "intermediate_category": "CA_OTHER",
+      "account_name": "DÉPRéciations DES STOCKS D'AUTRES APPROVISIONNEMENTS"
+    },
+    "394": {
+      "intermediate_category": "CA_OTHER",
+      "account_name": "DÉPRéciations DES PRODUCTIONS EN COURS"
+    },
+    "395": {
+      "intermediate_category": "CA_OTHER",
+      "account_name": "DÉPRéciations DES SERVICES EN COURS"
+    },
+    "396": {
+      "intermediate_category": "CA_OTHER",
+      "account_name": "DÉPRéciations DES STOCKS DE PRODUITS FINIS"
+    },
+    "397": {
+      "intermediate_category": "CA_OTHER",
+      "account_name": "DÉPRéciations DES STOCKS DE PRODUITS INTERMÉDIAIRES ET RÉSIDUELS"
+    },
+    "398": {
+      "intermediate_category": "CA_OTHER",
+      "account_name": "DÉPRéciations DES STOCKS EN COURS DE ROUTE, EN CONSIGNATION OU EN DÉPÔT"
+    },
+    "401": {
+      "intermediate_category": "LI_SUPPLIERS",
+      "account_name": "FOURNISSEURS, DETTES EN COMPTE"
+    },
+    "4011": {
+      "intermediate_category": "LI_SUPPLIERS",
+      "account_name": "Fournisseurs"
+    },
+    "4012": {
+      "intermediate_category": "LI_SUPPLIERS",
+      "account_name": "Fournisseurs Groupe"
+    },
+    "4013": {
+      "intermediate_category": "LI_SUPPLIERS",
+      "account_name": "Fournisseurs sous-traitants"
+    },
+    "4017": {
+      "intermediate_category": "LI_SUPPLIERS",
+      "account_name": "Fournisseur, retenues de garantie"
+    },
+    "402": {
+      "intermediate_category": "LI_SUPPLIERS",
+      "account_name": "FOURNISSEURS, EFFETS À PAYER"
+    },
+    "4021": {
+      "intermediate_category": "LI_SUPPLIERS",
+      "account_name": "Fournisseurs, Effets à payer"
+    },
+    "4022": {
+      "intermediate_category": "LI_SUPPLIERS",
+      "account_name": "Fournisseurs - Groupe, Effets à payer"
+    },
+    "4023": {
+      "intermediate_category": "LI_SUPPLIERS",
+      "account_name": "Fournisseurs sous-traitants, Effets à payer"
+    },
+    "408": {
+      "intermediate_category": "LI_SUPPLIERS",
+      "account_name": "FOURNISSEURS, FACTURES NON PARVENUES"
+    },
+    "4081": {
+      "intermediate_category": "LI_SUPPLIERS",
+      "account_name": "Fournisseurs"
+    },
+    "4082": {
+      "intermediate_category": "LI_SUPPLIERS",
+      "account_name": "Fournisseurs - Groupe"
+    },
+    "4083": {
+      "intermediate_category": "LI_SUPPLIERS",
+      "account_name": "Fournisseurs sous-traitants"
+    },
+    "4086": {
+      "intermediate_category": "LI_SUPPLIERS",
+      "account_name": "Fournisseurs, intérêts courus"
+    },
+    "409": {
+      "intermediate_category": "LI_SUPPLIERS",
+      "account_name": "FOURNISSEURS DÉBITEURS"
+    },
+    "4091": {
+      "intermediate_category": "LI_SUPPLIERS",
+      "account_name": "Fournisseurs avances et acomptes versés"
+    },
+    "4092": {
+      "intermediate_category": "LI_SUPPLIERS",
+      "account_name": "Fournisseurs - Groupe avances et acomptes versés"
+    },
+    "4093": {
+      "intermediate_category": "LI_SUPPLIERS",
+      "account_name": "Fournisseurs sous-traitants avances et acomptes versés"
+    },
+    "4094": {
+      "intermediate_category": "LI_SUPPLIERS",
+      "account_name": "Fournisseurs créances pour emballages et matériels à rendre"
+    },
+    "4098": {
+      "intermediate_category": "LI_SUPPLIERS",
+      "account_name": "Rabais, Remises, Ristournes et autres avoirs à obtenir"
+    },
+    "411": {
+      "intermediate_category": "LI_PERSONNEL",
+      "account_name": "CLIENTS"
+    },
+    "4111": {
+      "intermediate_category": "LI_PERSONNEL",
+      "account_name": "Clients"
+    },
+    "4112": {
+      "intermediate_category": "LI_PERSONNEL",
+      "account_name": "Clients - Groupe"
+    },
+    "4114": {
+      "intermediate_category": "LI_PERSONNEL",
+      "account_name": "Clients, État et Collectivités publiques"
+    },
+    "4115": {
+      "intermediate_category": "LI_PERSONNEL",
+      "account_name": "Clients, organismes internationaux"
+    },
+    "4117": {
+      "intermediate_category": "LI_PERSONNEL",
+      "account_name": "Client, retenues de garantie"
+    },
+    "4118": {
+      "intermediate_category": "LI_PERSONNEL",
+      "account_name": "Clients, dégrèvement de Taxes sur la Valeur Ajoutée"
+    },
+    "412": {
+      "intermediate_category": "LI_PERSONNEL",
+      "account_name": "CLIENTS, EFFETS À RECEVOIR EN PORTEFEUILLE"
+    },
+    "4121": {
+      "intermediate_category": "LI_PERSONNEL",
+      "account_name": "Clients, Effets à recevoir"
+    },
+    "4122": {
+      "intermediate_category": "LI_PERSONNEL",
+      "account_name": "Clients - Groupe, Effets à recevoir"
+    },
+    "4124": {
+      "intermediate_category": "LI_PERSONNEL",
+      "account_name": "État et Collectivités publiques, Effets à recevoir"
+    },
+    "4125": {
+      "intermediate_category": "LI_PERSONNEL",
+      "account_name": "Organismes Internationaux, Effets à recevoir"
+    },
+    "414": {
+      "intermediate_category": "LI_PERSONNEL",
+      "account_name": "CRÉANCES SUR CESSIONS D'IMMOBILISATIONS"
+    },
+    "4141": {
+      "intermediate_category": "LI_PERSONNEL",
+      "account_name": "Créances en compte"
+    },
+    "4142": {
+      "intermediate_category": "LI_PERSONNEL",
+      "account_name": "Effets à recevoir"
+    },
+    "415": {
+      "intermediate_category": "LI_PERSONNEL",
+      "account_name": "CLIENTS, EFFETS ESCOMPTÉS NON ÉCHUS"
+    },
+    "416": {
+      "intermediate_category": "LI_PERSONNEL",
+      "account_name": "CRÉANCES CLIENTS LITIGIEUSES OU DOUTEUSES"
+    },
+    "4161": {
+      "intermediate_category": "LI_PERSONNEL",
+      "account_name": "Créances litigieuses"
+    },
+    "4162": {
+      "intermediate_category": "LI_PERSONNEL",
+      "account_name": "Créances douteuses"
+    },
+    "418": {
+      "intermediate_category": "LI_PERSONNEL",
+      "account_name": "CLIENTS, PRODUITS À RECEVOIR"
+    },
+    "4181": {
+      "intermediate_category": "LI_PERSONNEL",
+      "account_name": "Clients, factures à établir"
+    },
+    "4186": {
+      "intermediate_category": "LI_PERSONNEL",
+      "account_name": "Clients, intérêts courus"
+    },
+    "419": {
+      "intermediate_category": "LI_PERSONNEL",
+      "account_name": "CLIENTS CRÉDITEURS"
+    },
+    "4191": {
+      "intermediate_category": "LI_PERSONNEL",
+      "account_name": "Clients, avances et acomptes reçus"
+    },
+    "4192": {
+      "intermediate_category": "LI_PERSONNEL",
+      "account_name": "Clients - Groupe, avances et acomptes reçus"
+    },
+    "4194": {
+      "intermediate_category": "LI_PERSONNEL",
+      "account_name": "Clients, dettes pour emballages et matériels consignés"
+    },
+    "4198": {
+      "intermediate_category": "LI_PERSONNEL",
+      "account_name": "Rabais, Remises, Ristournes et autres avoirs à accorder"
+    },
+    "421": {
+      "intermediate_category": "LI_TAXES",
+      "account_name": "PERSONNEL, AVANCES ET ACOMPTES"
+    },
+    "4211": {
+      "intermediate_category": "LI_TAXES",
+      "account_name": "Personnel, avances"
+    },
+    "4212": {
+      "intermediate_category": "LI_TAXES",
+      "account_name": "Personnel, acomptes"
+    },
+    "4213": {
+      "intermediate_category": "LI_TAXES",
+      "account_name": "Frais avancés et fournitures au personnel"
+    },
+    "422": {
+      "intermediate_category": "LI_TAXES",
+      "account_name": "PERSONNEL, RÉMUNÉRATIONS DUES"
+    },
+    "423": {
+      "intermediate_category": "LI_TAXES",
+      "account_name": "PERSONNEL, OPPOSITIONS, SAISIES-ARRÊTS"
+    },
+    "4231": {
+      "intermediate_category": "LI_TAXES",
+      "account_name": "Personnel, oppositions"
+    },
+    "4232": {
+      "intermediate_category": "LI_TAXES",
+      "account_name": "Personnel, saisies-arrêts"
+    },
+    "4233": {
+      "intermediate_category": "LI_TAXES",
+      "account_name": "Personnel, avis à tiers détenteur"
+    },
+    "424": {
+      "intermediate_category": "LI_TAXES",
+      "account_name": "PERSONNEL, ŒUVRES SOCIALES INTERNES"
+    },
+    "4241": {
+      "intermediate_category": "LI_TAXES",
+      "account_name": "Assistance médicale"
+    },
+    "4242": {
+      "intermediate_category": "LI_TAXES",
+      "account_name": "Allocations familiales"
+    },
+    "4245": {
+      "intermediate_category": "LI_TAXES",
+      "account_name": "Organismes sociaux rattachés à l'entreprise"
+    },
+    "4248": {
+      "intermediate_category": "LI_TAXES",
+      "account_name": "Autres œuvres sociales internes"
+    },
+    "425": {
+      "intermediate_category": "LI_TAXES",
+      "account_name": "REPRÉSENTANTS DU PERSONNEL"
+    },
+    "4251": {
+      "intermediate_category": "LI_TAXES",
+      "account_name": "Délégués du personnel"
+    },
+    "4252": {
+      "intermediate_category": "LI_TAXES",
+      "account_name": "Syndicats et Comités d'entreprises, d'Établissement"
+    },
+    "4258": {
+      "intermediate_category": "LI_TAXES",
+      "account_name": "Autres représentants du personnel"
+    },
+    "426": {
+      "intermediate_category": "LI_TAXES",
+      "account_name": "PERSONNEL, PARTICIPATION AUX BÉNÉFICES"
+    },
+    "427": {
+      "intermediate_category": "LI_TAXES",
+      "account_name": "PERSONNEL – DÉPÔTS"
+    },
+    "428": {
+      "intermediate_category": "LI_TAXES",
+      "account_name": "PERSONNEL, CHARGES À PAYER ET PRODUITS À RECEVOIR"
+    },
+    "4281": {
+      "intermediate_category": "LI_TAXES",
+      "account_name": "Dettes provisionnées pour congés à payer"
+    },
+    "4286": {
+      "intermediate_category": "LI_TAXES",
+      "account_name": "Autres Charges à payer"
+    },
+    "4287": {
+      "intermediate_category": "LI_TAXES",
+      "account_name": "Produits à recevoir"
+    },
+    "431": {
+      "intermediate_category": "LI_DEBT_LT",
+      "account_name": "SÉCURITÉ SOCIALE"
+    },
+    "4311": {
+      "intermediate_category": "LI_DEBT_LT",
+      "account_name": "Prestations familiales"
+    },
+    "4312": {
+      "intermediate_category": "LI_DEBT_LT",
+      "account_name": "Accidents de travail"
+    },
+    "4313": {
+      "intermediate_category": "LI_DEBT_LT",
+      "account_name": "Caisse de retraite obligatoire"
+    },
+    "4314": {
+      "intermediate_category": "LI_DEBT_LT",
+      "account_name": "Caisse de retraite facultative"
+    },
+    "4318": {
+      "intermediate_category": "LI_DEBT_LT",
+      "account_name": "Autres cotisations sociales"
+    },
+    "432": {
+      "intermediate_category": "LI_DEBT_LT",
+      "account_name": "CAISSES DE RETRAITE COMPLÉMENTAIRE"
+    },
+    "433": {
+      "intermediate_category": "LI_DEBT_LT",
+      "account_name": "AUTRES ORGANISMES SOCIAUX"
+    },
+    "4331": {
+      "intermediate_category": "LI_DEBT_LT",
+      "account_name": "Mutuelle"
+    },
+    "4334": {
+      "intermediate_category": "LI_DEBT_LT",
+      "account_name": "T.V.A. facturée sur production livrée à soi-même"
+    },
+    "4335": {
+      "intermediate_category": "LI_DEBT_LT",
+      "account_name": "T.V.A. sur factures à établir"
+    },
+    "438": {
+      "intermediate_category": "LI_DEBT_LT",
+      "account_name": "ORGANISMES SOCIAUX, CHARGES À PAYER ET PRODUITS À RECEVOIR"
+    },
+    "4381": {
+      "intermediate_category": "LI_DEBT_LT",
+      "account_name": "Charges sociales sur gratifications à payer"
+    },
+    "4382": {
+      "intermediate_category": "LI_DEBT_LT",
+      "account_name": "Charges sociales sur congés à payer"
+    },
+    "4386": {
+      "intermediate_category": "LI_DEBT_LT",
+      "account_name": "Autres charges à payer"
+    },
+    "4387": {
+      "intermediate_category": "LI_DEBT_LT",
+      "account_name": "Produits à recevoir"
+    },
+    "441": {
+      "intermediate_category": "LI_DEFERRED",
+      "account_name": "ÉTAT, IMPÔT SUR LES BÉNÉFICES"
+    },
+    "442": {
+      "intermediate_category": "LI_DEFERRED",
+      "account_name": "ÉTAT, AUTRES IMPÔTS ET TAXES"
+    },
+    "4421": {
+      "intermediate_category": "LI_DEFERRED",
+      "account_name": "Impôts et taxes d'Etat"
+    },
+    "4422": {
+      "intermediate_category": "LI_DEFERRED",
+      "account_name": "Impôts et taxes pour les collectivités publiques"
+    },
+    "4423": {
+      "intermediate_category": "LI_DEFERRED",
+      "account_name": "Impôts et taxes recouvrables sur des obligataires"
+    },
+    "4424": {
+      "intermediate_category": "LI_DEFERRED",
+      "account_name": "Impôts et taxes recouvrables sur des associés"
+    },
+    "4426": {
+      "intermediate_category": "LI_DEFERRED",
+      "account_name": "Droits de douane"
+    },
+    "4428": {
+      "intermediate_category": "LI_DEFERRED",
+      "account_name": "Autres impôts et taxes"
+    },
+    "443": {
+      "intermediate_category": "LI_DEFERRED",
+      "account_name": "ÉTAT, T.V.A. FACTURÉE"
+    },
+    "4431": {
+      "intermediate_category": "LI_DEFERRED",
+      "account_name": "T.V.A. facturée sur ventes"
+    },
+    "4432": {
+      "intermediate_category": "LI_DEFERRED",
+      "account_name": "T.V.A. facturée sur prestations de services"
+    },
+    "4433": {
+      "intermediate_category": "LI_DEFERRED",
+      "account_name": "T.V.A. facturée sur travaux"
+    },
+    "444": {
+      "intermediate_category": "LI_DEFERRED",
+      "account_name": "ÉTAT, T.V.A. DUE OU CRÉDIT DE T.V.A."
+    },
+    "4441": {
+      "intermediate_category": "LI_DEFERRED",
+      "account_name": "État, T.V.A. due"
+    },
+    "4449": {
+      "intermediate_category": "LI_DEFERRED",
+      "account_name": "État, crédit de T.V.A. à reporter"
+    },
+    "445": {
+      "intermediate_category": "LI_DEFERRED",
+      "account_name": "ÉTAT, T.V.A. RÉCUPÉRABLE"
+    },
+    "4451": {
+      "intermediate_category": "LI_DEFERRED",
+      "account_name": "T.V.A. récupérable sur immobilisations"
+    },
+    "4452": {
+      "intermediate_category": "LI_DEFERRED",
+      "account_name": "T.V.A. récupérable sur achats"
+    },
+    "4453": {
+      "intermediate_category": "LI_DEFERRED",
+      "account_name": "T.V.A. récupérable sur transport"
+    },
+    "4454": {
+      "intermediate_category": "LI_DEFERRED",
+      "account_name": "T.V.A. récupérable sur services extérieurs et autres charges"
+    },
+    "4455": {
+      "intermediate_category": "LI_DEFERRED",
+      "account_name": "T.V.A. récupérable sur factures non parvenues"
+    },
+    "4456": {
+      "intermediate_category": "LI_DEFERRED",
+      "account_name": "T.V.A. transférée par d'autres entreprises"
+    },
+    "446": {
+      "intermediate_category": "LI_DEFERRED",
+      "account_name": "ÉTAT, AUTRES TAXES SUR LE CHIFFRE D'AFFAIRES"
+    },
+    "447": {
+      "intermediate_category": "LI_DEFERRED",
+      "account_name": "ÉTAT, IMPÔTS RETENUS À LA SOURCE"
+    },
+    "4471": {
+      "intermediate_category": "LI_DEFERRED",
+      "account_name": "Impôt Général sur le revenu"
+    },
+    "4472": {
+      "intermediate_category": "LI_DEFERRED",
+      "account_name": "Impôts sur salaires"
+    },
+    "4473": {
+      "intermediate_category": "LI_DEFERRED",
+      "account_name": "Contribution nationale"
+    },
+    "4474": {
+      "intermediate_category": "LI_DEFERRED",
+      "account_name": "Contribution nationale de solidarité"
+    },
+    "4478": {
+      "intermediate_category": "LI_DEFERRED",
+      "account_name": "Autres impôts et contributions"
+    },
+    "448": {
+      "intermediate_category": "LI_DEFERRED",
+      "account_name": "ÉTAT, CHARGES À PAYER ET PRODUITS À RECEVOIR"
+    },
+    "4486": {
+      "intermediate_category": "LI_DEFERRED",
+      "account_name": "Charges à payer"
+    },
+    "4487": {
+      "intermediate_category": "LI_DEFERRED",
+      "account_name": "Produits à recevoir"
+    },
+    "449": {
+      "intermediate_category": "LI_DEFERRED",
+      "account_name": "ÉTAT, CRÉANCES ET DETTES DIVERSES"
+    },
+    "4491": {
+      "intermediate_category": "LI_DEFERRED",
+      "account_name": "État, obligations cautionnées"
+    },
+    "4492": {
+      "intermediate_category": "LI_DEFERRED",
+      "account_name": "État, avances et acomptes versés sur impôts"
+    },
+    "4493": {
+      "intermediate_category": "LI_DEFERRED",
+      "account_name": "État, fonds de dotation à recevoir"
+    },
+    "4494": {
+      "intermediate_category": "LI_DEFERRED",
+      "account_name": "État, subventions d'équipement à recevoir"
+    },
+    "4495": {
+      "intermediate_category": "LI_DEFERRED",
+      "account_name": "État, subventions d'exploitation à recevoir"
+    },
+    "4496": {
+      "intermediate_category": "LI_DEFERRED",
+      "account_name": "État, subventions d'équilibre à recevoir"
+    },
+    "4499": {
+      "intermediate_category": "LI_DEFERRED",
+      "account_name": "État, fonds réglementé provisionné"
+    },
+    "451": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "OPÉRATIONS AVEC LES ORGANISMES AFRICAINS"
+    },
+    "452": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "OPÉRATIONS AVEC LES AUTRES ORGANISMES INTERNATIONAUX"
+    },
+    "458": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "ORGANISMES INTERNATIONAUX, FONDS DE DOTATION ET SUBVENTIONS À RECEVOIR"
+    },
+    "4581": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "Organismes internationaux, fonds de dotation à recevoir"
+    },
+    "4582": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "Organismes internationaux, subventions à recevoir"
+    },
+    "461": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "ASSOCIÉS, OPÉRATIONS SUR LE CAPITAL"
+    },
+    "4611": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "Associés apports en nature"
+    },
+    "4612": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "Associés apports en numéraire"
+    },
+    "4613": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "Actionnaires, capital souscrit appelé non versé"
+    },
+    "4614": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "Associés, capital appelé non versé"
+    },
+    "4615": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "Associés, versements reçus sur augmentation de capital"
+    },
+    "4616": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "Associés, versements anticipés"
+    },
+    "4617": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "Actionnaires défaillants"
+    },
+    "4618": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "Associés, autres apports"
+    },
+    "4619": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "Associés, capital à rembourser"
+    },
+    "462": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "ASSOCIÉS, COMPTES COURANTS"
+    },
+    "4621": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "Principal"
+    },
+    "4626": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "Intérêts courus"
+    },
+    "463": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "ASSOCIÉS, OPÉRATIONS FAITES EN COMMUN"
+    },
+    "465": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "ASSOCIÉS, DIVIDENDES À PAYER"
+    },
+    "466": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "GROUPE, COMPTES COURANTS"
+    },
+    "467": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "ACTIONNAIRES, RESTANT DÛ SUR CAPITAL APPELÉ"
+    },
+    "471": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "COMPTES D'ATTENTE"
+    },
+    "4711": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "Débiteurs divers"
+    },
+    "4712": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "Créditeurs divers"
+    },
+    "472": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "VERSEMENTS RESTANT À EFFECTUER SUR TITRES NON LIBÉRÉS"
+    },
+    "4726": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "Titres de participation"
+    },
+    "4727": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "Titres immobilisés"
+    },
+    "4728": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "Titres de placement"
+    },
+    "474": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "RÉPARTITION PÉRIODIQUE DES CHARGES ET DES PRODUITS"
+    },
+    "4746": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "Charges"
+    },
+    "4747": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "Produits"
+    },
+    "475": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "CRÉANCES SUR TRAVAUX NON ENCORE FACTURABLES"
+    },
+    "476": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "CHARGES CONSTATÉES D'AVANCE"
+    },
+    "477": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "PRODUITS CONSTATÉ'S D'AVANCE"
+    },
+    "478": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "ÉCARTS DE CONVERSION - ACTIF"
+    },
+    "4781": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "Diminution des créances"
+    },
+    "4782": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "Augmentation des dettes"
+    },
+    "4788": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "Différences compensées par couverture de change"
+    },
+    "479": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "ÉCARTS DE CONVERSION - PASSIF"
+    },
+    "4791": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "Augmentation des créances"
+    },
+    "4792": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "Diminution des dettes"
+    },
+    "4798": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "Différences compensées par couverture de change"
+    },
+    "481": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "FOURNISSEURS D'INVESTISSEMENTS"
+    },
+    "4811": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "Immobilisations incorporelles"
+    },
+    "4812": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "Immobilisations corporelles"
+    },
+    "4817": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "Retenues de garantie"
+    },
+    "4818": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "Factures non parvenues"
+    },
+    "482": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "FOURNISSEURS D'INVESTISSEMENTS, EFFETS À PAYER"
+    },
+    "483": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "DETTES SUR ACQUISITION DE TITRES DE PLACEMENT"
+    },
+    "484": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "AUTRES DETTES HORS ACTIVITÉS ORDINAIRES"
+    },
+    "485": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "CRÉANCES SUR CESSIONS D'IMMOBILISATIONS"
+    },
+    "4851": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "En compte"
+    },
+    "4852": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "Effets à recevoir"
+    },
+    "4857": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "Retenues de garantie"
+    },
+    "4858": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "Factures à établir"
+    },
+    "486": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "CRÉANCES SUR CESSIONS DE TITRES DE PLACEMENT"
+    },
+    "488": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "AUTRES CRÉANCES HORS ACTIVITÉS ORDINAIRES"
+    },
+    "490": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "DÉPRÉCIATIONS DES COMPTES FOURNISSEURS"
+    },
+    "491": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "DÉPRÉCIATIONS DES COMPTES CLIENTS"
+    },
+    "4911": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "Créances litigieuses"
+    },
+    "4912": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "Créances douteuses"
+    },
+    "492": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "DÉPRÉCIATIONS DES COMPTES PERSONNEL"
+    },
+    "493": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "DÉPRÉCIATIONS DES COMPTES ORGANISMES SOCIAUX"
+    },
+    "494": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "DÉPRÉCIATIONS DES COMPTES ÉTAT ET COLLECTIVITÉS PUBLIQUES"
+    },
+    "495": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "DÉPRÉCIATIONS DES COMPTES ORGANISMES INTERNATIONAUX"
+    },
+    "496": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "DÉPRÉCIATIONS DES COMPTES ASSOCIÉS ET GROUPE"
+    },
+    "4962": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "Associés, comptes courants"
+    },
+    "4963": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "Associés, opérations faites en commun"
+    },
+    "4966": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "Groupe, comptes courants"
+    },
+    "497": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "DÉPRÉCIATIONS DES COMPTES DÉBITEURS DIVERS"
+    },
+    "498": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "DÉPRÉCIATIONS DES COMPTES DE CRÉANCES H.A.O."
+    },
+    "4981": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "Créances sur cessions d'immobilisations"
+    },
+    "4982": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "Créances sur cessions de titres de placement"
+    },
+    "4983": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "Autres créances H.A.O."
+    },
+    "499": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "RISQUES PROVISIONNÉS"
+    },
+    "4991": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "Sur opérations d'exploitation"
+    },
+    "4998": {
+      "intermediate_category": "LI_OTHER",
+      "account_name": "Sur opérations H.A.O."
+    },
+    "501": {
+      "intermediate_category": "SP_PROVISIONS",
+      "account_name": "TITRES DU TRÉSOR ET BONS DE CAISSE À COURT TERME"
+    },
+    "5011": {
+      "intermediate_category": "SP_PROVISIONS",
+      "account_name": "Titres du Trésor à court terme"
+    },
+    "5012": {
+      "intermediate_category": "SP_PROVISIONS",
+      "account_name": "Titres d'organismes financiers"
+    },
+    "5013": {
+      "intermediate_category": "SP_PROVISIONS",
+      "account_name": "Bons de caisse à court terme"
+    },
+    "502": {
+      "intermediate_category": "SP_PROVISIONS",
+      "account_name": "ACTIONS"
+    },
+    "5021": {
+      "intermediate_category": "SP_PROVISIONS",
+      "account_name": "Actions propres"
+    },
+    "5022": {
+      "intermediate_category": "SP_PROVISIONS",
+      "account_name": "Actions cotées"
+    },
+    "5023": {
+      "intermediate_category": "SP_PROVISIONS",
+      "account_name": "Actions non cotées"
+    },
+    "5024": {
+      "intermediate_category": "SP_PROVISIONS",
+      "account_name": "Actions démembrées"
+    },
+    "5025": {
+      "intermediate_category": "SP_PROVISIONS",
+      "account_name": "Autres titres conférant un droit de propriété"
+    },
+    "503": {
+      "intermediate_category": "SP_PROVISIONS",
+      "account_name": "OBLIGATIONS"
+    },
+    "5031": {
+      "intermediate_category": "SP_PROVISIONS",
+      "account_name": "Obligations émises par la société et rachetées par elle"
+    },
+    "5032": {
+      "intermediate_category": "SP_PROVISIONS",
+      "account_name": "Obligations cotées"
+    },
+    "5033": {
+      "intermediate_category": "SP_PROVISIONS",
+      "account_name": "Obligations non cotées"
+    },
+    "5035": {
+      "intermediate_category": "SP_PROVISIONS",
+      "account_name": "Autres titres conférant un droit de créance"
+    },
+    "504": {
+      "intermediate_category": "SP_PROVISIONS",
+      "account_name": "BONS DE SOUSCRIPTION"
+    },
+    "5042": {
+      "intermediate_category": "SP_PROVISIONS",
+      "account_name": "Bons de souscription d'actions"
+    },
+    "5043": {
+      "intermediate_category": "SP_PROVISIONS",
+      "account_name": "Bons de souscription d'obligations"
+    },
+    "505": {
+      "intermediate_category": "SP_PROVISIONS",
+      "account_name": "TITRES NÉGOCIABLES HORS RÉGION"
+    },
+    "506": {
+      "intermediate_category": "SP_PROVISIONS",
+      "account_name": "INTÉRÊTS COURUS"
+    },
+    "5061": {
+      "intermediate_category": "SP_PROVISIONS",
+      "account_name": "Titres du Trésor et bons de caisse à court terme"
+    },
+    "5062": {
+      "intermediate_category": "SP_PROVISIONS",
+      "account_name": "Actions"
+    },
+    "5063": {
+      "intermediate_category": "SP_PROVISIONS",
+      "account_name": "Obligations"
+    },
+    "508": {
+      "intermediate_category": "SP_PROVISIONS",
+      "account_name": "AUTRES VALEURS ASSIMILÉES"
+    },
+    "511": {
+      "intermediate_category": "SP_PENDING",
+      "account_name": "EFFETS À ENCAISSER"
+    },
+    "512": {
+      "intermediate_category": "SP_PENDING",
+      "account_name": "EFFETS À L'ENCAISSEMENT"
+    },
+    "513": {
+      "intermediate_category": "SP_PENDING",
+      "account_name": "CHÈQUES À ENCAISSER"
+    },
+    "514": {
+      "intermediate_category": "SP_PENDING",
+      "account_name": "CHÈQUES À L'ENCAISSEMENT"
+    },
+    "515": {
+      "intermediate_category": "SP_PENDING",
+      "account_name": "CARTES DE CRÉDIT À ENCAISSER"
+    },
+    "518": {
+      "intermediate_category": "SP_PENDING",
+      "account_name": "AUTRES VALEURS À L'ENCAISSEMENT"
+    },
+    "5181": {
+      "intermediate_category": "SP_PENDING",
+      "account_name": "Warrants"
+    },
+    "5182": {
+      "intermediate_category": "SP_PENDING",
+      "account_name": "Billets de fonds"
+    },
+    "5185": {
+      "intermediate_category": "SP_PENDING",
+      "account_name": "Chèques de voyage"
+    },
+    "5186": {
+      "intermediate_category": "SP_PENDING",
+      "account_name": "Coupons échus"
+    },
+    "5187": {
+      "intermediate_category": "SP_PENDING",
+      "account_name": "Intérêts échus des obligations"
+    },
+    "521": {
+      "intermediate_category": "SP_CAPITAL",
+      "account_name": "BANQUES LOCALES"
+    },
+    "5211": {
+      "intermediate_category": "SP_CAPITAL",
+      "account_name": "BANQUES X"
+    },
+    "5212": {
+      "intermediate_category": "SP_CAPITAL",
+      "account_name": "BANQUE Y"
+    },
+    "522": {
+      "intermediate_category": "SP_CAPITAL",
+      "account_name": "BANQUES AUTRES ÉTATS RÉGION"
+    },
+    "523": {
+      "intermediate_category": "SP_CAPITAL",
+      "account_name": "BANQUES AUTRES ÉTATS ZONE MONÉTAIRE"
+    },
+    "524": {
+      "intermediate_category": "SP_CAPITAL",
+      "account_name": "BANQUES HORS ZONE MONÉTAIRE"
+    },
+    "526": {
+      "intermediate_category": "SP_CAPITAL",
+      "account_name": "BANQUES, INTÉRÊTS COURUS"
+    },
+    "531": {
+      "intermediate_category": "SP_RESULT",
+      "account_name": "CHÈQUES POSTAUX"
+    },
+    "532": {
+      "intermediate_category": "SP_RESULT",
+      "account_name": "TRÉSOR"
+    },
+    "533": {
+      "intermediate_category": "SP_RESULT",
+      "account_name": "SOCIÉTÉS DE GESTION ET D'INTERMÉDIATION"
+    },
+    "536": {
+      "intermediate_category": "SP_RESULT",
+      "account_name": "ÉTABLISSEMENTS FINANCIERS, INTÉRÊTS COURUS"
+    },
+    "538": {
+      "intermediate_category": "SP_RESULT",
+      "account_name": "AUTRES ORGANISMES FINANCIERS"
+    },
+    "541": {
+      "intermediate_category": "SP_TRANSFER",
+      "account_name": "OPTIONS DE TAUX D'INTÉRÊT"
+    },
+    "542": {
+      "intermediate_category": "SP_TRANSFER",
+      "account_name": "OPTIONS DE TAUX DE CHANGE"
+    },
+    "543": {
+      "intermediate_category": "SP_TRANSFER",
+      "account_name": "OPTIONS DE TAUX BOURSIERS"
+    },
+    "544": {
+      "intermediate_category": "SP_TRANSFER",
+      "account_name": "INSTRUMENTS DE MARCHÉS À TERME"
+    },
+    "545": {
+      "intermediate_category": "SP_TRANSFER",
+      "account_name": "AVOIRS D'OR ET AUTRES MÉTAUX PRÉCIEUX"
+    },
+    "561": {
+      "intermediate_category": "SP_OTHER",
+      "account_name": "CRÉDITS DE TRÉSORERIE"
+    },
+    "564": {
+      "intermediate_category": "SP_OTHER",
+      "account_name": "ESCOMPTE DE CRÉDITS DE CAMPAGNE"
+    },
+    "565": {
+      "intermediate_category": "SP_OTHER",
+      "account_name": "ESCOMPTE DE CRÉDITS ORDINAIRES"
+    },
+    "566": {
+      "intermediate_category": "SP_OTHER",
+      "account_name": "BANQUES, CRÉDITS DE TRÉSORERIE, INTÉRÊTS COURUS"
+    },
+    "571": {
+      "intermediate_category": "SP_OTHER",
+      "account_name": "CAISSE SIÈGE SOCIAL"
+    },
+    "5711": {
+      "intermediate_category": "SP_OTHER",
+      "account_name": "en unités monétaires légales"
+    },
+    "5712": {
+      "intermediate_category": "SP_OTHER",
+      "account_name": "en devises"
+    },
+    "572": {
+      "intermediate_category": "SP_OTHER",
+      "account_name": "CAISSE SUCCURSALE A"
+    },
+    "5721": {
+      "intermediate_category": "SP_OTHER",
+      "account_name": "en unités monétaires légales"
+    },
+    "5722": {
+      "intermediate_category": "SP_OTHER",
+      "account_name": "en devises"
+    },
+    "573": {
+      "intermediate_category": "SP_OTHER",
+      "account_name": "CAISSE SUCCURSALE B"
+    },
+    "5731": {
+      "intermediate_category": "SP_OTHER",
+      "account_name": "en unités monétaires légales"
+    },
+    "5732": {
+      "intermediate_category": "SP_OTHER",
+      "account_name": "en devises"
+    },
+    "581": {
+      "intermediate_category": "SP_OTHER",
+      "account_name": "RÉGIES D'AVANCE"
+    },
+    "582": {
+      "intermediate_category": "SP_OTHER",
+      "account_name": "ACCRÉDITIFS"
+    },
+    "585": {
+      "intermediate_category": "SP_OTHER",
+      "account_name": "VIREMENTS DE FONDS"
+    },
+    "588": {
+      "intermediate_category": "SP_OTHER",
+      "account_name": "AUTRES VIREMENTS INTERNES"
+    },
+    "590": {
+      "intermediate_category": "SP_OTHER",
+      "account_name": "DÉPRÉCIATIONS DES TITRES DE PLACEMENT"
+    },
+    "591": {
+      "intermediate_category": "SP_OTHER",
+      "account_name": "DÉPRéciations DES TITRES ET VALEURS À ENCAISSER"
+    },
+    "592": {
+      "intermediate_category": "SP_OTHER",
+      "account_name": "DÉPRéciations DES COMPTES BANQUES"
+    },
+    "593": {
+      "intermediate_category": "SP_OTHER",
+      "account_name": "DÉPRéciations DES COMPTES ÉTABLISSEMENTS FINANCIERS ET ASSIMILÉS"
+    },
+    "594": {
+      "intermediate_category": "SP_OTHER",
+      "account_name": "DÉPRéciations DES COMPTES D'INSTRUMENTS DE TRÉSORERIE"
+    },
+    "599": {
+      "intermediate_category": "SP_OTHER",
+      "account_name": "RISQUES PROVISIONNÉS À CARACTÈRE FINANCIER"
+    },
+    "601": {
+      "intermediate_category": "EX_MATERIALS",
+      "account_name": "ACHATS DE MARCHANDISES"
+    },
+    "6011": {
+      "intermediate_category": "EX_MATERIALS",
+      "account_name": "dans la Région"
+    },
+    "6012": {
+      "intermediate_category": "EX_MATERIALS",
+      "account_name": "hors Région"
+    },
+    "6013": {
+      "intermediate_category": "EX_MATERIALS",
+      "account_name": "aux entreprises du groupe dans la Région"
+    },
+    "6014": {
+      "intermediate_category": "EX_MATERIALS",
+      "account_name": "aux entreprises du groupe hors Région"
+    },
+    "6019": {
+      "intermediate_category": "EX_MATERIALS",
+      "account_name": "Rabais, Remises et Ristournes obtenus"
+    },
+    "602": {
+      "intermediate_category": "EX_MATERIALS",
+      "account_name": "ACHATS DE MATIÈRES PREMIÈRES ET FOURNitures LIÉES"
+    },
+    "6021": {
+      "intermediate_category": "EX_MATERIALS",
+      "account_name": "dans la Région"
+    },
+    "6022": {
+      "intermediate_category": "EX_MATERIALS",
+      "account_name": "hors Région"
+    },
+    "6023": {
+      "intermediate_category": "EX_MATERIALS",
+      "account_name": "aux entreprises du groupe dans la Région"
+    },
+    "6024": {
+      "intermediate_category": "EX_MATERIALS",
+      "account_name": "aux entreprises du groupe hors Région"
+    },
+    "6029": {
+      "intermediate_category": "EX_MATERIALS",
+      "account_name": "Rabais, Remises et Ristournes obtenus"
+    },
+    "603": {
+      "intermediate_category": "EX_MATERIALS",
+      "account_name": "VARIATIONS DES STOCKS DE BIENS ACHETÉS"
+    },
+    "6031": {
+      "intermediate_category": "EX_MATERIALS",
+      "account_name": "Variations des stocks de marchandises"
+    },
+    "6032": {
+      "intermediate_category": "EX_MATERIALS",
+      "account_name": "Variations des stocks de matières premières et fournitures liées"
+    },
+    "6033": {
+      "intermediate_category": "EX_MATERIALS",
+      "account_name": "Variations des stocks d'autres approvisionnements"
+    },
+    "604": {
+      "intermediate_category": "EX_MATERIALS",
+      "account_name": "ACHATS STOCKÉS DE MATIÈRES ET FOURNITURES CONSOMMABLES"
+    },
+    "6041": {
+      "intermediate_category": "EX_MATERIALS",
+      "account_name": "Matières consommables"
+    },
+    "6042": {
+      "intermediate_category": "EX_MATERIALS",
+      "account_name": "Matières combustibles"
+    },
+    "6043": {
+      "intermediate_category": "EX_MATERIALS",
+      "account_name": "Produits d'entretien"
+    },
+    "6044": {
+      "intermediate_category": "EX_MATERIALS",
+      "account_name": "Fournitures d'atelier et d'usine"
+    },
+    "6046": {
+      "intermediate_category": "EX_MATERIALS",
+      "account_name": "Fournitures de magasin"
+    },
+    "6047": {
+      "intermediate_category": "EX_MATERIALS",
+      "account_name": "Fournitures de bureau"
+    },
+    "6049": {
+      "intermediate_category": "EX_MATERIALS",
+      "account_name": "Rabais, Remises et Ristournes obtenus"
+    },
+    "605": {
+      "intermediate_category": "EX_MATERIALS",
+      "account_name": "AUTRES ACHATS"
+    },
+    "6051": {
+      "intermediate_category": "EX_MATERIALS",
+      "account_name": "Fournitures non stockables - Eau"
+    },
+    "6052": {
+      "intermediate_category": "EX_MATERIALS",
+      "account_name": "Fournitures non stockables - Electricité"
+    },
+    "6053": {
+      "intermediate_category": "EX_MATERIALS",
+      "account_name": "Fournitures non stockables – Autres énergies"
+    },
+    "6054": {
+      "intermediate_category": "EX_MATERIALS",
+      "account_name": "Fournitures d'entretien non stockables"
+    },
+    "6055": {
+      "intermediate_category": "EX_MATERIALS",
+      "account_name": "Fournitures de bureau non stockables"
+    },
+    "6056": {
+      "intermediate_category": "EX_MATERIALS",
+      "account_name": "Achats de petit matériel et outillage"
+    },
+    "6057": {
+      "intermediate_category": "EX_MATERIALS",
+      "account_name": "Achats d'études et prestations de services"
+    },
+    "6058": {
+      "intermediate_category": "EX_MATERIALS",
+      "account_name": "Achats de travaux, matériels et équipements"
+    },
+    "6059": {
+      "intermediate_category": "EX_MATERIALS",
+      "account_name": "Rabais, Remises et Ristournes obtenus"
+    },
+    "608": {
+      "intermediate_category": "EX_MATERIALS",
+      "account_name": "ACHATS D'EMBALLAGES"
+    },
+    "6081": {
+      "intermediate_category": "EX_MATERIALS",
+      "account_name": "Emballages perdus"
+    },
+    "6082": {
+      "intermediate_category": "EX_MATERIALS",
+      "account_name": "Emballages récupérables non identifiables"
+    },
+    "6083": {
+      "intermediate_category": "EX_MATERIALS",
+      "account_name": "Emballages à usage mixte"
+    },
+    "6089": {
+      "intermediate_category": "EX_MATERIALS",
+      "account_name": "Rabais, Remises et Ristournes obtenus"
+    },
+    "611": {
+      "intermediate_category": "EX_SERVICES",
+      "account_name": "TRANSPORTS SUR ACHATS"
+    },
+    "612": {
+      "intermediate_category": "EX_SERVICES",
+      "account_name": "TRANSPORTS SUR VENTES"
+    },
+    "613": {
+      "intermediate_category": "EX_SERVICES",
+      "account_name": "TRANSPORTS POUR LE COMPTE DE TIERS"
+    },
+    "614": {
+      "intermediate_category": "EX_SERVICES",
+      "account_name": "TRANSPORTS DU PERSONNEL"
+    },
+    "616": {
+      "intermediate_category": "EX_SERVICES",
+      "account_name": "TRANSPORTS DE PLIS"
+    },
+    "618": {
+      "intermediate_category": "EX_SERVICES",
+      "account_name": "AUTRES FRAIS DE TRANSPORT"
+    },
+    "6181": {
+      "intermediate_category": "EX_SERVICES",
+      "account_name": "Voyages et déplacements"
+    },
+    "6182": {
+      "intermediate_category": "EX_SERVICES",
+      "account_name": "Transports entre établissements ou chantiers"
+    },
+    "6183": {
+      "intermediate_category": "EX_SERVICES",
+      "account_name": "Transports administratifs"
+    },
+    "621": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "SOUS-TRAITANCE GÉNÉRALE"
+    },
+    "622": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "LOCATIONS ET CHARGES LOCATIVES"
+    },
+    "6221": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "Locations de terrains"
+    },
+    "6222": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "Locations de bâtiments"
+    },
+    "6223": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "Locations de matériels et outillages"
+    },
+    "6224": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "Malis sur emballages"
+    },
+    "6225": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "Locations d'emballages"
+    },
+    "6228": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "Locations et charges locatives diverses"
+    },
+    "623": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "REDEVANCES DE CRÉDIT-BAIL ET CONTRATS ASSIMILÉS"
+    },
+    "6232": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "Crédit-bail immobilier"
+    },
+    "6233": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "Crédit-bail mobilier"
+    },
+    "6235": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "Contrats assimilés"
+    },
+    "624": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "ENTRETIEN, RÉPARATIONS ET MAINTENANCE"
+    },
+    "6241": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "Entretien et réparations des biens immobiliers"
+    },
+    "6242": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "Entretien et réparations des biens mobiliers"
+    },
+    "6243": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "Maintenance"
+    },
+    "6248": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "Autres entretiens et réparations"
+    },
+    "625": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "PRIMES D'ASSURANCE"
+    },
+    "6251": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "Assurances multirisques"
+    },
+    "6252": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "Assurances matériel de transport"
+    },
+    "6253": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "Assurances pour risques d'exploitation"
+    },
+    "6254": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "Assurances responsabilité du producteur"
+    },
+    "6255": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "Assurances insolvabilité clients"
+    },
+    "6256": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "Assurances transport sur achats"
+    },
+    "6257": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "Assurances transport sur ventes"
+    },
+    "6258": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "Autres primes d'assurances"
+    },
+    "626": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "ÉTUDES, RECHERCHES ET DOCUMENTATION"
+    },
+    "6261": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "Études et recherches"
+    },
+    "6265": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "Documentation générale"
+    },
+    "6266": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "Documentation technique"
+    },
+    "627": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "PUBLICITÉ, PUBLICATIONS, RELATIONS PUBLIQUES"
+    },
+    "6271": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "Annonces, insertions"
+    },
+    "6272": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "Catalogues, imprimés publicitaires"
+    },
+    "6273": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "Échantillons"
+    },
+    "6274": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "Foires et expositions"
+    },
+    "6275": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "Publications"
+    },
+    "6276": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "Cadeaux à la clientèle"
+    },
+    "6277": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "Frais de colloques, séminaires, conférences"
+    },
+    "6278": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "Autres charges de publicité et relations publiques"
+    },
+    "628": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "FRAIS DE TÉLÉCOMMUNICATIONS"
+    },
+    "6281": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "Frais de téléphone"
+    },
+    "6282": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "Frais de télex"
+    },
+    "6283": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "Frais de télécopie"
+    },
+    "6288": {
+      "intermediate_category": "EX_PERSONNEL",
+      "account_name": "Autres frais de télécommunications"
+    },
+    "631": {
+      "intermediate_category": "EX_TAXES",
+      "account_name": "FRAIS BANCAIRES"
+    },
+    "6311": {
+      "intermediate_category": "EX_TAXES",
+      "account_name": "Frais sur titres"
+    },
+    "6312": {
+      "intermediate_category": "EX_TAXES",
+      "account_name": "Frais sur effets"
+    },
+    "6313": {
+      "intermediate_category": "EX_TAXES",
+      "account_name": "Location de coffres"
+    },
+    "6315": {
+      "intermediate_category": "EX_TAXES",
+      "account_name": "Commissions sur cartes de crédit"
+    },
+    "6316": {
+      "intermediate_category": "EX_TAXES",
+      "account_name": "Frais d'émission d'emprunts"
+    },
+    "6318": {
+      "intermediate_category": "EX_TAXES",
+      "account_name": "Autres frais bancaires"
+    },
+    "632": {
+      "intermediate_category": "EX_TAXES",
+      "account_name": "RÉMUNÉRATIONS D'INTERMÉDIAIRES ET DE CONSEILS"
+    },
+    "6321": {
+      "intermediate_category": "EX_TAXES",
+      "account_name": "Commissions et courtages sur achats"
+    },
+    "6322": {
+      "intermediate_category": "EX_TAXES",
+      "account_name": "Commissions et courtages sur ventes"
+    },
+    "6323": {
+      "intermediate_category": "EX_TAXES",
+      "account_name": "Rémunérations des transitaires"
+    },
+    "6324": {
+      "intermediate_category": "EX_TAXES",
+      "account_name": "Honoraires"
+    },
+    "6325": {
+      "intermediate_category": "EX_TAXES",
+      "account_name": "Frais d'actes et de contentieux"
+    },
+    "6328": {
+      "intermediate_category": "EX_TAXES",
+      "account_name": "Divers frais"
+    },
+    "633": {
+      "intermediate_category": "EX_TAXES",
+      "account_name": "FRAIS DE FORMATION DU PERSONNEL"
+    },
+    "634": {
+      "intermediate_category": "EX_TAXES",
+      "account_name": "REDEVANCES POUR BREVETS, LICENCES, LOGICIELS ET DROITS SIMILAIRES"
+    },
+    "6342": {
+      "intermediate_category": "EX_TAXES",
+      "account_name": "Redevances pour brevets, licences, concessions et droits similaires"
+    },
+    "6343": {
+      "intermediate_category": "EX_TAXES",
+      "account_name": "Redevances pour logiciels"
+    },
+    "6344": {
+      "intermediate_category": "EX_TAXES",
+      "account_name": "Redevances pour marques"
+    },
+    "635": {
+      "intermediate_category": "EX_TAXES",
+      "account_name": "COTISATIONS"
+    },
+    "6351": {
+      "intermediate_category": "EX_TAXES",
+      "account_name": "Cotisations"
+    },
+    "6358": {
+      "intermediate_category": "EX_TAXES",
+      "account_name": "Concours divers"
+    },
+    "637": {
+      "intermediate_category": "EX_TAXES",
+      "account_name": "RÉMUNÉRATIONS DE PERSONNEL EXTÉRIEUR À L'ENTREPRISE"
+    },
+    "6371": {
+      "intermediate_category": "EX_TAXES",
+      "account_name": "Personnel intérimaire"
+    },
+    "6372": {
+      "intermediate_category": "EX_TAXES",
+      "account_name": "Personnel détaché ou prêté à l'entreprise"
+    },
+    "638": {
+      "intermediate_category": "EX_TAXES",
+      "account_name": "AUTRES CHARGES EXTERNES"
+    },
+    "6381": {
+      "intermediate_category": "EX_TAXES",
+      "account_name": "Frais de recrutement du personnel"
+    },
+    "6382": {
+      "intermediate_category": "EX_TAXES",
+      "account_name": "Frais de déménagement"
+    },
+    "6383": {
+      "intermediate_category": "EX_TAXES",
+      "account_name": "Réceptions"
+    },
+    "6384": {
+      "intermediate_category": "EX_TAXES",
+      "account_name": "Missions"
+    },
+    "641": {
+      "intermediate_category": "EX_DEPRECIATION",
+      "account_name": "IMPÔTS ET TAXES DIRECTS"
+    },
+    "6411": {
+      "intermediate_category": "EX_DEPRECIATION",
+      "account_name": "Impôts fonciers et taxes annexes"
+    },
+    "6412": {
+      "intermediate_category": "EX_DEPRECIATION",
+      "account_name": "Patentes, licences et taxes annexes"
+    },
+    "6413": {
+      "intermediate_category": "EX_DEPRECIATION",
+      "account_name": "Taxes sur appointements et salaires"
+    },
+    "6414": {
+      "intermediate_category": "EX_DEPRECIATION",
+      "account_name": "Taxes d'apprentissage"
+    },
+    "6415": {
+      "intermediate_category": "EX_DEPRECIATION",
+      "account_name": "Formation professionnelle continue"
+    },
+    "6418": {
+      "intermediate_category": "EX_DEPRECIATION",
+      "account_name": "Autres impôts et taxes directs"
+    },
+    "645": {
+      "intermediate_category": "EX_DEPRECIATION",
+      "account_name": "IMPÔTS ET TAXES INDIRECTS"
+    },
+    "646": {
+      "intermediate_category": "EX_DEPRECIATION",
+      "account_name": "DROITS D'ENREGISTREMENT"
+    },
+    "6461": {
+      "intermediate_category": "EX_DEPRECIATION",
+      "account_name": "Droits de mutation"
+    },
+    "6462": {
+      "intermediate_category": "EX_DEPRECIATION",
+      "account_name": "Droits de timbre"
+    },
+    "6463": {
+      "intermediate_category": "EX_DEPRECIATION",
+      "account_name": "Taxes sur les véhicules de société"
+    },
+    "6464": {
+      "intermediate_category": "EX_DEPRECIATION",
+      "account_name": "Vignettes"
+    },
+    "6468": {
+      "intermediate_category": "EX_DEPRECIATION",
+      "account_name": "Autres droits"
+    },
+    "647": {
+      "intermediate_category": "EX_DEPRECIATION",
+      "account_name": "PÉNALITÉS ET AMENDES FISCALES"
+    },
+    "6471": {
+      "intermediate_category": "EX_DEPRECIATION",
+      "account_name": "Pénalités d'assiette, impôts directs"
+    },
+    "6472": {
+      "intermediate_category": "EX_DEPRECIATION",
+      "account_name": "Pénalités d'assiette, impôts indirects"
+    },
+    "6473": {
+      "intermediate_category": "EX_DEPRECIATION",
+      "account_name": "Pénalités de recouvrement, impôts directs"
+    },
+    "6474": {
+      "intermediate_category": "EX_DEPRECIATION",
+      "account_name": "Pénalités de recouvrement, impôts indirects"
+    },
+    "6478": {
+      "intermediate_category": "EX_DEPRECIATION",
+      "account_name": "Autres amendes pénales et fiscales"
+    },
+    "648": {
+      "intermediate_category": "EX_DEPRECIATION",
+      "account_name": "AUTRES IMPÔTS ET TAXES"
+    },
+    "651": {
+      "intermediate_category": "EX_IMPAIRMENT",
+      "account_name": "PERTES SUR CRÉANCES CLIENTS ET AUTRES DÉBITEURS"
+    },
+    "6511": {
+      "intermediate_category": "EX_IMPAIRMENT",
+      "account_name": "Clients"
+    },
+    "6515": {
+      "intermediate_category": "EX_IMPAIRMENT",
+      "account_name": "Autres débiteurs"
+    },
+    "652": {
+      "intermediate_category": "EX_IMPAIRMENT",
+      "account_name": "QUOTE-PART DE RÉSULTAT SUR OPÉRATIONS FAITES EN COMMUN"
+    },
+    "6521": {
+      "intermediate_category": "EX_IMPAIRMENT",
+      "account_name": "Quote-part transférée de bénéfices"
+    },
+    "6525": {
+      "intermediate_category": "EX_IMPAIRMENT",
+      "account_name": "Pertes imputées par transfert"
+    },
+    "653": {
+      "intermediate_category": "EX_IMPAIRMENT",
+      "account_name": "QUOTE-PART DE RÉSULTAT ANNULÉE SUR EXÉCUTION PARTIELLE DE CONTRATS PLURI-EXERCICES"
+    },
+    "654": {
+      "intermediate_category": "EX_IMPAIRMENT",
+      "account_name": "VALEUR COMPTABLE DES CESSIONS COURANTES D'IMMOBILISATIONS"
+    },
+    "658": {
+      "intermediate_category": "EX_IMPAIRMENT",
+      "account_name": "CHARGES DIVERSES"
+    },
+    "6581": {
+      "intermediate_category": "EX_IMPAIRMENT",
+      "account_name": "Jetons de présence et autres rémunérations d'administrateurs"
+    },
+    "6582": {
+      "intermediate_category": "EX_IMPAIRMENT",
+      "account_name": "Dons"
+    },
+    "6583": {
+      "intermediate_category": "EX_IMPAIRMENT",
+      "account_name": "Mécénat"
+    },
+    "659": {
+      "intermediate_category": "EX_IMPAIRMENT",
+      "account_name": "CHARGES PROVISIONנées D'EXPLOITATION"
+    },
+    "6591": {
+      "intermediate_category": "EX_IMPAIRMENT",
+      "account_name": "sur risques à court terme"
+    },
+    "6593": {
+      "intermediate_category": "EX_IMPAIRMENT",
+      "account_name": "sur stocks"
+    },
+    "6594": {
+      "intermediate_category": "EX_IMPAIRMENT",
+      "account_name": "sur créances"
+    },
+    "6598": {
+      "intermediate_category": "EX_IMPAIRMENT",
+      "account_name": "Autres charges provisionnées"
+    },
+    "661": {
+      "intermediate_category": "EX_FINANCIAL",
+      "account_name": "RÉMUNÉRATIONS DIRECTES VERSÉES AU PERSONNEL NATIONAL"
+    },
+    "6611": {
+      "intermediate_category": "EX_FINANCIAL",
+      "account_name": "Appointements salaires et commissions"
+    },
+    "6612": {
+      "intermediate_category": "EX_FINANCIAL",
+      "account_name": "Primes et gratifications"
+    },
+    "6613": {
+      "intermediate_category": "EX_FINANCIAL",
+      "account_name": "Congés payés"
+    },
+    "6614": {
+      "intermediate_category": "EX_FINANCIAL",
+      "account_name": "Indemnités de préavis, de licenciement et de recherche d'embauche"
+    },
+    "6615": {
+      "intermediate_category": "EX_FINANCIAL",
+      "account_name": "Indemnités de maladie versées aux travailleurs"
+    },
+    "6616": {
+      "intermediate_category": "EX_FINANCIAL",
+      "account_name": "Supplément familial"
+    },
+    "6617": {
+      "intermediate_category": "EX_FINANCIAL",
+      "account_name": "Avantages en nature"
+    },
+    "6618": {
+      "intermediate_category": "EX_FINANCIAL",
+      "account_name": "Autres rémunérations directes"
+    },
+    "662": {
+      "intermediate_category": "EX_FINANCIAL",
+      "account_name": "RÉMUNÉRATIONS DIRECTES VERSÉES AU PERSONNEL NON NATIONAL"
+    },
+    "6621": {
+      "intermediate_category": "EX_FINANCIAL",
+      "account_name": "Appointements salaires et commissions"
+    },
+    "6622": {
+      "intermediate_category": "EX_FINANCIAL",
+      "account_name": "Primes et gratifications"
+    },
+    "6623": {
+      "intermediate_category": "EX_FINANCIAL",
+      "account_name": "Congés payés"
+    },
+    "6624": {
+      "intermediate_category": "EX_FINANCIAL",
+      "account_name": "Indemnités de préavis, de licenciement et de recherche d'embauche"
+    },
+    "6625": {
+      "intermediate_category": "EX_FINANCIAL",
+      "account_name": "Indemnités de maladie versées aux travailleurs"
+    },
+    "6626": {
+      "intermediate_category": "EX_FINANCIAL",
+      "account_name": "Supplément familial"
+    },
+    "6627": {
+      "intermediate_category": "EX_FINANCIAL",
+      "account_name": "Avantages en nature"
+    },
+    "6628": {
+      "intermediate_category": "EX_FINANCIAL",
+      "account_name": "Autres rémunérations directes"
+    },
+    "663": {
+      "intermediate_category": "EX_FINANCIAL",
+      "account_name": "INDEMNITÉS FORFAITAIRES VERSÉES AU PERSONNEL"
+    },
+    "6631": {
+      "intermediate_category": "EX_FINANCIAL",
+      "account_name": "Indemnités de logement"
+    },
+    "6632": {
+      "intermediate_category": "EX_FINANCIAL",
+      "account_name": "Indemnités de représentation"
+    },
+    "6633": {
+      "intermediate_category": "EX_FINANCIAL",
+      "account_name": "Indemnités d'expatriation"
+    },
+    "6638": {
+      "intermediate_category": "EX_FINANCIAL",
+      "account_name": "Autres indemnités et avantages divers"
+    },
+    "664": {
+      "intermediate_category": "EX_FINANCIAL",
+      "account_name": "CHARGES SOCIALES"
+    },
+    "6641": {
+      "intermediate_category": "EX_FINANCIAL",
+      "account_name": "Charges sociales sur rémunération du personnel national"
+    },
+    "6642": {
+      "intermediate_category": "EX_FINANCIAL",
+      "account_name": "Charges sociales sur rémunération du personnel non national"
+    },
+    "666": {
+      "intermediate_category": "EX_FINANCIAL",
+      "account_name": "RÉMUNÉRATIONS ET CHARGES SOCIALES DE L'EXPLOITANT INDIVIDUEL"
+    },
+    "6661": {
+      "intermediate_category": "EX_FINANCIAL",
+      "account_name": "Rémunération du travail de l'exploitant"
+    },
+    "6662": {
+      "intermediate_category": "EX_FINANCIAL",
+      "account_name": "Charges sociales"
+    },
+    "667": {
+      "intermediate_category": "EX_FINANCIAL",
+      "account_name": "RÉMUNération TRANSFÉRÉE DE PERSONNEL EXTÉRIEUR"
+    },
+    "6671": {
+      "intermediate_category": "EX_FINANCIAL",
+      "account_name": "Personnel intérimaire"
+    },
+    "6672": {
+      "intermediate_category": "EX_FINANCIAL",
+      "account_name": "Personnel détaché ou prêté à l'entreprise"
+    },
+    "668": {
+      "intermediate_category": "EX_FINANCIAL",
+      "account_name": "AUTRES CHARGES SOCIALES"
+    },
+    "6681": {
+      "intermediate_category": "EX_FINANCIAL",
+      "account_name": "Versements aux Syndicats et Comités d'entreprise, d'établissement"
+    },
+    "6682": {
+      "intermediate_category": "EX_FINANCIAL",
+      "account_name": "Versements aux Comités d'hygiène et de sécurité"
+    },
+    "6683": {
+      "intermediate_category": "EX_FINANCIAL",
+      "account_name": "Versements aux autres œuvres sociales"
+    },
+    "6684": {
+      "intermediate_category": "EX_FINANCIAL",
+      "account_name": "Médecine du travail et pharmacie"
+    },
+    "671": {
+      "intermediate_category": "EX_EXTRAORDINARY",
+      "account_name": "INTÉRÊTS DES EMPRUNTS"
+    },
+    "6711": {
+      "intermediate_category": "EX_EXTRAORDINARY",
+      "account_name": "Emprunts obligataires"
+    },
+    "6712": {
+      "intermediate_category": "EX_EXTRAORDINARY",
+      "account_name": "Emprunts auprès des établissements de crédit"
+    },
+    "6713": {
+      "intermediate_category": "EX_EXTRAORDINARY",
+      "account_name": "Dettes liées à des participations"
+    },
+    "672": {
+      "intermediate_category": "EX_EXTRAORDINARY",
+      "account_name": "INTÉRÊTS DANS LOYERS DE CRÉDIT-BAIL ET CONTRATS ASSIMILÉs"
+    },
+    "6721": {
+      "intermediate_category": "EX_EXTRAORDINARY",
+      "account_name": "Intérêts dans loyers de crédit-bail immobilier"
+    },
+    "6722": {
+      "intermediate_category": "EX_EXTRAORDINARY",
+      "account_name": "Intérêts dans loyers de crédit-bail mobilier"
+    },
+    "6723": {
+      "intermediate_category": "EX_EXTRAORDINARY",
+      "account_name": "Intérêts dans loyers des autres contrats"
+    },
+    "673": {
+      "intermediate_category": "EX_EXTRAORDINARY",
+      "account_name": "ESCOMPTES ACCORDÉS"
+    },
+    "674": {
+      "intermediate_category": "EX_EXTRAORDINARY",
+      "account_name": "AUTRES INTÉRÊTS"
+    },
+    "6741": {
+      "intermediate_category": "EX_EXTRAORDINARY",
+      "account_name": "Avances reçues et dépôts créditeurs"
+    },
+    "6742": {
+      "intermediate_category": "EX_EXTRAORDINARY",
+      "account_name": "Comptes courants bloqués"
+    },
+    "6743": {
+      "intermediate_category": "EX_EXTRAORDINARY",
+      "account_name": "Intérêts sur obligations cautionnées"
+    },
+    "6744": {
+      "intermediate_category": "EX_EXTRAORDINARY",
+      "account_name": "Intérêts sur dettes commerciales"
+    },
+    "6745": {
+      "intermediate_category": "EX_EXTRAORDINARY",
+      "account_name": "Intérêts bancaires et sur opérations de trésorerie et d'escompte"
+    },
+    "6748": {
+      "intermediate_category": "EX_EXTRAORDINARY",
+      "account_name": "Intérêts sur dettes diverses"
+    },
+    "675": {
+      "intermediate_category": "EX_EXTRAORDINARY",
+      "account_name": "ESCOMPTES DES EFFETS DE COMMERCE"
+    },
+    "676": {
+      "intermediate_category": "EX_EXTRAORDINARY",
+      "account_name": "PERTES DE CHANGE"
+    },
+    "677": {
+      "intermediate_category": "EX_EXTRAORDINARY",
+      "account_name": "PERTES SUR CESSIONS DE TITRES DE PLACEMENT"
+    },
+    "678": {
+      "intermediate_category": "EX_EXTRAORDINARY",
+      "account_name": "PERTES SUR RISQUES FINANCIERS"
+    },
+    "6781": {
+      "intermediate_category": "EX_EXTRAORDINARY",
+      "account_name": "sur rentes viagères"
+    },
+    "6782": {
+      "intermediate_category": "EX_EXTRAORDINARY",
+      "account_name": "sur opérations financières"
+    },
+    "6784": {
+      "intermediate_category": "EX_EXTRAORDINARY",
+      "account_name": "sur instruments de trésorerie"
+    },
+    "679": {
+      "intermediate_category": "EX_EXTRAORDINARY",
+      "account_name": "CHARGES PROVISIONnÉES FINANCIÈRES"
+    },
+    "6791": {
+      "intermediate_category": "EX_EXTRAORDINARY",
+      "account_name": "sur risques financiers"
+    },
+    "6795": {
+      "intermediate_category": "EX_EXTRAORDINARY",
+      "account_name": "sur titres de placement"
+    },
+    "6798": {
+      "intermediate_category": "EX_EXTRAORDINARY",
+      "account_name": "Autres charges provisionnées financières"
+    },
+    "681": {
+      "intermediate_category": "EX_OTHER",
+      "account_name": "DOTATIONS AUX AMORTISSEMENTS D'EXPLOITATION"
+    },
+    "6811": {
+      "intermediate_category": "EX_OTHER",
+      "account_name": "Dotations aux amortissements des charges immobilisées"
+    },
+    "6812": {
+      "intermediate_category": "EX_OTHER",
+      "account_name": "Dotations aux amortissements des immobilisations incorporelles"
+    },
+    "6813": {
+      "intermediate_category": "EX_OTHER",
+      "account_name": "Dotations aux amortissements des immobilisations corporelles"
+    },
+    "687": {
+      "intermediate_category": "EX_OTHER",
+      "account_name": "DOTATIONS AUX AMORTISSEMENTS À CARACTÈRE FINANCIER"
+    },
+    "6872": {
+      "intermediate_category": "EX_OTHER",
+      "account_name": "Dotations aux amortissements des primes de remboursement des obligations"
+    },
+    "6878": {
+      "intermediate_category": "EX_OTHER",
+      "account_name": "Autres dotations aux amortissements à caractère financier"
+    },
+    "691": {
+      "intermediate_category": "EX_OTHER",
+      "account_name": "DOTATIONS AUX PROVISIONS D'EXPLOITATION"
+    },
+    "6911": {
+      "intermediate_category": "EX_OTHER",
+      "account_name": "pour risques et charges"
+    },
+    "6912": {
+      "intermediate_category": "EX_OTHER",
+      "account_name": "pour grosses réparations"
+    },
+    "6913": {
+      "intermediate_category": "EX_OTHER",
+      "account_name": "pour dépréciation des immobilisations incorporelles"
+    },
+    "6914": {
+      "intermediate_category": "EX_OTHER",
+      "account_name": "pour dépréciation des immobilisations corporelles"
+    },
+    "697": {
+      "intermediate_category": "EX_OTHER",
+      "account_name": "DOTATIONS AUX PROVISIONS FINANCIÈRES"
+    },
+    "6971": {
+      "intermediate_category": "EX_OTHER",
+      "account_name": "pour risques et charges"
+    },
+    "6972": {
+      "intermediate_category": "EX_OTHER",
+      "account_name": "pour dépréciation des immobilisations financières"
+    },
+    "701": {
+      "intermediate_category": "RE_SALES",
+      "account_name": "VENTES DE MARCHANDISES"
+    },
+    "7011": {
+      "intermediate_category": "RE_SALES",
+      "account_name": "dans la Région"
+    },
+    "7012": {
+      "intermediate_category": "RE_SALES",
+      "account_name": "hors Région"
+    },
+    "7013": {
+      "intermediate_category": "RE_SALES",
+      "account_name": "aux entreprises du groupe dans la Région"
+    },
+    "7014": {
+      "intermediate_category": "RE_SALES",
+      "account_name": "aux entreprises du groupe hors Région"
+    },
+    "702": {
+      "intermediate_category": "RE_SALES",
+      "account_name": "VENTES DE PRODUITS FINIS"
+    },
+    "7021": {
+      "intermediate_category": "RE_SALES",
+      "account_name": "dans la Région"
+    },
+    "7022": {
+      "intermediate_category": "RE_SALES",
+      "account_name": "hors Région"
+    },
+    "7023": {
+      "intermediate_category": "RE_SALES",
+      "account_name": "aux entreprises du groupe dans la Région"
+    },
+    "7024": {
+      "intermediate_category": "RE_SALES",
+      "account_name": "aux entreprises du groupe hors Région"
+    },
+    "703": {
+      "intermediate_category": "RE_SALES",
+      "account_name": "VENTES DE PRODUITS INTERMÉDIAIRES"
+    },
+    "7031": {
+      "intermediate_category": "RE_SALES",
+      "account_name": "dans la Région"
+    },
+    "7032": {
+      "intermediate_category": "RE_SALES",
+      "account_name": "hors Région"
+    },
+    "7033": {
+      "intermediate_category": "RE_SALES",
+      "account_name": "aux entreprises du groupe dans la Région"
+    },
+    "7034": {
+      "intermediate_category": "RE_SALES",
+      "account_name": "aux entreprises du groupe hors Région"
+    },
+    "704": {
+      "intermediate_category": "RE_SALES",
+      "account_name": "VENTES DE PRODUITS RÉSIDUELS"
+    },
+    "7041": {
+      "intermediate_category": "RE_SALES",
+      "account_name": "dans la Région"
+    },
+    "7042": {
+      "intermediate_category": "RE_SALES",
+      "account_name": "hors Région"
+    },
+    "7043": {
+      "intermediate_category": "RE_SALES",
+      "account_name": "aux entreprises du groupe dans la Région"
+    },
+    "7044": {
+      "intermediate_category": "RE_SALES",
+      "account_name": "aux entreprises du groupe hors Région"
+    },
+    "705": {
+      "intermediate_category": "RE_SALES",
+      "account_name": "TRAVAUX FACTURÉS"
+    },
+    "7051": {
+      "intermediate_category": "RE_SALES",
+      "account_name": "dans la Région"
+    },
+    "7052": {
+      "intermediate_category": "RE_SALES",
+      "account_name": "hors Région"
+    },
+    "7053": {
+      "intermediate_category": "RE_SALES",
+      "account_name": "aux entreprises du groupe dans la Région"
+    },
+    "7054": {
+      "intermediate_category": "RE_SALES",
+      "account_name": "aux entreprises du groupe hors Région"
+    },
+    "706": {
+      "intermediate_category": "RE_SALES",
+      "account_name": "SERVICES VENDUS"
+    },
+    "7061": {
+      "intermediate_category": "RE_SALES",
+      "account_name": "dans la Région"
+    },
+    "7062": {
+      "intermediate_category": "RE_SALES",
+      "account_name": "hors Région"
+    },
+    "7063": {
+      "intermediate_category": "RE_SALES",
+      "account_name": "aux entreprises du groupe dans la Région"
+    },
+    "7064": {
+      "intermediate_category": "RE_SALES",
+      "account_name": "aux entreprises du groupe hors Région"
+    },
+    "707": {
+      "intermediate_category": "RE_SALES",
+      "account_name": "PRODUITS ACCESSOIRES"
+    },
+    "7071": {
+      "intermediate_category": "RE_SALES",
+      "account_name": "Ports, emballages perdus et autres frais facturés"
+    },
+    "7072": {
+      "intermediate_category": "RE_SALES",
+      "account_name": "Commissions et courtages"
+    },
+    "7073": {
+      "intermediate_category": "RE_SALES",
+      "account_name": "Locations"
+    },
+    "7074": {
+      "intermediate_category": "RE_SALES",
+      "account_name": "Bonis sur reprises et cessions d'emballages"
+    },
+    "7075": {
+      "intermediate_category": "RE_SALES",
+      "account_name": "Mise à disposition de personnel"
+    },
+    "7076": {
+      "intermediate_category": "RE_SALES",
+      "account_name": "Redevances pour brevets, logiciels, marques et droits similaires"
+    },
+    "7077": {
+      "intermediate_category": "RE_SALES",
+      "account_name": "Services exploités dans l'intérêt du personnel"
+    },
+    "7078": {
+      "intermediate_category": "RE_SALES",
+      "account_name": "Autres produits accessoires"
+    },
+    "711": {
+      "intermediate_category": "RE_SERVICES",
+      "account_name": "SUR PRODUITS À L'EXPORTATION"
+    },
+    "712": {
+      "intermediate_category": "RE_SERVICES",
+      "account_name": "SUR PRODUITS À L'IMPORTATION"
+    },
+    "713": {
+      "intermediate_category": "RE_SERVICES",
+      "account_name": "SUR PRODUITS DE PÉRÉQUATION"
+    },
+    "718": {
+      "intermediate_category": "RE_SERVICES",
+      "account_name": "AUTRES SUBVENTIONS D'EXPLOITATION"
+    },
+    "7181": {
+      "intermediate_category": "RE_SERVICES",
+      "account_name": "Versées par l'État et les collectivités publiques"
+    },
+    "7182": {
+      "intermediate_category": "RE_SERVICES",
+      "account_name": "Versées par les organismes internationaux"
+    },
+    "7183": {
+      "intermediate_category": "RE_SERVICES",
+      "account_name": "Versées par des tiers"
+    },
+    "721": {
+      "intermediate_category": "RE_OTHER",
+      "account_name": "IMMOBILISATIONS INCORPORELLES"
+    },
+    "722": {
+      "intermediate_category": "RE_OTHER",
+      "account_name": "IMMOBILISATIONS CORPORELLES"
+    },
+    "726": {
+      "intermediate_category": "RE_OTHER",
+      "account_name": "IMMOBILISATIONS FINANCIÈRES"
+    },
+    "734": {
+      "intermediate_category": "RE_OTHER",
+      "account_name": "VARIATIONS DES STOCKS DE PRODUITS EN COURS"
+    },
+    "7341": {
+      "intermediate_category": "RE_OTHER",
+      "account_name": "Produits en cours"
+    },
+    "7342": {
+      "intermediate_category": "RE_OTHER",
+      "account_name": "Travaux en cours"
+    },
+    "735": {
+      "intermediate_category": "RE_OTHER",
+      "account_name": "VARIATIONS DES EN-COURS DE SERVICES"
+    },
+    "7351": {
+      "intermediate_category": "RE_OTHER",
+      "account_name": "Études en cours"
+    },
+    "7352": {
+      "intermediate_category": "RE_OTHER",
+      "account_name": "Prestations de services en cours"
+    },
+    "736": {
+      "intermediate_category": "RE_OTHER",
+      "account_name": "VARIATIONS DES STOCKS DE PRODUITS FINIS"
+    },
+    "737": {
+      "intermediate_category": "RE_OTHER",
+      "account_name": "VARIATIONS DES STOCKS DE PRODUITS INTERMÉDIAIRES ET RÉSIDUELS"
+    },
+    "7371": {
+      "intermediate_category": "RE_OTHER",
+      "account_name": "Produits intermédiaires"
+    },
+    "7372": {
+      "intermediate_category": "RE_OTHER",
+      "account_name": "Produits résiduels"
+    },
+    "752": {
+      "intermediate_category": "RE_FINANCIAL",
+      "account_name": "QUOTE-PART DE RÉSULTAT SUR OPÉRATIONS FAITES EN COMMUN"
+    },
+    "7521": {
+      "intermediate_category": "RE_FINANCIAL",
+      "account_name": "Quote-part transférée de pertes"
+    },
+    "7525": {
+      "intermediate_category": "RE_FINANCIAL",
+      "account_name": "Bénéfices attribués par transfert"
+    },
+    "753": {
+      "intermediate_category": "RE_FINANCIAL",
+      "account_name": "QUOTE-PART DE RÉSULTAT SUR EXÉCUTION PARTIELLE DE CONTRATS PLURIEXERCICES"
+    },
+    "754": {
+      "intermediate_category": "RE_FINANCIAL",
+      "account_name": "PRODUITS DES CESSIONS COURANTES D'IMMOBILISATIONS"
+    },
+    "758": {
+      "intermediate_category": "RE_FINANCIAL",
+      "account_name": "PRODUITS DIVERS"
+    },
+    "7581": {
+      "intermediate_category": "RE_FINANCIAL",
+      "account_name": "Jetons de présence et autres rémunérations d'administrateurs"
+    },
+    "7582": {
+      "intermediate_category": "RE_FINANCIAL",
+      "account_name": "Indemnités d'assurances reçues"
+    },
+    "759": {
+      "intermediate_category": "RE_FINANCIAL",
+      "account_name": "REPRISES DE CHARGES PROVISIONNÉES D'EXPLOITATION"
+    },
+    "7591": {
+      "intermediate_category": "RE_FINANCIAL",
+      "account_name": "sur risques à court terme"
+    },
+    "7593": {
+      "intermediate_category": "RE_FINANCIAL",
+      "account_name": "sur stocks"
+    },
+    "7594": {
+      "intermediate_category": "RE_FINANCIAL",
+      "account_name": "sur créances"
+    },
+    "7598": {
+      "intermediate_category": "RE_FINANCIAL",
+      "account_name": "sur autres charges provisionnées"
+    },
+    "771": {
+      "intermediate_category": "RE_EXTRAORDINARY",
+      "account_name": "INTÉRÊTS DE PRÊTS"
+    },
+    "772": {
+      "intermediate_category": "RE_EXTRAORDINARY",
+      "account_name": "REVENUS DE PARTICIPATIONS"
+    },
+    "773": {
+      "intermediate_category": "RE_EXTRAORDINARY",
+      "account_name": "ESCOMPTES OBTENUS"
+    },
+    "774": {
+      "intermediate_category": "RE_EXTRAORDINARY",
+      "account_name": "REVENUS DE TITRES DE PLACEMENT"
+    },
+    "776": {
+      "intermediate_category": "RE_EXTRAORDINARY",
+      "account_name": "GAINS DE CHANGE"
+    },
+    "777": {
+      "intermediate_category": "RE_EXTRAORDINARY",
+      "account_name": "GAINS SUR CESSIONS DE TITRES DE PLACEMENT"
+    },
+    "778": {
+      "intermediate_category": "RE_EXTRAORDINARY",
+      "account_name": "GAINS SUR RISQUES FINANCIERS"
+    },
+    "7781": {
+      "intermediate_category": "RE_EXTRAORDINARY",
+      "account_name": "sur rentes viagères"
+    },
+    "7782": {
+      "intermediate_category": "RE_EXTRAORDINARY",
+      "account_name": "sur opérations financières"
+    },
+    "7784": {
+      "intermediate_category": "RE_EXTRAORDINARY",
+      "account_name": "sur instruments de trésorerie"
+    },
+    "779": {
+      "intermediate_category": "RE_EXTRAORDINARY",
+      "account_name": "REPRISES DE CHARGES PROVISIONNÉES FINANCIÈRES"
+    },
+    "7791": {
+      "intermediate_category": "RE_EXTRAORDINARY",
+      "account_name": "sur risques financiers"
+    },
+    "7795": {
+      "intermediate_category": "RE_EXTRAORDINARY",
+      "account_name": "sur titres de placement"
+    },
+    "7798": {
+      "intermediate_category": "RE_EXTRAORDINARY",
+      "account_name": "autres charges provisionnées financières"
+    },
+    "781": {
+      "intermediate_category": "RE_EXTRAORDINARY",
+      "account_name": "TRANSFERTS DE CHARGES D'EXPLOITATION"
+    },
+    "787": {
+      "intermediate_category": "RE_EXTRAORDINARY",
+      "account_name": "TRANSFERTS DE CHARGES FINANCIÈRES"
+    },
+    "791": {
+      "intermediate_category": "RE_EXTRAORDINARY",
+      "account_name": "REPRISES DE PROVISIONS D'EXPLOITATION"
+    },
+    "7911": {
+      "intermediate_category": "RE_EXTRAORDINARY",
+      "account_name": "pour risques et charges"
+    },
+    "7912": {
+      "intermediate_category": "RE_EXTRAORDINARY",
+      "account_name": "pour grosses réparations"
+    },
+    "7913": {
+      "intermediate_category": "RE_EXTRAORDINARY",
+      "account_name": "pour dépréciation des immobilisations incorporelles"
+    },
+    "7914": {
+      "intermediate_category": "RE_EXTRAORDINARY",
+      "account_name": "pour dépréciation des immobilisations corporelles"
+    },
+    "797": {
+      "intermediate_category": "RE_EXTRAORDINARY",
+      "account_name": "REPRISES DE PROVISIONS FINANCIÈRES"
+    },
+    "7971": {
+      "intermediate_category": "RE_EXTRAORDINARY",
+      "account_name": "pour risques et charges"
+    },
+    "7972": {
+      "intermediate_category": "RE_EXTRAORDINARY",
+      "account_name": "pour dépréciation des immobilisations financières"
+    },
+    "798": {
+      "intermediate_category": "RE_EXTRAORDINARY",
+      "account_name": "REPRISES D'AMORTISSEMENTS"
+    },
+    "811": {
+      "intermediate_category": "CT_CONTROL",
+      "account_name": "IMMOBILISATIONS INCORPORELLES"
+    },
+    "812": {
+      "intermediate_category": "CT_CONTROL",
+      "account_name": "IMMOBILISATIONS CORPORELLES"
+    },
+    "816": {
+      "intermediate_category": "CT_CONTROL",
+      "account_name": "IMMOBILISATIONS FINANCIÈRES"
+    },
+    "821": {
+      "intermediate_category": "CT_MANAGEMENT",
+      "account_name": "IMMOBILISATIONS INCORPORELLES"
+    },
+    "822": {
+      "intermediate_category": "CT_MANAGEMENT",
+      "account_name": "IMMOBILISATIONS CORPORELLES"
+    },
+    "826": {
+      "intermediate_category": "CT_MANAGEMENT",
+      "account_name": "IMMOBILISATIONS FINANCIÈRES"
+    },
+    "831": {
+      "intermediate_category": "CT_DEBTORS",
+      "account_name": "CHARGES H.A.O. CONSTATÉES"
+    },
+    "834": {
+      "intermediate_category": "CT_DEBTORS",
+      "account_name": "PERTES SUR CRÉANCES H.A.O."
+    },
+    "835": {
+      "intermediate_category": "CT_DEBTORS",
+      "account_name": "DONS ET LIBÉRALITÉS ACCORDÉS"
+    },
+    "836": {
+      "intermediate_category": "CT_DEBTORS",
+      "account_name": "ABANDONS DE CRÉANCES CONSENTIS"
+    },
+    "839": {
+      "intermediate_category": "CT_DEBTORS",
+      "account_name": "CHARGES PROVISIONNÉES H.A.O."
+    },
+    "841": {
+      "intermediate_category": "CT_CREDITORS",
+      "account_name": "PRODUITS H.A.O CONSTATÉS"
+    },
+    "845": {
+      "intermediate_category": "CT_CREDITORS",
+      "account_name": "DONS ET LIBÉRALITÉS OBTENUS"
+    },
+    "846": {
+      "intermediate_category": "CT_CREDITORS",
+      "account_name": "ABANDONS DE CRÉANCES OBTENUS"
+    },
+    "848": {
+      "intermediate_category": "CT_CREDITORS",
+      "account_name": "TRANSFERTS DE CHARGES H.A.O"
+    },
+    "849": {
+      "intermediate_category": "CT_CREDITORS",
+      "account_name": "REPRISES DES CHARGES PROVISIONNÉES H.A.O."
+    },
+    "851": {
+      "intermediate_category": "CT_HOLDING",
+      "account_name": "DOTATIONS AUX PROVISIONS RÉGLEMENTÉES"
+    },
+    "852": {
+      "intermediate_category": "CT_HOLDING",
+      "account_name": "DOTATIONS AUX AMORTISSEMENTS H.A.O."
+    },
+    "853": {
+      "intermediate_category": "CT_HOLDING",
+      "account_name": "DOTATIONS AUX PROVISIONS POUR DÉPRÉCIATION H.A.O."
+    },
+    "854": {
+      "intermediate_category": "CT_HOLDING",
+      "account_name": "DOTATIONS AUX PROVISIONS POUR RISQUES ET CHARGES H.A.O."
+    },
+    "858": {
+      "intermediate_category": "CT_HOLDING",
+      "account_name": "AUTRES DOTATIONS H.A.O."
+    },
+    "861": {
+      "intermediate_category": "CT_OTHER",
+      "account_name": "REPRISES DE PROVISIONS RÉGLEMENTÉES"
+    },
+    "862": {
+      "intermediate_category": "CT_OTHER",
+      "account_name": "REPRISES D'AMORTISSEMENTS"
+    },
+    "863": {
+      "intermediate_category": "CT_OTHER",
+      "account_name": "REPRISES DE PROVISIONS POUR DÉPRÉCIATION H.A.O."
+    },
+    "864": {
+      "intermediate_category": "CT_OTHER",
+      "account_name": "REPRISES DE PROVISIONS POUR RISQUES ET CHARGES H.A.O."
+    },
+    "865": {
+      "intermediate_category": "CT_OTHER",
+      "account_name": "REPRISES DE SUBVENTIONS D'INVESTISSEMENT"
+    },
+    "868": {
+      "intermediate_category": "CT_OTHER",
+      "account_name": "AUTRES REPRISES H.A.O."
+    },
+    "871": {
+      "intermediate_category": "CT_OTHER",
+      "account_name": "PARTICIPATION LÉGALE AUX BÉNÉFICES"
+    },
+    "874": {
+      "intermediate_category": "CT_OTHER",
+      "account_name": "PARTICIPATION CONTRACTUELLE AUX BÉNÉFICES"
+    },
+    "878": {
+      "intermediate_category": "CT_OTHER",
+      "account_name": "AUTRES PARTICIPATIONS"
+    },
+    "881": {
+      "intermediate_category": "CT_OTHER",
+      "account_name": "ÉTAT"
+    },
+    "884": {
+      "intermediate_category": "CT_OTHER",
+      "account_name": "COLLECTIVITÉS PUBLIQUES"
+    },
+    "886": {
+      "intermediate_category": "CT_OTHER",
+      "account_name": "GROUPE"
+    },
+    "888": {
+      "intermediate_category": "CT_OTHER",
+      "account_name": "AUTRES"
+    },
+    "891": {
+      "intermediate_category": "CT_OTHER",
+      "account_name": "IMPÔTS SUR LES BÉNÉFICES DE L'EXERCICE"
+    },
+    "8911": {
+      "intermediate_category": "CT_OTHER",
+      "account_name": "Activités exercées dans l'État"
+    },
+    "8912": {
+      "intermediate_category": "CT_OTHER",
+      "account_name": "Activités exercées dans les autres États de la Région"
+    },
+    "8913": {
+      "intermediate_category": "CT_OTHER",
+      "account_name": "Activités exercées hors Région"
+    },
+    "892": {
+      "intermediate_category": "CT_OTHER",
+      "account_name": "RAPPEL D'IMPÔTS SUR RÉSULTATS ANTÉRIEURS"
+    },
+    "895": {
+      "intermediate_category": "CT_OTHER",
+      "account_name": "IMPÔT MINIMUM FORFAITAIRE"
+    },
+    "899": {
+      "intermediate_category": "CT_OTHER",
+      "account_name": "DÉGRÈVEMENTS ET ANNULATIONS D'IMPÔTS SUR RÉSULTATS ANTÉRIEURS"
+    },
+    "8991": {
+      "intermediate_category": "CT_OTHER",
+      "account_name": "Dégrèvements"
+    },
+    "8994": {
+      "intermediate_category": "CT_OTHER",
+      "account_name": "Annulations pour pertes rétroactives"
+    },
+    "901": {
+      "intermediate_category": "AN_COST_CENTERS",
+      "account_name": "ENGAGEMENTS DE FINANCEMENT OBTENUS"
+    },
+    "9011": {
+      "intermediate_category": "AN_COST_CENTERS",
+      "account_name": "Crédits confirmés obtenus"
+    },
+    "9012": {
+      "intermediate_category": "AN_COST_CENTERS",
+      "account_name": "Emprunts restant à encaisser"
+    },
+    "9013": {
+      "intermediate_category": "AN_COST_CENTERS",
+      "account_name": "Facilités de financement renouvelables"
+    },
+    "9014": {
+      "intermediate_category": "AN_COST_CENTERS",
+      "account_name": "Facilités d'émission"
+    },
+    "9018": {
+      "intermediate_category": "AN_COST_CENTERS",
+      "account_name": "Autres engagements de financement obtenus"
+    },
+    "902": {
+      "intermediate_category": "AN_COST_CENTERS",
+      "account_name": "ENGAGEMENTS DE GARANTIE OBTENUS"
+    },
+    "9021": {
+      "intermediate_category": "AN_COST_CENTERS",
+      "account_name": "Avals obtenus"
+    },
+    "9022": {
+      "intermediate_category": "AN_COST_CENTERS",
+      "account_name": "Cautions, garanties obtenues"
+    },
+    "9023": {
+      "intermediate_category": "AN_COST_CENTERS",
+      "account_name": "Hypothèques obtenues"
+    },
+    "9024": {
+      "intermediate_category": "AN_COST_CENTERS",
+      "account_name": "Effets endossés par des tiers"
+    },
+    "9028": {
+      "intermediate_category": "AN_COST_CENTERS",
+      "account_name": "Autres garanties obtenues"
+    },
+    "903": {
+      "intermediate_category": "AN_COST_CENTERS",
+      "account_name": "ENGAGEMENTS RÉCIPROQUES"
+    },
+    "9031": {
+      "intermediate_category": "AN_COST_CENTERS",
+      "account_name": "Achats de marchandises à terme"
+    },
+    "9032": {
+      "intermediate_category": "AN_COST_CENTERS",
+      "account_name": "Achats à terme de devises"
+    },
+    "9033": {
+      "intermediate_category": "AN_COST_CENTERS",
+      "account_name": "Commandes fermes des clients"
+    },
+    "9038": {
+      "intermediate_category": "AN_COST_CENTERS",
+      "account_name": "Autres engagements réciproques"
+    },
+    "904": {
+      "intermediate_category": "AN_COST_CENTERS",
+      "account_name": "AUTRES ENGAGEMENTS OBTENUS"
+    },
+    "9041": {
+      "intermediate_category": "AN_COST_CENTERS",
+      "account_name": "Abandons de créances conditionnels"
+    },
+    "9043": {
+      "intermediate_category": "AN_COST_CENTERS",
+      "account_name": "Ventes avec clause de réserve de propriété"
+    },
+    "9048": {
+      "intermediate_category": "AN_COST_CENTERS",
+      "account_name": "Divers engagements obtenus"
+    },
+    "905": {
+      "intermediate_category": "AN_COST_CENTERS",
+      "account_name": "ENGAGEMENTS DE FINANCEMENT ACCORDÉS"
+    },
+    "9051": {
+      "intermediate_category": "AN_COST_CENTERS",
+      "account_name": "Crédits accordés non décaissés"
+    },
+    "9058": {
+      "intermediate_category": "AN_COST_CENTERS",
+      "account_name": "Autres engagements de financement accordés"
+    },
+    "906": {
+      "intermediate_category": "AN_COST_CENTERS",
+      "account_name": "ENGAGEMENTS DE GARANTIE ACCORDÉS"
+    },
+    "9061": {
+      "intermediate_category": "AN_COST_CENTERS",
+      "account_name": "Avals accordés"
+    },
+    "9062": {
+      "intermediate_category": "AN_COST_CENTERS",
+      "account_name": "Cautions, garanties accordées"
+    },
+    "9063": {
+      "intermediate_category": "AN_COST_CENTERS",
+      "account_name": "Hypothèques accordées"
+    },
+    "9064": {
+      "intermediate_category": "AN_COST_CENTERS",
+      "account_name": "Effets endossés par l'entreprise"
+    },
+    "9068": {
+      "intermediate_category": "AN_COST_CENTERS",
+      "account_name": "Autres garanties accordées"
+    },
+    "907": {
+      "intermediate_category": "AN_COST_CENTERS",
+      "account_name": "ENGAGEMENTS RÉCIPROQUES"
+    },
+    "9071": {
+      "intermediate_category": "AN_COST_CENTERS",
+      "account_name": "Ventes de marchandises à terme"
+    },
+    "9072": {
+      "intermediate_category": "AN_COST_CENTERS",
+      "account_name": "Ventes à terme de devises"
+    },
+    "9073": {
+      "intermediate_category": "AN_COST_CENTERS",
+      "account_name": "Commandes fermes aux fournisseurs"
+    },
+    "9078": {
+      "intermediate_category": "AN_COST_CENTERS",
+      "account_name": "Autres engagements réciproques"
+    },
+    "908": {
+      "intermediate_category": "AN_COST_CENTERS",
+      "account_name": "AUTRES ENGAGEMENTS ACCORDÉS"
+    },
+    "9081": {
+      "intermediate_category": "AN_COST_CENTERS",
+      "account_name": "Annulations conditionnelles de dettes"
+    },
+    "9082": {
+      "intermediate_category": "AN_COST_CENTERS",
+      "account_name": "Engagements de retraite"
+    },
+    "9083": {
+      "intermediate_category": "AN_COST_CENTERS",
+      "account_name": "Achats avec clause de réserve de propriété"
+    },
+    "9088": {
+      "intermediate_category": "AN_COST_CENTERS",
+      "account_name": "Divers engagements accordés"
+    },
+    "911": {
+      "intermediate_category": "AN_REVENUE",
+      "account_name": "à 914 CONTREPARTIE DES ENGAGEMENTS OBTENUS, 901 à 904"
+    },
+    "915": {
+      "intermediate_category": "AN_REVENUE",
+      "account_name": "à 918 CONTREPARTIE DES ENGAGEMENTS ACCORDÉS, 905 à 908"
+    },
+    "92": {
+      "intermediate_category": "AN_EXPENSES",
+      "account_name": "COMPTES REFLÉCHIS"
+    },
+    "93": {
+      "intermediate_category": "AN_INVENTORY",
+      "account_name": "COMPTES DE RECLASSEMENTS"
+    },
+    "94": {
+      "intermediate_category": "AN_MARGIN",
+      "account_name": "COMPTES DE COÛTS"
+    },
+    "95": {
+      "intermediate_category": "AN_RESULT",
+      "account_name": "COMPTES DE STOCKS"
+    },
+    "96": {
+      "intermediate_category": "AN_ALLOCATION",
+      "account_name": "COMPTES D'ÉCARTS SUR COÛTS PRÉÉTABLIS"
+    },
+    "97": {
+      "intermediate_category": "AN_OTHER",
+      "account_name": "COMPTES DE DIFFÉRENCES DE TRAITEMENT COMPTABLE"
+    },
+    "98": {
+      "intermediate_category": "AN_OTHER",
+      "account_name": "COMPTES DE RÉSULTATS"
+    },
+    "99": {
+      "intermediate_category": "AN_OTHER",
+      "account_name": "COMPTES DE LIAISONS INTERNES"
+    }
+  },
+  "LEVEL_2_INTERMEDIATE_TO_DSF": {
+    "EQ_CAPITAL": {
+      "sheet": "R1",
+      "type": "equity_capital"
+    },
+    "EQ_RESERVES": {
+      "sheet": "R1",
+      "type": "equity_reserves"
+    },
+    "EQ_EARNINGS": {
+      "sheet": "R2",
+      "type": "equity_retained"
+    },
+    "EQ_RESULT": {
+      "sheet": "R1",
+      "type": "equity_result"
+    },
+    "EQ_SUBSIDY": {
+      "sheet": "NOTE13",
+      "type": "equity_subsidy"
+    },
+    "EQ_PROVISIONS": {
+      "sheet": "NOTE13",
+      "type": "equity_prov"
+    },
+    "EQ_GEN": {
+      "sheet": "R1",
+      "type": "equity_other"
+    },
+    "FA_INTANGIBLE": {
+      "sheet": "BILAN",
+      "type": "fixed_intangible"
+    },
+    "FA_LAND": {
+      "sheet": "BILAN",
+      "type": "fixed_land"
+    },
+    "FA_BUILDING": {
+      "sheet": "BILAN",
+      "type": "fixed_building"
+    },
+    "FA_INSTALL": {
+      "sheet": "BILAN",
+      "type": "fixed_install"
+    },
+    "FA_EQUIPMENT": {
+      "sheet": "BILAN",
+      "type": "fixed_equipment"
+    },
+    "FA_TRANSPORT": {
+      "sheet": "BILAN",
+      "type": "fixed_transport"
+    },
+    "FA_FURNITURE": {
+      "sheet": "BILAN",
+      "type": "fixed_furniture"
+    },
+    "FA_AMORTIZATION": {
+      "sheet": "BILAN",
+      "type": "fixed_other"
+    },
+    "FA_FINANCIAL": {
+      "sheet": "BILAN",
+      "type": "fixed_financial"
+    },
+    "FA_DEPRECIATION": {
+      "sheet": "BILAN",
+      "type": "fixed_depreciation"
+    },
+    "FA_OTHER": {
+      "sheet": "BILAN",
+      "type": "fixed_other"
+    },
+    "CA_INVENTORY": {
+      "sheet": "BILAN",
+      "type": "current_inventory"
+    },
+    "CA_RECEIVABLES": {
+      "sheet": "BILAN",
+      "type": "current_receivables"
+    },
+    "CA_PREPAID": {
+      "sheet": "BILAN",
+      "type": "current_prepaid"
+    },
+    "CA_CASH": {
+      "sheet": "BILAN",
+      "type": "current_cash"
+    },
+    "CA_OTHER": {
+      "sheet": "BILAN",
+      "type": "current_other"
+    },
+    "LI_SUPPLIERS": {
+      "sheet": "BILAN",
+      "type": "liability_suppliers"
+    },
+    "LI_PERSONNEL": {
+      "sheet": "BILAN",
+      "type": "liability_personnel"
+    },
+    "LI_TAXES": {
+      "sheet": "BILAN",
+      "type": "liability_taxes"
+    },
+    "LI_DEBT_LT": {
+      "sheet": "BILAN",
+      "type": "liability_debt_lt"
+    },
+    "LI_DEFERRED": {
+      "sheet": "BILAN",
+      "type": "liability_deferred"
+    },
+    "LI_OTHER": {
+      "sheet": "BILAN",
+      "type": "liability_other"
+    },
+    "SP_PROVISIONS": {
+      "sheet": "SPECIAL",
+      "type": "special_provisions"
+    },
+    "SP_PENDING": {
+      "sheet": "SPECIAL",
+      "type": "special_pending"
+    },
+    "SP_CAPITAL": {
+      "sheet": "SPECIAL",
+      "type": "special_capital"
+    },
+    "SP_RESULT": {
+      "sheet": "SPECIAL",
+      "type": "special_result"
+    },
+    "SP_TRANSFER": {
+      "sheet": "SPECIAL",
+      "type": "special_transfer"
+    },
+    "SP_OTHER": {
+      "sheet": "SPECIAL",
+      "type": "special_other"
+    },
+    "EX_MATERIALS": {
+      "sheet": "COMPTE_RES",
+      "type": "expense_materials"
+    },
+    "EX_SERVICES": {
+      "sheet": "COMPTE_RES",
+      "type": "expense_services"
+    },
+    "EX_PERSONNEL": {
+      "sheet": "COMPTE_RES",
+      "type": "expense_personnel"
+    },
+    "EX_TAXES": {
+      "sheet": "COMPTE_RES",
+      "type": "expense_taxes"
+    },
+    "EX_DEPRECIATION": {
+      "sheet": "COMPTE_RES",
+      "type": "expense_depreciation"
+    },
+    "EX_IMPAIRMENT": {
+      "sheet": "COMPTE_RES",
+      "type": "expense_impairment"
+    },
+    "EX_FINANCIAL": {
+      "sheet": "COMPTE_RES",
+      "type": "expense_financial"
+    },
+    "EX_EXTRAORDINARY": {
+      "sheet": "COMPTE_RES",
+      "type": "expense_extraordinary"
+    },
+    "EX_OTHER": {
+      "sheet": "COMPTE_RES",
+      "type": "expense_other"
+    },
+    "RE_SALES": {
+      "sheet": "COMPTE_RES",
+      "type": "revenue_sales"
+    },
+    "RE_SERVICES": {
+      "sheet": "COMPTE_RES",
+      "type": "revenue_services"
+    },
+    "RE_FINANCIAL": {
+      "sheet": "COMPTE_RES",
+      "type": "revenue_financial"
+    },
+    "RE_EXTRAORDINARY": {
+      "sheet": "COMPTE_RES",
+      "type": "revenue_extraordinary"
+    },
+    "RE_OTHER": {
+      "sheet": "COMPTE_RES",
+      "type": "revenue_other"
+    },
+    "CT_CONTROL": {
+      "sheet": "SPECIAL",
+      "type": "control_accounts"
+    },
+    "CT_MANAGEMENT": {
+      "sheet": "SPECIAL",
+      "type": "management_accounts"
+    },
+    "CT_DEBTORS": {
+      "sheet": "SPECIAL",
+      "type": "debtors"
+    },
+    "CT_CREDITORS": {
+      "sheet": "SPECIAL",
+      "type": "creditors"
+    },
+    "CT_HOLDING": {
+      "sheet": "SPECIAL",
+      "type": "holding"
+    },
+    "CT_OTHER": {
+      "sheet": "SPECIAL",
+      "type": "special_other"
+    },
+    "AN_COST_CENTERS": {
+      "sheet": "ANALYTIQUE",
+      "type": "cost_centers"
+    },
+    "AN_REVENUE": {
+      "sheet": "ANALYTIQUE",
+      "type": "analytical_revenue"
+    },
+    "AN_EXPENSES": {
+      "sheet": "ANALYTIQUE",
+      "type": "analytical_expenses"
+    },
+    "AN_INVENTORY": {
+      "sheet": "ANALYTIQUE",
+      "type": "analytical_inventory"
+    },
+    "AN_MARGIN": {
+      "sheet": "ANALYTIQUE",
+      "type": "analytical_margin"
+    },
+    "AN_RESULT": {
+      "sheet": "ANALYTIQUE",
+      "type": "analytical_result"
+    },
+    "AN_ALLOCATION": {
+      "sheet": "ANALYTIQUE",
+      "type": "analytical_allocation"
+    },
+    "AN_OTHER": {
+      "sheet": "ANALYTIQUE",
+      "type": "analytical_other"
+    }
+  },
+  "INTERMEDIATE_CATEGORIES_INFO": {
+    "EQ_CAPITAL": {
+      "classe": "1",
+      "prefixes": [
+        "10"
+      ]
+    },
+    "EQ_RESERVES": {
+      "classe": "1",
+      "prefixes": [
+        "11",
+        "12"
+      ]
+    },
+    "EQ_EARNINGS": {
+      "classe": "1",
+      "prefixes": [
+        "13"
+      ]
+    },
+    "EQ_RESULT": {
+      "classe": "1",
+      "prefixes": [
+        "14"
+      ]
+    },
+    "EQ_SUBSIDY": {
+      "classe": "1",
+      "prefixes": [
+        "15"
+      ]
+    },
+    "EQ_PROVISIONS": {
+      "classe": "1",
+      "prefixes": [
+        "16"
+      ]
+    },
+    "EQ_GEN": {
+      "classe": "1",
+      "prefixes": [
+        "17",
+        "18",
+        "19"
+      ]
+    },
+    "FA_INTANGIBLE": {
+      "classe": "2",
+      "prefixes": [
+        "20"
+      ]
+    },
+    "FA_LAND": {
+      "classe": "2",
+      "prefixes": [
+        "21"
+      ]
+    },
+    "FA_BUILDING": {
+      "classe": "2",
+      "prefixes": [
+        "22"
+      ]
+    },
+    "FA_INSTALL": {
+      "classe": "2",
+      "prefixes": [
+        "23"
+      ]
+    },
+    "FA_EQUIPMENT": {
+      "classe": "2",
+      "prefixes": [
+        "24"
+      ]
+    },
+    "FA_TRANSPORT": {
+      "classe": "2",
+      "prefixes": [
+        "25"
+      ]
+    },
+    "FA_FURNITURE": {
+      "classe": "2",
+      "prefixes": [
+        "26"
+      ]
+    },
+    "FA_AMORTIZATION": {
+      "classe": "2",
+      "prefixes": [
+        "27"
+      ]
+    },
+    "FA_FINANCIAL": {
+      "classe": "2",
+      "prefixes": [
+        "28"
+      ]
+    },
+    "FA_DEPRECIATION": {
+      "classe": "2",
+      "prefixes": [
+        "29"
+      ]
+    },
+    "FA_OTHER": {
+      "classe": "2",
+      "prefixes": [
+        "others"
+      ]
+    },
+    "CA_INVENTORY": {
+      "classe": "3",
+      "prefixes": [
+        "31"
+      ]
+    },
+    "CA_RECEIVABLES": {
+      "classe": "3",
+      "prefixes": [
+        "32"
+      ]
+    },
+    "CA_PREPAID": {
+      "classe": "3",
+      "prefixes": [
+        "33"
+      ]
+    },
+    "CA_CASH": {
+      "classe": "3",
+      "prefixes": [
+        "34",
+        "35",
+        "36",
+        "37"
+      ]
+    },
+    "CA_OTHER": {
+      "classe": "3",
+      "prefixes": [
+        "38",
+        "39"
+      ]
+    },
+    "LI_SUPPLIERS": {
+      "classe": "4",
+      "prefixes": [
+        "40"
+      ]
+    },
+    "LI_PERSONNEL": {
+      "classe": "4",
+      "prefixes": [
+        "41"
+      ]
+    },
+    "LI_TAXES": {
+      "classe": "4",
+      "prefixes": [
+        "42"
+      ]
+    },
+    "LI_DEBT_LT": {
+      "classe": "4",
+      "prefixes": [
+        "43"
+      ]
+    },
+    "LI_DEFERRED": {
+      "classe": "4",
+      "prefixes": [
+        "44"
+      ]
+    },
+    "LI_OTHER": {
+      "classe": "4",
+      "prefixes": [
+        "45",
+        "46",
+        "47",
+        "48",
+        "49"
+      ]
+    },
+    "SP_PROVISIONS": {
+      "classe": "5",
+      "prefixes": [
+        "50"
+      ]
+    },
+    "SP_PENDING": {
+      "classe": "5",
+      "prefixes": [
+        "51"
+      ]
+    },
+    "SP_CAPITAL": {
+      "classe": "5",
+      "prefixes": [
+        "52"
+      ]
+    },
+    "SP_RESULT": {
+      "classe": "5",
+      "prefixes": [
+        "53"
+      ]
+    },
+    "SP_TRANSFER": {
+      "classe": "5",
+      "prefixes": [
+        "54"
+      ]
+    },
+    "SP_OTHER": {
+      "classe": "5",
+      "prefixes": [
+        "56",
+        "57",
+        "58",
+        "59"
+      ]
+    },
+    "EX_MATERIALS": {
+      "classe": "6",
+      "prefixes": [
+        "60"
+      ]
+    },
+    "EX_SERVICES": {
+      "classe": "6",
+      "prefixes": [
+        "61"
+      ]
+    },
+    "EX_PERSONNEL": {
+      "classe": "6",
+      "prefixes": [
+        "62"
+      ]
+    },
+    "EX_TAXES": {
+      "classe": "6",
+      "prefixes": [
+        "63"
+      ]
+    },
+    "EX_DEPRECIATION": {
+      "classe": "6",
+      "prefixes": [
+        "64"
+      ]
+    },
+    "EX_IMPAIRMENT": {
+      "classe": "6",
+      "prefixes": [
+        "65"
+      ]
+    },
+    "EX_FINANCIAL": {
+      "classe": "6",
+      "prefixes": [
+        "66"
+      ]
+    },
+    "EX_EXTRAORDINARY": {
+      "classe": "6",
+      "prefixes": [
+        "67"
+      ]
+    },
+    "EX_OTHER": {
+      "classe": "6",
+      "prefixes": [
+        "68",
+        "69"
+      ]
+    },
+    "RE_SALES": {
+      "classe": "7",
+      "prefixes": [
+        "70"
+      ]
+    },
+    "RE_SERVICES": {
+      "classe": "7",
+      "prefixes": [
+        "71"
+      ]
+    },
+    "RE_OTHER": {
+      "classe": "7",
+      "prefixes": [
+        "72",
+        "73"
+      ]
+    },
+    "RE_FINANCIAL": {
+      "classe": "7",
+      "prefixes": [
+        "75"
+      ]
+    },
+    "RE_EXTRAORDINARY": {
+      "classe": "7",
+      "prefixes": [
+        "77",
+        "78",
+        "79"
+      ]
+    },
+    "CT_CONTROL": {
+      "classe": "8",
+      "prefixes": [
+        "81"
+      ]
+    },
+    "CT_MANAGEMENT": {
+      "classe": "8",
+      "prefixes": [
+        "82"
+      ]
+    },
+    "CT_DEBTORS": {
+      "classe": "8",
+      "prefixes": [
+        "83"
+      ]
+    },
+    "CT_CREDITORS": {
+      "classe": "8",
+      "prefixes": [
+        "84"
+      ]
+    },
+    "CT_HOLDING": {
+      "classe": "8",
+      "prefixes": [
+        "85"
+      ]
+    },
+    "CT_OTHER": {
+      "classe": "8",
+      "prefixes": [
+        "86",
+        "87",
+        "88",
+        "89"
+      ]
+    },
+    "AN_COST_CENTERS": {
+      "classe": "9",
+      "prefixes": [
+        "90"
+      ]
+    },
+    "AN_REVENUE": {
+      "classe": "9",
+      "prefixes": [
+        "91"
+      ]
+    },
+    "AN_EXPENSES": {
+      "classe": "9",
+      "prefixes": [
+        "92"
+      ]
+    },
+    "AN_INVENTORY": {
+      "classe": "9",
+      "prefixes": [
+        "93"
+      ]
+    },
+    "AN_MARGIN": {
+      "classe": "9",
+      "prefixes": [
+        "94"
+      ]
+    },
+    "AN_RESULT": {
+      "classe": "9",
+      "prefixes": [
+        "95"
+      ]
+    },
+    "AN_ALLOCATION": {
+      "classe": "9",
+      "prefixes": [
+        "96"
+      ]
+    },
+    "AN_OTHER": {
+      "classe": "9",
+      "prefixes": [
+        "97",
+        "98",
+        "99"
+      ]
+    }
+  },
+  "class_distribution": {
+    "Classe 1 - Equity": 139,
+    "Classe 2 - Fixed Assets": 271,
+    "Classe 3 - Current Assets": 63,
+    "Classe 4 - Liabilities": 205,
+    "Classe 5 - Special": 75,
+    "Classe 6 - Expenses": 239,
+    "Classe 7 - Revenues": 97,
+    "Classe 8 - Control": 43,
+    "Classe 9 - Analytical": 50
+  }
+}

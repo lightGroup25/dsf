@@ -1,0 +1,53 @@
+{
+  "timestamp": "2026-02-14T17:34:55.995577",
+  "strategy": "Option 3 - Direct Column Mapping with Auto-Formulas",
+  "description": "Col 4\u2190Balance Col 14(opening), Col 5\u2190Balance Col 21(movements), Col 10\u2190Formula(=D+E)",
+  "data": {
+    "total_accounts_in_balance": 244,
+    "accounts_matched_to_dsf": 243,
+    "cells_filled_direct": 349,
+    "cells_with_formulas": 243,
+    "total_cells_impacted": 592
+  },
+  "validation": {
+    "success_rate": 99.59016393442623,
+    "average_match_score": 0.5226192260452011
+  },
+  "sample_mappings": {
+    "29": {
+      "balance_label": "DEPRECIATIONS DE IMMOBILISATIONS",
+      "dsf_row": 45,
+      "opening_balance": 1000741152,
+      "movements": null,
+      "match_score": 0.7142857142857143
+    },
+    "31": {
+      "balance_label": "MARCHANDISES",
+      "dsf_row": 11,
+      "opening_balance": 672858489,
+      "movements": 18650853031,
+      "match_score": 0.7272727272727273
+    },
+    "42": {
+      "balance_label": "PERSONNEL",
+      "dsf_row": 33,
+      "opening_balance": 1271226821,
+      "movements": 749463053,
+      "match_score": 0.6206896551724138
+    },
+    "72": {
+      "balance_label": "PRODUCTION IMMOBILISEE",
+      "dsf_row": 20,
+      "opening_balance": null,
+      "movements": 10163070,
+      "match_score": 0.9545454545454546
+    },
+    "75": {
+      "balance_label": "AUTRES PRODUITS",
+      "dsf_row": 22,
+      "opening_balance": null,
+      "movements": 300595247,
+      "match_score": 1.0
+    }
+  }
+}

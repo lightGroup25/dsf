@@ -1,0 +1,158 @@
+version: "0.1.0"
+template_name: "DSF Normal standard.xlsx"
+generated_from_inventory: "data/dsf_inventory.json"
+metadata:
+  author: Phase1-bootstrap
+  description: >-
+    Prototype de règles dynamiques pour mapper les classes SYSCOHADA vers les zones
+    DSF Système Normal (Actif, Passif, Compte de Résultat).
+
+rules:
+  - id: bilan_actif_immobilisations
+    label: Immobilisations incorporelles et corporelles
+    section: BILAN_ACTIF
+    priority: 10
+    buckets: [ACTIF, IMMOBILISATIONS]
+    target:
+      sheet: "BILAN PAYSAGE"
+      column: "D"
+      exercice_column_type: "exercice_n"
+      row_start: 14
+      row_end: 32
+      allowed_cells:
+        - D14
+        - D15
+        - D16
+        - D17
+        - D18
+        - D19
+        - D20
+        - D21
+        - D22
+        - D23
+        - D24
+        - D25
+        - D26
+        - D27
+        - D28
+        - D29
+        - D30
+        - D31
+        - D32
+    filters:
+      include_classes: ["2"]
+      include_ranges: ["20-25", "27*", "28*", "29*"]
+      require_sign: debit
+      notes: Immobilisations actives uniquement, aucun solde créditeur admis.
+
+  - id: bilan_actif_circulant
+    label: Actif circulant, créances et trésorerie
+    section: BILAN_ACTIF
+    priority: 20
+    buckets: [ACTIF, CIRCULANT]
+    target:
+      sheet: "BILAN PAYSAGE"
+      column: "D"
+      exercice_column_type: "exercice_n"
+      row_start: 33
+      row_end: 70
+    filters:
+      include_classes: ["3", "4", "5"]
+      include_ranges: ["30-39", "40-48", "50-57"]
+      require_sign: debit
+      notes: Classe 4 et 5 acceptées uniquement lorsqu'elles présentent un solde débiteur (créances, trésorerie active).
+
+  - id: bilan_passif_capitaux
+    label: Capitaux propres et dettes
+    section: BILAN_PASSIF
+    priority: 30
+    buckets: [PASSIF]
+    target:
+      sheet: "BILAN PAYSAGE"
+      column: "K"
+      exercice_column_type: "exercice_n"
+      row_start: 33
+      row_end: 80
+      allowed_cells:
+        - K33
+        - K34
+        - K35
+        - K36
+        - K37
+        - K38
+        - K39
+        - K40
+        - K41
+        - K42
+        - K43
+        - K44
+        - K45
+        - K46
+        - K47
+        - K48
+        - K49
+        - K50
+        - K51
+        - K52
+        - K53
+        - K54
+        - K55
+        - K56
+        - K57
+    filters:
+      include_classes: ["1", "4", "5"]
+      include_ranges: ["10-19", "40-49", "50-59"]
+      require_sign: credit
+      notes: Classe 4 et 5 prises en charge en solde créditeur uniquement (dettes et trésorerie passive).
+
+  - id: cr_charges_exploitation
+    label: Charges (classes 6)
+    section: COMPTE_RESULTAT_CHARGES
+    priority: 40
+    buckets: [CR_CHARGES]
+    target:
+      sheet: "COMPTE DE RESULTAT"
+      column: "E"
+      exercice_column_type: "exercice_n"
+      row_start: 7
+      row_end: 40
+    filters:
+      include_classes: ["6"]
+      require_sign: debit
+      notes: Aucun report de crédit autorisé, conformité au principe charges = débits.
+
+  - id: cr_produits_exploitation
+    label: Produits (classes 7)
+    section: COMPTE_RESULTAT_PRODUITS
+    priority: 50
+    buckets: [CR_PRODUITS]
+    target:
+      sheet: "COMPTE DE RESULTAT"
+      column: "E"
+      exercice_column_type: "exercice_n"
+      row_start: 5
+      row_end: 25
+    filters:
+      include_classes: ["7"]
+      require_sign: credit
+      notes: Aucun solde débiteur autorisé sur les comptes de produits.
+
+  - id: engagements_hors_bilan
+    label: Engagements hors bilan
+    section: TABLEAU_ENGAGEMENTS
+    priority: 60
+    buckets: [ENGAGEMENTS]
+    target:
+      sheet: "TABLEAU DES FLUX DE TRESORERIE"
+      column: "E"
+      exercice_column_type: "exercice_n"
+      row_start: 5
+      row_end: 10
+      allowed_cells:
+        - D5
+        - D6
+    filters:
+      include_classes: ["9"]
+      include_ranges: ["900-909"]
+      require_sign: debit
+      notes: Les engagements reçus/donnés alimentent le tableau des flux (lignes D5-D6).

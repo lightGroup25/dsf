@@ -1,0 +1,86 @@
+{
+  "status": "SUCCESS",
+  "output_file": "output/DSF_OPTION3_AUTO_CALCULATED.xlsx",
+  "data_integrity": {
+    "cells_with_opening": 36,
+    "cells_with_movements": 33,
+    "cells_with_formulas": 37,
+    "sample_rows_verified": [
+      {
+        "row": 9,
+        "opening": 25065744083,
+        "movements": 29390761989,
+        "formula": "=D9+E9",
+        "description": "Col D=25065744083, Col E=29390761989, Col J==D9+E9"
+      },
+      {
+        "row": 11,
+        "opening": 672858489,
+        "movements": 21184020247,
+        "formula": "=D11+E11",
+        "description": "Col D=672858489, Col E=21184020247, Col J==D11+E11"
+      },
+      {
+        "row": 12,
+        "opening": 29996,
+        "movements": null,
+        "formula": "=D12+E12",
+        "description": "Col D=29996, Col E=None, Col J==D12+E12"
+      },
+      {
+        "row": 13,
+        "opening": 3,
+        "movements": 14895206613,
+        "formula": "=D13+E13",
+        "description": "Col D=3, Col E=14895206613, Col J==D13+E13"
+      },
+      {
+        "row": 14,
+        "opening": 150000000,
+        "movements": null,
+        "formula": "=D14+E14",
+        "description": "Col D=150000000, Col E=None, Col J==D14+E14"
+      },
+      {
+        "row": 15,
+        "opening": 139052445,
+        "movements": 39938751,
+        "formula": "=D15+E15",
+        "description": "Col D=139052445, Col E=39938751, Col J==D15+E15"
+      },
+      {
+        "row": 16,
+        "opening": 143367036,
+        "movements": 744332179,
+        "formula": "=D16+E16",
+        "description": "Col D=143367036, Col E=744332179, Col J==D16+E16"
+      },
+      {
+        "row": 17,
+        "opening": 1521907888,
+        "movements": 593235320,
+        "formula": "=D17+E17",
+        "description": "Col D=1521907888, Col E=593235320, Col J==D17+E17"
+      },
+      {
+        "row": 18,
+        "opening": 434079133,
+        "movements": 57077437,
+        "formula": "=D18+E18",
+        "description": "Col D=434079133, Col E=57077437, Col J==D18+E18"
+      },
+      {
+        "row": 19,
+        "opening": 18015520613,
+        "movements": 3633986369,
+        "formula": "=D19+E19",
+        "description": "Col D=18015520613, Col E=3633986369, Col J==D19+E19"
+      }
+    ]
+  },
+  "formula_validation": {
+    "total_formulas": 37,
+    "valid_formulas": 37,
+    "error_count": 0
+  }
+}

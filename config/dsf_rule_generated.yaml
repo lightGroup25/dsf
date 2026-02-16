@@ -1,0 +1,2222 @@
+version: 0.2.0
+template_name: templates/DSF Normal standard.xlsx
+generated_from_inventory: data/dsf_inventory.json
+metadata:
+  generated_rules: 87
+  source_mapping: dsf_final_mapping.json
+rules:
+- id: auto_eq_capital
+  label: Eq Capital
+  section: BILAN_PASSIF
+  priority: 10
+  target:
+    sheet: BILAN PAYSAGE
+    column: K
+    exercice_column_type: exercice_n
+    row_start: 12
+    row_end: 22
+    allowed_cells: []
+  filters:
+    include_classes: []
+    include_ranges: []
+    include_prefixes:
+    - '10'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: null
+    notes: Classe None via EQ_CAPITAL
+  buckets:
+  - PASSIF
+  - CAPITAUX_PROPRES
+  notes: Mapping auto généré pour EQ_CAPITAL
+- id: auto_eq_capital
+  label: Eq Capital
+  section: NOTE_13
+  priority: 20
+  target:
+    sheet: 'NOTE 13 '
+    column: C
+    exercice_column_type: exercice_n
+    row_start: 8
+    row_end: 8
+    allowed_cells: []
+  filters:
+    include_classes: []
+    include_ranges: []
+    include_prefixes:
+    - '10'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: null
+    notes: Classe None via EQ_CAPITAL
+  buckets:
+  - NOTE_13
+  - CAPITAL
+  notes: Mapping auto généré pour EQ_CAPITAL
+- id: auto_eq_reserves
+  label: Eq Reserves
+  section: BILAN_PASSIF
+  priority: 30
+  target:
+    sheet: BILAN PAYSAGE
+    column: K
+    exercice_column_type: exercice_n
+    row_start: 12
+    row_end: 22
+    allowed_cells: []
+  filters:
+    include_classes: []
+    include_ranges: []
+    include_prefixes:
+    - '12'
+    - '11'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: null
+    notes: Classe None via EQ_RESERVES
+  buckets:
+  - PASSIF
+  - CAPITAUX_PROPRES
+  notes: Mapping auto généré pour EQ_RESERVES
+- id: auto_eq_earnings
+  label: Eq Earnings
+  section: BILAN_PASSIF
+  priority: 40
+  target:
+    sheet: BILAN PAYSAGE
+    column: K
+    exercice_column_type: exercice_n
+    row_start: 12
+    row_end: 22
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '1'
+    include_ranges: []
+    include_prefixes:
+    - '13'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: credit
+    notes: Classe 1 via EQ_EARNINGS
+  buckets:
+  - PASSIF
+  - CAPITAUX_PROPRES
+  notes: Mapping auto généré pour EQ_EARNINGS
+- id: auto_eq_result
+  label: Eq Result
+  section: BILAN_PASSIF
+  priority: 50
+  target:
+    sheet: BILAN PAYSAGE
+    column: K
+    exercice_column_type: exercice_n
+    row_start: 12
+    row_end: 22
+    allowed_cells: []
+  filters:
+    include_classes: []
+    include_ranges: []
+    include_prefixes:
+    - '14'
+    - '13'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: null
+    notes: Classe None via EQ_RESULT
+  buckets:
+  - PASSIF
+  - CAPITAUX_PROPRES
+  notes: Mapping auto généré pour EQ_RESULT
+- id: auto_eq_subsidy
+  label: Eq Subsidy
+  section: BILAN_PASSIF
+  priority: 60
+  target:
+    sheet: BILAN PAYSAGE
+    column: K
+    exercice_column_type: exercice_n
+    row_start: 12
+    row_end: 22
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '1'
+    include_ranges: []
+    include_prefixes:
+    - '15'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: credit
+    notes: Classe 1 via EQ_SUBSIDY
+  buckets:
+  - PASSIF
+  - CAPITAUX_PROPRES
+  notes: Mapping auto généré pour EQ_SUBSIDY
+- id: auto_eq_provisions
+  label: Eq Provisions
+  section: BILAN_PASSIF
+  priority: 70
+  target:
+    sheet: BILAN PAYSAGE
+    column: K
+    exercice_column_type: exercice_n
+    row_start: 12
+    row_end: 22
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '1'
+    include_ranges: []
+    include_prefixes:
+    - '16'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: credit
+    notes: Classe 1 via EQ_PROVISIONS
+  buckets:
+  - PASSIF
+  - CAPITAUX_PROPRES
+  notes: Mapping auto généré pour EQ_PROVISIONS
+- id: auto_eq_gen
+  label: Eq Gen
+  section: BILAN_PASSIF
+  priority: 80
+  target:
+    sheet: BILAN PAYSAGE
+    column: K
+    exercice_column_type: exercice_n
+    row_start: 12
+    row_end: 22
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '1'
+    include_ranges: []
+    include_prefixes:
+    - '19'
+    - '18'
+    - '17'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: credit
+    notes: Classe 1 via EQ_GEN
+  buckets:
+  - PASSIF
+  - CAPITAUX_PROPRES
+  notes: Mapping auto généré pour EQ_GEN
+- id: auto_fa_intangible
+  label: Fa Intangible
+  section: BILAN_ACTIF
+  priority: 90
+  target:
+    sheet: BILAN PAYSAGE
+    column: D
+    exercice_column_type: exercice_n
+    row_start: 13
+    row_end: 13
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '2'
+    include_ranges: []
+    include_prefixes:
+    - '20'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: debit
+    notes: Classe 2 via FA_INTANGIBLE
+  buckets:
+  - ACTIF
+  - IMMOBILISATIONS
+  notes: Mapping auto généré pour FA_INTANGIBLE
+- id: auto_fa_intangible
+  label: Fa Intangible
+  section: NOTE_3A
+  priority: 100
+  target:
+    sheet: NOTE 3A
+    column: D
+    exercice_column_type: exercice_n
+    row_start: 15
+    row_end: 15
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '2'
+    include_ranges: []
+    include_prefixes:
+    - '20'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: debit
+    notes: Classe 2 via FA_INTANGIBLE
+  buckets:
+  - NOTE_3A
+  - BRUT_FIN
+  notes: Mapping auto généré pour FA_INTANGIBLE
+- id: auto_fa_land
+  label: Fa Land
+  section: BILAN_ACTIF
+  priority: 110
+  target:
+    sheet: BILAN PAYSAGE
+    column: D
+    exercice_column_type: exercice_n
+    row_start: 12
+    row_end: 27
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '2'
+    include_ranges: []
+    include_prefixes:
+    - '21'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: debit
+    notes: Classe 2 via FA_LAND
+  buckets:
+  - ACTIF
+  - IMMOBILISATIONS
+  notes: Mapping auto généré pour FA_LAND
+- id: auto_fa_land
+  label: Fa Land
+  section: NOTE_3A
+  priority: 120
+  target:
+    sheet: NOTE 3A
+    column: D
+    exercice_column_type: exercice_n
+    row_start: 15
+    row_end: 30
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '2'
+    include_ranges: []
+    include_prefixes:
+    - '21'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: debit
+    notes: Classe 2 via FA_LAND
+  buckets:
+  - NOTE_3A
+  - BRUT_FIN
+  notes: Mapping auto généré pour FA_LAND
+- id: auto_fa_building
+  label: Fa Building
+  section: BILAN_ACTIF
+  priority: 130
+  target:
+    sheet: BILAN PAYSAGE
+    column: D
+    exercice_column_type: exercice_n
+    row_start: 12
+    row_end: 27
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '2'
+    include_ranges: []
+    include_prefixes:
+    - '22'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: debit
+    notes: Classe 2 via FA_BUILDING
+  buckets:
+  - ACTIF
+  - IMMOBILISATIONS
+  notes: Mapping auto généré pour FA_BUILDING
+- id: auto_fa_building
+  label: Fa Building
+  section: NOTE_3A
+  priority: 140
+  target:
+    sheet: NOTE 3A
+    column: D
+    exercice_column_type: exercice_n
+    row_start: 15
+    row_end: 30
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '2'
+    include_ranges: []
+    include_prefixes:
+    - '22'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: debit
+    notes: Classe 2 via FA_BUILDING
+  buckets:
+  - NOTE_3A
+  - BRUT_FIN
+  notes: Mapping auto généré pour FA_BUILDING
+- id: auto_fa_install
+  label: Fa Install
+  section: BILAN_ACTIF
+  priority: 150
+  target:
+    sheet: BILAN PAYSAGE
+    column: D
+    exercice_column_type: exercice_n
+    row_start: 12
+    row_end: 27
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '2'
+    include_ranges: []
+    include_prefixes:
+    - '23'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: debit
+    notes: Classe 2 via FA_INSTALL
+  buckets:
+  - ACTIF
+  - IMMOBILISATIONS
+  notes: Mapping auto généré pour FA_INSTALL
+- id: auto_fa_install
+  label: Fa Install
+  section: NOTE_3A
+  priority: 160
+  target:
+    sheet: NOTE 3A
+    column: D
+    exercice_column_type: exercice_n
+    row_start: 15
+    row_end: 30
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '2'
+    include_ranges: []
+    include_prefixes:
+    - '23'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: debit
+    notes: Classe 2 via FA_INSTALL
+  buckets:
+  - NOTE_3A
+  - BRUT_FIN
+  notes: Mapping auto généré pour FA_INSTALL
+- id: auto_fa_equipment
+  label: Fa Equipment
+  section: BILAN_ACTIF
+  priority: 170
+  target:
+    sheet: BILAN PAYSAGE
+    column: D
+    exercice_column_type: exercice_n
+    row_start: 12
+    row_end: 27
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '2'
+    include_ranges: []
+    include_prefixes:
+    - '24'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: debit
+    notes: Classe 2 via FA_EQUIPMENT
+  buckets:
+  - ACTIF
+  - IMMOBILISATIONS
+  notes: Mapping auto généré pour FA_EQUIPMENT
+- id: auto_fa_equipment
+  label: Fa Equipment
+  section: NOTE_3A
+  priority: 180
+  target:
+    sheet: NOTE 3A
+    column: D
+    exercice_column_type: exercice_n
+    row_start: 15
+    row_end: 30
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '2'
+    include_ranges: []
+    include_prefixes:
+    - '24'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: debit
+    notes: Classe 2 via FA_EQUIPMENT
+  buckets:
+  - NOTE_3A
+  - BRUT_FIN
+  notes: Mapping auto généré pour FA_EQUIPMENT
+- id: auto_fa_transport
+  label: Fa Transport
+  section: BILAN_ACTIF
+  priority: 190
+  target:
+    sheet: BILAN PAYSAGE
+    column: D
+    exercice_column_type: exercice_n
+    row_start: 12
+    row_end: 27
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '2'
+    include_ranges: []
+    include_prefixes:
+    - '25'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: debit
+    notes: Classe 2 via FA_TRANSPORT
+  buckets:
+  - ACTIF
+  - IMMOBILISATIONS
+  notes: Mapping auto généré pour FA_TRANSPORT
+- id: auto_fa_transport
+  label: Fa Transport
+  section: NOTE_3A
+  priority: 200
+  target:
+    sheet: NOTE 3A
+    column: D
+    exercice_column_type: exercice_n
+    row_start: 15
+    row_end: 30
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '2'
+    include_ranges: []
+    include_prefixes:
+    - '25'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: debit
+    notes: Classe 2 via FA_TRANSPORT
+  buckets:
+  - NOTE_3A
+  - BRUT_FIN
+  notes: Mapping auto généré pour FA_TRANSPORT
+- id: auto_fa_furniture
+  label: Fa Furniture
+  section: BILAN_ACTIF
+  priority: 210
+  target:
+    sheet: BILAN PAYSAGE
+    column: D
+    exercice_column_type: exercice_n
+    row_start: 12
+    row_end: 27
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '2'
+    include_ranges: []
+    include_prefixes:
+    - '26'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: debit
+    notes: Classe 2 via FA_FURNITURE
+  buckets:
+  - ACTIF
+  - IMMOBILISATIONS
+  notes: Mapping auto généré pour FA_FURNITURE
+- id: auto_fa_furniture
+  label: Fa Furniture
+  section: NOTE_3A
+  priority: 220
+  target:
+    sheet: NOTE 3A
+    column: D
+    exercice_column_type: exercice_n
+    row_start: 15
+    row_end: 30
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '2'
+    include_ranges: []
+    include_prefixes:
+    - '26'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: debit
+    notes: Classe 2 via FA_FURNITURE
+  buckets:
+  - NOTE_3A
+  - BRUT_FIN
+  notes: Mapping auto généré pour FA_FURNITURE
+- id: auto_fa_amortization
+  label: Fa Amortization
+  section: BILAN_ACTIF
+  priority: 230
+  target:
+    sheet: BILAN PAYSAGE
+    column: D
+    exercice_column_type: exercice_n
+    row_start: 12
+    row_end: 27
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '2'
+    include_ranges: []
+    include_prefixes:
+    - '27'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: debit
+    notes: Classe 2 via FA_AMORTIZATION
+  buckets:
+  - ACTIF
+  - IMMOBILISATIONS
+  notes: Mapping auto généré pour FA_AMORTIZATION
+- id: auto_fa_amortization
+  label: Fa Amortization
+  section: NOTE_3C
+  priority: 240
+  target:
+    sheet: NOTE  3C
+    column: E
+    exercice_column_type: exercice_n
+    row_start: 15
+    row_end: 29
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '2'
+    include_ranges: []
+    include_prefixes:
+    - '27'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: debit
+    notes: Classe 2 via FA_AMORTIZATION
+  buckets:
+  - NOTE_3C
+  - AMORT_FIN
+  notes: Mapping auto généré pour FA_AMORTIZATION
+- id: auto_fa_financial
+  label: Fa Financial
+  section: BILAN_ACTIF
+  priority: 250
+  target:
+    sheet: BILAN PAYSAGE
+    column: D
+    exercice_column_type: exercice_n
+    row_start: 25
+    row_end: 25
+    allowed_cells: []
+  filters:
+    include_classes: []
+    include_ranges: []
+    include_prefixes:
+    - '26'
+    - '27'
+    - '28'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: null
+    notes: Classe None via FA_FINANCIAL
+  buckets:
+  - ACTIF
+  - IMMOBILISATIONS
+  notes: Mapping auto généré pour FA_FINANCIAL
+- id: auto_fa_financial
+  label: Fa Financial
+  section: NOTE_4
+  priority: 260
+  target:
+    sheet: BILAN PAYSAGE
+    column: D
+    exercice_column_type: exercice_n
+    row_start: 25
+    row_end: 25
+    allowed_cells: []
+  filters:
+    include_classes: []
+    include_ranges: []
+    include_prefixes:
+    - '26'
+    - '27'
+    - '28'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: null
+    notes: Classe None via FA_FINANCIAL
+  buckets:
+  - NOTE_4
+  - FINANCIAL
+  notes: Mapping auto généré pour FA_FINANCIAL
+- id: auto_fa_depreciation
+  label: Fa Depreciation
+  section: BILAN_ACTIF
+  priority: 270
+  target:
+    sheet: BILAN PAYSAGE
+    column: D
+    exercice_column_type: exercice_n
+    row_start: 12
+    row_end: 27
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '2'
+    include_ranges: []
+    include_prefixes:
+    - '29'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: debit
+    notes: Classe 2 via FA_DEPRECIATION
+  buckets:
+  - ACTIF
+  - IMMOBILISATIONS
+  notes: Mapping auto généré pour FA_DEPRECIATION
+- id: auto_fa_depreciation
+  label: Fa Depreciation
+  section: NOTE_3C
+  priority: 280
+  target:
+    sheet: NOTE  3C
+    column: E
+    exercice_column_type: exercice_n
+    row_start: 15
+    row_end: 29
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '2'
+    include_ranges: []
+    include_prefixes:
+    - '29'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: debit
+    notes: Classe 2 via FA_DEPRECIATION
+  buckets:
+  - NOTE_3C
+  - AMORT_FIN
+  notes: Mapping auto généré pour FA_DEPRECIATION
+- id: auto_fa_other
+  label: Fa Other
+  section: BILAN_ACTIF
+  priority: 290
+  target:
+    sheet: BILAN PAYSAGE
+    column: D
+    exercice_column_type: exercice_n
+    row_start: 12
+    row_end: 27
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '2'
+    include_ranges: []
+    include_prefixes: []
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: debit
+    notes: Classe 2 via FA_OTHER
+  buckets:
+  - ACTIF
+  - IMMOBILISATIONS
+  notes: Mapping auto généré pour FA_OTHER
+- id: auto_fa_other
+  label: Fa Other
+  section: NOTE_3A
+  priority: 300
+  target:
+    sheet: NOTE 3A
+    column: D
+    exercice_column_type: exercice_n
+    row_start: 15
+    row_end: 30
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '2'
+    include_ranges: []
+    include_prefixes: []
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: debit
+    notes: Classe 2 via FA_OTHER
+  buckets:
+  - NOTE_3A
+  - BRUT_FIN
+  notes: Mapping auto généré pour FA_OTHER
+- id: auto_ca_inventory
+  label: Ca Inventory
+  section: BILAN_ACTIF
+  priority: 310
+  target:
+    sheet: BILAN PAYSAGE
+    column: D
+    exercice_column_type: exercice_n
+    row_start: 28
+    row_end: 40
+    allowed_cells: []
+  filters:
+    include_classes: []
+    include_ranges: []
+    include_prefixes:
+    - '32'
+    - '33'
+    - '31'
+    - '36'
+    - '35'
+    - '37'
+    - '38'
+    - '34'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: null
+    notes: Classe None via CA_INVENTORY
+  buckets:
+  - ACTIF
+  - CIRCULANT
+  notes: Mapping auto généré pour CA_INVENTORY
+- id: auto_ca_inventory
+  label: Ca Inventory
+  section: NOTE_6
+  priority: 320
+  target:
+    sheet: BILAN PAYSAGE
+    column: D
+    exercice_column_type: exercice_n
+    row_start: 12
+    row_end: 40
+    allowed_cells: []
+  filters:
+    include_classes: []
+    include_ranges: []
+    include_prefixes:
+    - '32'
+    - '33'
+    - '31'
+    - '36'
+    - '35'
+    - '37'
+    - '38'
+    - '34'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: null
+    notes: Classe None via CA_INVENTORY
+  buckets:
+  - NOTE_6
+  - STOCKS
+  notes: Mapping auto généré pour CA_INVENTORY
+- id: auto_ca_receivables
+  label: Ca Receivables
+  section: BILAN_ACTIF
+  priority: 330
+  target:
+    sheet: BILAN PAYSAGE
+    column: D
+    exercice_column_type: exercice_n
+    row_start: 28
+    row_end: 40
+    allowed_cells: []
+  filters:
+    include_classes: []
+    include_ranges: []
+    include_prefixes:
+    - '32'
+    - '41'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: null
+    notes: Classe None via CA_RECEIVABLES
+  buckets:
+  - ACTIF
+  - CIRCULANT
+  notes: Mapping auto généré pour CA_RECEIVABLES
+- id: auto_ca_receivables
+  label: Ca Receivables
+  section: NOTE_7
+  priority: 340
+  target:
+    sheet: 'NOTE 7 '
+    column: D
+    exercice_column_type: exercice_n
+    row_start: 10
+    row_end: 60
+    allowed_cells: []
+  filters:
+    include_classes: []
+    include_ranges: []
+    include_prefixes:
+    - '32'
+    - '41'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: null
+    notes: Classe None via CA_RECEIVABLES
+  buckets:
+  - NOTE_7
+  - CLIENTS
+  notes: Mapping auto généré pour CA_RECEIVABLES
+- id: auto_ca_prepaid
+  label: Ca Prepaid
+  section: BILAN_ACTIF
+  priority: 350
+  target:
+    sheet: BILAN PAYSAGE
+    column: D
+    exercice_column_type: exercice_n
+    row_start: 28
+    row_end: 40
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '3'
+    include_ranges: []
+    include_prefixes:
+    - '33'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: debit
+    notes: Classe 3 via CA_PREPAID
+  buckets:
+  - ACTIF
+  - CIRCULANT
+  notes: Mapping auto généré pour CA_PREPAID
+- id: auto_ca_prepaid
+  label: Ca Prepaid
+  section: NOTE_8
+  priority: 360
+  target:
+    sheet: BILAN PAYSAGE
+    column: D
+    exercice_column_type: exercice_n
+    row_start: 12
+    row_end: 40
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '3'
+    include_ranges: []
+    include_prefixes:
+    - '33'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: debit
+    notes: Classe 3 via CA_PREPAID
+  buckets:
+  - NOTE_8
+  - OTHER_RECEIVABLES
+  notes: Mapping auto généré pour CA_PREPAID
+- id: auto_ca_cash
+  label: Ca Cash
+  section: BILAN_ACTIF
+  priority: 370
+  target:
+    sheet: BILAN PAYSAGE
+    column: D
+    exercice_column_type: exercice_n
+    row_start: 28
+    row_end: 40
+    allowed_cells: []
+  filters:
+    include_classes: []
+    include_ranges: []
+    include_prefixes:
+    - '56'
+    - '55'
+    - '54'
+    - '36'
+    - '37'
+    - '35'
+    - '53'
+    - '58'
+    - '51'
+    - '34'
+    - '50'
+    - '57'
+    - '52'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: null
+    notes: Classe None via CA_CASH
+  buckets:
+  - ACTIF
+  - CIRCULANT
+  notes: Mapping auto généré pour CA_CASH
+- id: auto_ca_cash
+  label: Ca Cash
+  section: NOTE_11
+  priority: 380
+  target:
+    sheet: BILAN PAYSAGE
+    column: D
+    exercice_column_type: exercice_n
+    row_start: 12
+    row_end: 30
+    allowed_cells: []
+  filters:
+    include_classes: []
+    include_ranges: []
+    include_prefixes:
+    - '56'
+    - '55'
+    - '54'
+    - '36'
+    - '37'
+    - '35'
+    - '53'
+    - '58'
+    - '51'
+    - '34'
+    - '50'
+    - '57'
+    - '52'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: null
+    notes: Classe None via CA_CASH
+  buckets:
+  - NOTE_11
+  - CASH
+  notes: Mapping auto généré pour CA_CASH
+- id: auto_ca_other
+  label: Ca Other
+  section: BILAN_ACTIF
+  priority: 390
+  target:
+    sheet: BILAN PAYSAGE
+    column: D
+    exercice_column_type: exercice_n
+    row_start: 28
+    row_end: 40
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '3'
+    include_ranges: []
+    include_prefixes:
+    - '39'
+    - '38'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: debit
+    notes: Classe 3 via CA_OTHER
+  buckets:
+  - ACTIF
+  - CIRCULANT
+  notes: Mapping auto généré pour CA_OTHER
+- id: auto_ca_other
+  label: Ca Other
+  section: NOTE_8
+  priority: 400
+  target:
+    sheet: BILAN PAYSAGE
+    column: D
+    exercice_column_type: exercice_n
+    row_start: 12
+    row_end: 40
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '3'
+    include_ranges: []
+    include_prefixes:
+    - '39'
+    - '38'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: debit
+    notes: Classe 3 via CA_OTHER
+  buckets:
+  - NOTE_8
+  - OTHER_RECEIVABLES
+  notes: Mapping auto généré pour CA_OTHER
+- id: auto_li_suppliers
+  label: Li Suppliers
+  section: BILAN_PASSIF
+  priority: 410
+  target:
+    sheet: BILAN PAYSAGE
+    column: K
+    exercice_column_type: exercice_n
+    row_start: 23
+    row_end: 40
+    allowed_cells: []
+  filters:
+    include_classes: []
+    include_ranges: []
+    include_prefixes:
+    - '40'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: null
+    notes: Classe None via LI_SUPPLIERS
+  buckets:
+  - PASSIF
+  - DETTES
+  notes: Mapping auto généré pour LI_SUPPLIERS
+- id: auto_li_suppliers
+  label: Li Suppliers
+  section: NOTE_17
+  priority: 420
+  target:
+    sheet: BILAN PAYSAGE
+    column: I
+    exercice_column_type: exercice_n
+    row_start: 10
+    row_end: 40
+    allowed_cells: []
+  filters:
+    include_classes: []
+    include_ranges: []
+    include_prefixes:
+    - '40'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: null
+    notes: Classe None via LI_SUPPLIERS
+  buckets:
+  - NOTE_17
+  - FOURNISSEURS
+  notes: Mapping auto généré pour LI_SUPPLIERS
+- id: auto_li_personnel
+  label: Li Personnel
+  section: BILAN_PASSIF
+  priority: 430
+  target:
+    sheet: BILAN PAYSAGE
+    column: K
+    exercice_column_type: exercice_n
+    row_start: 23
+    row_end: 40
+    allowed_cells: []
+  filters:
+    include_classes: []
+    include_ranges: []
+    include_prefixes:
+    - '43'
+    - '42'
+    - '41'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: null
+    notes: Classe None via LI_PERSONNEL
+  buckets:
+  - PASSIF
+  - DETTES
+  notes: Mapping auto généré pour LI_PERSONNEL
+- id: auto_li_personnel
+  label: Li Personnel
+  section: NOTE_19
+  priority: 440
+  target:
+    sheet: BILAN PAYSAGE
+    column: I
+    exercice_column_type: exercice_n
+    row_start: 10
+    row_end: 30
+    allowed_cells: []
+  filters:
+    include_classes: []
+    include_ranges: []
+    include_prefixes:
+    - '43'
+    - '42'
+    - '41'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: null
+    notes: Classe None via LI_PERSONNEL
+  buckets:
+  - NOTE_19
+  - AUTRES_DETTES
+  notes: Mapping auto généré pour LI_PERSONNEL
+- id: auto_li_taxes
+  label: Li Taxes
+  section: BILAN_PASSIF
+  priority: 450
+  target:
+    sheet: BILAN PAYSAGE
+    column: K
+    exercice_column_type: exercice_n
+    row_start: 23
+    row_end: 40
+    allowed_cells: []
+  filters:
+    include_classes: []
+    include_ranges: []
+    include_prefixes:
+    - '44'
+    - '42'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: null
+    notes: Classe None via LI_TAXES
+  buckets:
+  - PASSIF
+  - DETTES
+  notes: Mapping auto généré pour LI_TAXES
+- id: auto_li_taxes
+  label: Li Taxes
+  section: NOTE_18
+  priority: 460
+  target:
+    sheet: BILAN PAYSAGE
+    column: I
+    exercice_column_type: exercice_n
+    row_start: 10
+    row_end: 40
+    allowed_cells: []
+  filters:
+    include_classes: []
+    include_ranges: []
+    include_prefixes:
+    - '44'
+    - '42'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: null
+    notes: Classe None via LI_TAXES
+  buckets:
+  - NOTE_18
+  - FISCAL
+  notes: Mapping auto généré pour LI_TAXES
+- id: auto_li_debt_lt
+  label: Li Debt Lt
+  section: BILAN_PASSIF
+  priority: 470
+  target:
+    sheet: BILAN PAYSAGE
+    column: K
+    exercice_column_type: exercice_n
+    row_start: 23
+    row_end: 40
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '4'
+    include_ranges: []
+    include_prefixes:
+    - '43'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: credit
+    notes: Classe 4 via LI_DEBT_LT
+  buckets:
+  - PASSIF
+  - DETTES
+  notes: Mapping auto généré pour LI_DEBT_LT
+- id: auto_li_debt_lt
+  label: Li Debt Lt
+  section: NOTE_16A
+  priority: 480
+  target:
+    sheet: BILAN PAYSAGE
+    column: I
+    exercice_column_type: exercice_n
+    row_start: 10
+    row_end: 40
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '4'
+    include_ranges: []
+    include_prefixes:
+    - '43'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: credit
+    notes: Classe 4 via LI_DEBT_LT
+  buckets:
+  - NOTE_16
+  - DETTES_FIN
+  notes: Mapping auto généré pour LI_DEBT_LT
+- id: auto_li_deferred
+  label: Li Deferred
+  section: BILAN_PASSIF
+  priority: 490
+  target:
+    sheet: BILAN PAYSAGE
+    column: K
+    exercice_column_type: exercice_n
+    row_start: 23
+    row_end: 40
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '4'
+    include_ranges: []
+    include_prefixes:
+    - '44'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: credit
+    notes: Classe 4 via LI_DEFERRED
+  buckets:
+  - PASSIF
+  - DETTES
+  notes: Mapping auto généré pour LI_DEFERRED
+- id: auto_li_deferred
+  label: Li Deferred
+  section: NOTE_19
+  priority: 500
+  target:
+    sheet: BILAN PAYSAGE
+    column: I
+    exercice_column_type: exercice_n
+    row_start: 10
+    row_end: 30
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '4'
+    include_ranges: []
+    include_prefixes:
+    - '44'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: credit
+    notes: Classe 4 via LI_DEFERRED
+  buckets:
+  - NOTE_19
+  - AUTRES_DETTES
+  notes: Mapping auto généré pour LI_DEFERRED
+- id: auto_li_other
+  label: Li Other
+  section: BILAN_PASSIF
+  priority: 510
+  target:
+    sheet: BILAN PAYSAGE
+    column: K
+    exercice_column_type: exercice_n
+    row_start: 23
+    row_end: 40
+    allowed_cells: []
+  filters:
+    include_classes: []
+    include_ranges: []
+    include_prefixes:
+    - '47'
+    - '48'
+    - '45'
+    - '46'
+    - '49'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: null
+    notes: Classe None via LI_OTHER
+  buckets:
+  - PASSIF
+  - DETTES
+  notes: Mapping auto généré pour LI_OTHER
+- id: auto_li_other
+  label: Li Other
+  section: NOTE_19
+  priority: 520
+  target:
+    sheet: BILAN PAYSAGE
+    column: I
+    exercice_column_type: exercice_n
+    row_start: 10
+    row_end: 30
+    allowed_cells: []
+  filters:
+    include_classes: []
+    include_ranges: []
+    include_prefixes:
+    - '47'
+    - '48'
+    - '45'
+    - '46'
+    - '49'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: null
+    notes: Classe None via LI_OTHER
+  buckets:
+  - NOTE_19
+  - AUTRES_DETTES
+  notes: Mapping auto généré pour LI_OTHER
+- id: auto_sp_provisions
+  label: Sp Provisions
+  section: BILAN_PASSIF
+  priority: 530
+  target:
+    sheet: BILAN PAYSAGE
+    column: D
+    exercice_column_type: exercice_n
+    row_start: 33
+    row_end: 35
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '5'
+    include_ranges: []
+    include_prefixes:
+    - '50'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: credit
+    notes: Classe 5 via SP_PROVISIONS
+  buckets:
+  - PASSIF
+  - SPECIAL_PROVISIONS
+  notes: Mapping auto généré pour SP_PROVISIONS
+- id: auto_sp_pending
+  label: Sp Pending
+  section: BILAN_PASSIF
+  priority: 540
+  target:
+    sheet: BILAN PAYSAGE
+    column: D
+    exercice_column_type: exercice_n
+    row_start: 40
+    row_end: 40
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '5'
+    include_ranges: []
+    include_prefixes:
+    - '51'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: credit
+    notes: Classe 5 via SP_PENDING
+  buckets:
+  - PASSIF
+  - SPECIAL_OTHER
+  notes: Mapping auto généré pour SP_PENDING
+- id: auto_sp_capital
+  label: Sp Capital
+  section: BILAN_PASSIF
+  priority: 550
+  target:
+    sheet: BILAN PAYSAGE
+    column: D
+    exercice_column_type: exercice_n
+    row_start: 40
+    row_end: 40
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '5'
+    include_ranges: []
+    include_prefixes:
+    - '52'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: credit
+    notes: Classe 5 via SP_CAPITAL
+  buckets:
+  - PASSIF
+  - SPECIAL_OTHER
+  notes: Mapping auto généré pour SP_CAPITAL
+- id: auto_sp_result
+  label: Sp Result
+  section: BILAN_PASSIF
+  priority: 560
+  target:
+    sheet: BILAN PAYSAGE
+    column: D
+    exercice_column_type: exercice_n
+    row_start: 40
+    row_end: 40
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '5'
+    include_ranges: []
+    include_prefixes:
+    - '53'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: credit
+    notes: Classe 5 via SP_RESULT
+  buckets:
+  - PASSIF
+  - SPECIAL_OTHER
+  notes: Mapping auto généré pour SP_RESULT
+- id: auto_sp_transfer
+  label: Sp Transfer
+  section: BILAN_PASSIF
+  priority: 570
+  target:
+    sheet: BILAN PAYSAGE
+    column: D
+    exercice_column_type: exercice_n
+    row_start: 40
+    row_end: 40
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '5'
+    include_ranges: []
+    include_prefixes:
+    - '54'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: credit
+    notes: Classe 5 via SP_TRANSFER
+  buckets:
+  - PASSIF
+  - SPECIAL_OTHER
+  notes: Mapping auto généré pour SP_TRANSFER
+- id: auto_sp_other
+  label: Sp Other
+  section: BILAN_PASSIF
+  priority: 580
+  target:
+    sheet: BILAN PAYSAGE
+    column: D
+    exercice_column_type: exercice_n
+    row_start: 40
+    row_end: 40
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '5'
+    include_ranges: []
+    include_prefixes:
+    - '59'
+    - '56'
+    - '57'
+    - '58'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: credit
+    notes: Classe 5 via SP_OTHER
+  buckets:
+  - PASSIF
+  - SPECIAL_OTHER
+  notes: Mapping auto généré pour SP_OTHER
+- id: auto_ex_materials
+  label: Ex Materials
+  section: COMPTE_RESULTAT_CHARGES
+  priority: 590
+  target:
+    sheet: COMPTE DE RESULTAT
+    column: E
+    exercice_column_type: exercice_n
+    row_start: 24
+    row_end: 52
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '6'
+    include_ranges: []
+    include_prefixes:
+    - '60'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: debit
+    notes: Classe 6 via EX_MATERIALS
+  buckets:
+  - CR_CHARGES
+  notes: Mapping auto généré pour EX_MATERIALS
+- id: auto_ex_services
+  label: Ex Services
+  section: COMPTE_RESULTAT_CHARGES
+  priority: 600
+  target:
+    sheet: COMPTE DE RESULTAT
+    column: E
+    exercice_column_type: exercice_n
+    row_start: 24
+    row_end: 52
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '6'
+    include_ranges: []
+    include_prefixes:
+    - '61'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: debit
+    notes: Classe 6 via EX_SERVICES
+  buckets:
+  - CR_CHARGES
+  notes: Mapping auto généré pour EX_SERVICES
+- id: auto_ex_personnel
+  label: Ex Personnel
+  section: COMPTE_RESULTAT_CHARGES
+  priority: 610
+  target:
+    sheet: COMPTE DE RESULTAT
+    column: E
+    exercice_column_type: exercice_n
+    row_start: 24
+    row_end: 52
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '6'
+    include_ranges: []
+    include_prefixes:
+    - '62'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: debit
+    notes: Classe 6 via EX_PERSONNEL
+  buckets:
+  - CR_CHARGES
+  notes: Mapping auto généré pour EX_PERSONNEL
+- id: auto_ex_taxes
+  label: Ex Taxes
+  section: COMPTE_RESULTAT_CHARGES
+  priority: 620
+  target:
+    sheet: COMPTE DE RESULTAT
+    column: E
+    exercice_column_type: exercice_n
+    row_start: 24
+    row_end: 52
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '6'
+    include_ranges: []
+    include_prefixes:
+    - '63'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: debit
+    notes: Classe 6 via EX_TAXES
+  buckets:
+  - CR_CHARGES
+  notes: Mapping auto généré pour EX_TAXES
+- id: auto_ex_depreciation
+  label: Ex Depreciation
+  section: COMPTE_RESULTAT_CHARGES
+  priority: 630
+  target:
+    sheet: COMPTE DE RESULTAT
+    column: E
+    exercice_column_type: exercice_n
+    row_start: 24
+    row_end: 52
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '6'
+    include_ranges: []
+    include_prefixes:
+    - '64'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: debit
+    notes: Classe 6 via EX_DEPRECIATION
+  buckets:
+  - CR_CHARGES
+  notes: Mapping auto généré pour EX_DEPRECIATION
+- id: auto_ex_impairment
+  label: Ex Impairment
+  section: COMPTE_RESULTAT_CHARGES
+  priority: 640
+  target:
+    sheet: COMPTE DE RESULTAT
+    column: E
+    exercice_column_type: exercice_n
+    row_start: 24
+    row_end: 52
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '6'
+    include_ranges: []
+    include_prefixes:
+    - '65'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: debit
+    notes: Classe 6 via EX_IMPAIRMENT
+  buckets:
+  - CR_CHARGES
+  notes: Mapping auto généré pour EX_IMPAIRMENT
+- id: auto_ex_financial
+  label: Ex Financial
+  section: COMPTE_RESULTAT_CHARGES
+  priority: 650
+  target:
+    sheet: COMPTE DE RESULTAT
+    column: E
+    exercice_column_type: exercice_n
+    row_start: 24
+    row_end: 52
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '6'
+    include_ranges: []
+    include_prefixes:
+    - '66'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: debit
+    notes: Classe 6 via EX_FINANCIAL
+  buckets:
+  - CR_CHARGES
+  notes: Mapping auto généré pour EX_FINANCIAL
+- id: auto_ex_extraordinary
+  label: Ex Extraordinary
+  section: COMPTE_RESULTAT_CHARGES
+  priority: 660
+  target:
+    sheet: COMPTE DE RESULTAT
+    column: E
+    exercice_column_type: exercice_n
+    row_start: 24
+    row_end: 52
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '6'
+    include_ranges: []
+    include_prefixes:
+    - '67'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: debit
+    notes: Classe 6 via EX_EXTRAORDINARY
+  buckets:
+  - CR_CHARGES
+  notes: Mapping auto généré pour EX_EXTRAORDINARY
+- id: auto_ex_other
+  label: Ex Other
+  section: COMPTE_RESULTAT_CHARGES
+  priority: 670
+  target:
+    sheet: COMPTE DE RESULTAT
+    column: E
+    exercice_column_type: exercice_n
+    row_start: 24
+    row_end: 52
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '6'
+    include_ranges: []
+    include_prefixes:
+    - '69'
+    - '68'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: debit
+    notes: Classe 6 via EX_OTHER
+  buckets:
+  - CR_CHARGES
+  notes: Mapping auto généré pour EX_OTHER
+- id: auto_re_sales
+  label: Re Sales
+  section: COMPTE_RESULTAT_PRODUITS
+  priority: 680
+  target:
+    sheet: COMPTE DE RESULTAT
+    column: E
+    exercice_column_type: exercice_n
+    row_start: 18
+    row_end: 18
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '7'
+    include_ranges: []
+    include_prefixes:
+    - '70'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: credit
+    notes: Classe 7 via RE_SALES
+  buckets:
+  - CR_PRODUITS
+  notes: Mapping auto généré pour RE_SALES
+- id: auto_re_sales
+  label: Re Sales
+  section: NOTE_27A
+  priority: 690
+  target:
+    sheet: COMPTE DE RESULTAT
+    column: C
+    exercice_column_type: exercice_n
+    row_start: 18
+    row_end: 18
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '7'
+    include_ranges: []
+    include_prefixes:
+    - '70'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: credit
+    notes: Classe 7 via RE_SALES
+  buckets:
+  - NOTE_27A
+  - CA
+  notes: Mapping auto généré pour RE_SALES
+- id: auto_re_services
+  label: Re Services
+  section: COMPTE_RESULTAT_PRODUITS
+  priority: 700
+  target:
+    sheet: COMPTE DE RESULTAT
+    column: E
+    exercice_column_type: exercice_n
+    row_start: 11
+    row_end: 24
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '7'
+    include_ranges: []
+    include_prefixes:
+    - '71'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: credit
+    notes: Classe 7 via RE_SERVICES
+  buckets:
+  - CR_PRODUITS
+  notes: Mapping auto généré pour RE_SERVICES
+- id: auto_re_other
+  label: Re Other
+  section: COMPTE_RESULTAT_PRODUITS
+  priority: 710
+  target:
+    sheet: COMPTE DE RESULTAT
+    column: E
+    exercice_column_type: exercice_n
+    row_start: 11
+    row_end: 24
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '7'
+    include_ranges: []
+    include_prefixes:
+    - '72'
+    - '73'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: credit
+    notes: Classe 7 via RE_OTHER
+  buckets:
+  - CR_PRODUITS
+  notes: Mapping auto généré pour RE_OTHER
+- id: auto_re_financial
+  label: Re Financial
+  section: COMPTE_RESULTAT_PRODUITS
+  priority: 720
+  target:
+    sheet: COMPTE DE RESULTAT
+    column: E
+    exercice_column_type: exercice_n
+    row_start: 11
+    row_end: 24
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '7'
+    include_ranges: []
+    include_prefixes:
+    - '75'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: credit
+    notes: Classe 7 via RE_FINANCIAL
+  buckets:
+  - CR_PRODUITS
+  notes: Mapping auto généré pour RE_FINANCIAL
+- id: auto_re_extraordinary
+  label: Re Extraordinary
+  section: COMPTE_RESULTAT_PRODUITS
+  priority: 730
+  target:
+    sheet: COMPTE DE RESULTAT
+    column: E
+    exercice_column_type: exercice_n
+    row_start: 11
+    row_end: 24
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '7'
+    include_ranges: []
+    include_prefixes:
+    - '79'
+    - '77'
+    - '78'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: credit
+    notes: Classe 7 via RE_EXTRAORDINARY
+  buckets:
+  - CR_PRODUITS
+  notes: Mapping auto généré pour RE_EXTRAORDINARY
+- id: auto_ct_control
+  label: Ct Control
+  section: BILAN_PASSIF
+  priority: 740
+  target:
+    sheet: BILAN PAYSAGE
+    column: D
+    exercice_column_type: exercice_n
+    row_start: 40
+    row_end: 40
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '8'
+    include_ranges: []
+    include_prefixes:
+    - '81'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: null
+    notes: Classe 8 via CT_CONTROL
+  buckets:
+  - PASSIF
+  - SPECIAL_OTHER
+  notes: Mapping auto généré pour CT_CONTROL
+- id: auto_ct_management
+  label: Ct Management
+  section: BILAN_PASSIF
+  priority: 750
+  target:
+    sheet: BILAN PAYSAGE
+    column: D
+    exercice_column_type: exercice_n
+    row_start: 40
+    row_end: 40
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '8'
+    include_ranges: []
+    include_prefixes:
+    - '82'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: null
+    notes: Classe 8 via CT_MANAGEMENT
+  buckets:
+  - PASSIF
+  - SPECIAL_OTHER
+  notes: Mapping auto généré pour CT_MANAGEMENT
+- id: auto_ct_debtors
+  label: Ct Debtors
+  section: BILAN_PASSIF
+  priority: 760
+  target:
+    sheet: BILAN PAYSAGE
+    column: D
+    exercice_column_type: exercice_n
+    row_start: 40
+    row_end: 40
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '8'
+    include_ranges: []
+    include_prefixes:
+    - '83'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: null
+    notes: Classe 8 via CT_DEBTORS
+  buckets:
+  - PASSIF
+  - SPECIAL_OTHER
+  notes: Mapping auto généré pour CT_DEBTORS
+- id: auto_ct_creditors
+  label: Ct Creditors
+  section: BILAN_PASSIF
+  priority: 770
+  target:
+    sheet: BILAN PAYSAGE
+    column: D
+    exercice_column_type: exercice_n
+    row_start: 40
+    row_end: 40
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '8'
+    include_ranges: []
+    include_prefixes:
+    - '84'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: null
+    notes: Classe 8 via CT_CREDITORS
+  buckets:
+  - PASSIF
+  - SPECIAL_OTHER
+  notes: Mapping auto généré pour CT_CREDITORS
+- id: auto_ct_holding
+  label: Ct Holding
+  section: BILAN_PASSIF
+  priority: 780
+  target:
+    sheet: BILAN PAYSAGE
+    column: D
+    exercice_column_type: exercice_n
+    row_start: 40
+    row_end: 40
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '8'
+    include_ranges: []
+    include_prefixes:
+    - '85'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: null
+    notes: Classe 8 via CT_HOLDING
+  buckets:
+  - PASSIF
+  - SPECIAL_OTHER
+  notes: Mapping auto généré pour CT_HOLDING
+- id: auto_ct_other
+  label: Ct Other
+  section: BILAN_PASSIF
+  priority: 790
+  target:
+    sheet: BILAN PAYSAGE
+    column: D
+    exercice_column_type: exercice_n
+    row_start: 40
+    row_end: 40
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '8'
+    include_ranges: []
+    include_prefixes:
+    - '87'
+    - '89'
+    - '86'
+    - '88'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: null
+    notes: Classe 8 via CT_OTHER
+  buckets:
+  - PASSIF
+  - SPECIAL_OTHER
+  notes: Mapping auto généré pour CT_OTHER
+- id: auto_an_cost_centers
+  label: An Cost Centers
+  section: TABLEAU DES FLUX DE TRESORERIE
+  priority: 800
+  target:
+    sheet: TABLEAU DES FLUX DE TRESORERIE
+    column: E
+    exercice_column_type: exercice_n
+    row_start: 10
+    row_end: 20
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '9'
+    include_ranges: []
+    include_prefixes:
+    - '90'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: null
+    notes: Classe 9 via AN_COST_CENTERS
+  buckets:
+  - FLUX
+  - OPERATIONS
+  notes: Mapping auto généré pour AN_COST_CENTERS
+- id: auto_an_revenue
+  label: An Revenue
+  section: TABLEAU DES FLUX DE TRESORERIE
+  priority: 810
+  target:
+    sheet: TABLEAU DES FLUX DE TRESORERIE
+    column: E
+    exercice_column_type: exercice_n
+    row_start: 10
+    row_end: 20
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '9'
+    include_ranges: []
+    include_prefixes:
+    - '91'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: null
+    notes: Classe 9 via AN_REVENUE
+  buckets:
+  - FLUX
+  - OPERATIONS
+  notes: Mapping auto généré pour AN_REVENUE
+- id: auto_an_expenses
+  label: An Expenses
+  section: TABLEAU DES FLUX DE TRESORERIE
+  priority: 820
+  target:
+    sheet: TABLEAU DES FLUX DE TRESORERIE
+    column: E
+    exercice_column_type: exercice_n
+    row_start: 10
+    row_end: 20
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '9'
+    include_ranges: []
+    include_prefixes:
+    - '92'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: null
+    notes: Classe 9 via AN_EXPENSES
+  buckets:
+  - FLUX
+  - OPERATIONS
+  notes: Mapping auto généré pour AN_EXPENSES
+- id: auto_an_inventory
+  label: An Inventory
+  section: TABLEAU DES FLUX DE TRESORERIE
+  priority: 830
+  target:
+    sheet: TABLEAU DES FLUX DE TRESORERIE
+    column: E
+    exercice_column_type: exercice_n
+    row_start: 10
+    row_end: 20
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '9'
+    include_ranges: []
+    include_prefixes:
+    - '93'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: null
+    notes: Classe 9 via AN_INVENTORY
+  buckets:
+  - FLUX
+  - OPERATIONS
+  notes: Mapping auto généré pour AN_INVENTORY
+- id: auto_an_margin
+  label: An Margin
+  section: TABLEAU DES FLUX DE TRESORERIE
+  priority: 840
+  target:
+    sheet: TABLEAU DES FLUX DE TRESORERIE
+    column: E
+    exercice_column_type: exercice_n
+    row_start: 10
+    row_end: 20
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '9'
+    include_ranges: []
+    include_prefixes:
+    - '94'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: null
+    notes: Classe 9 via AN_MARGIN
+  buckets:
+  - FLUX
+  - OPERATIONS
+  notes: Mapping auto généré pour AN_MARGIN
+- id: auto_an_result
+  label: An Result
+  section: TABLEAU DES FLUX DE TRESORERIE
+  priority: 850
+  target:
+    sheet: TABLEAU DES FLUX DE TRESORERIE
+    column: E
+    exercice_column_type: exercice_n
+    row_start: 10
+    row_end: 20
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '9'
+    include_ranges: []
+    include_prefixes:
+    - '95'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: null
+    notes: Classe 9 via AN_RESULT
+  buckets:
+  - FLUX
+  - OPERATIONS
+  notes: Mapping auto généré pour AN_RESULT
+- id: auto_an_allocation
+  label: An Allocation
+  section: TABLEAU DES FLUX DE TRESORERIE
+  priority: 860
+  target:
+    sheet: TABLEAU DES FLUX DE TRESORERIE
+    column: E
+    exercice_column_type: exercice_n
+    row_start: 10
+    row_end: 20
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '9'
+    include_ranges: []
+    include_prefixes:
+    - '96'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: null
+    notes: Classe 9 via AN_ALLOCATION
+  buckets:
+  - FLUX
+  - OPERATIONS
+  notes: Mapping auto généré pour AN_ALLOCATION
+- id: auto_an_other
+  label: An Other
+  section: TABLEAU DES FLUX DE TRESORERIE
+  priority: 870
+  target:
+    sheet: TABLEAU DES FLUX DE TRESORERIE
+    column: E
+    exercice_column_type: exercice_n
+    row_start: 10
+    row_end: 20
+    allowed_cells: []
+  filters:
+    include_classes:
+    - '9'
+    include_ranges: []
+    include_prefixes:
+    - '98'
+    - '99'
+    - '97'
+    include_accounts: []
+    exclude_accounts: []
+    require_sign: null
+    notes: Classe 9 via AN_OTHER
+  buckets:
+  - FLUX
+  - OPERATIONS
+  notes: Mapping auto généré pour AN_OTHER

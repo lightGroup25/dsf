@@ -1,0 +1,90 @@
+{
+  "template": "test_template.xlsx",
+  "generated_at": "2026-02-13T00:00:00Z",
+  "sheets": {
+    "BILAN PAYSAGE": {
+      "input_columns": [],
+      "fields": [
+        {
+          "sheet": "BILAN PAYSAGE",
+          "cell": "D14",
+          "row": 14,
+          "column": 4,
+          "column_letter": "D",
+          "column_type": "exercice_n",
+          "label": "IMMOBILISATIONS INCORPORELLES",
+          "section_hint": "ACTIF",
+          "locked": false,
+          "has_formula": false,
+          "number_format": "#,##0",
+          "data_validation": [],
+          "merged": false,
+          "merge_range": null
+        },
+        {
+          "sheet": "BILAN PAYSAGE",
+          "cell": "K33",
+          "row": 33,
+          "column": 11,
+          "column_letter": "K",
+          "column_type": "exercice_n",
+          "label": "CAPITAUX PROPRES",
+          "section_hint": "PASSIF",
+          "locked": false,
+          "has_formula": false,
+          "number_format": "#,##0",
+          "data_validation": [],
+          "merged": false,
+          "merge_range": null
+        }
+      ],
+      "stats": {
+        "rows": 40,
+        "columns": 12,
+        "input_fields": 2
+      }
+    },
+    "COMPTE DE RESULTAT": {
+      "input_columns": [],
+      "fields": [
+        {
+          "sheet": "COMPTE DE RESULTAT",
+          "cell": "D7",
+          "row": 7,
+          "column": 4,
+          "column_letter": "D",
+          "column_type": "exercice_n",
+          "label": "CHARGES D'EXPLOITATION",
+          "section_hint": "RESULTAT",
+          "locked": false,
+          "has_formula": false,
+          "number_format": "#,##0",
+          "data_validation": [],
+          "merged": false,
+          "merge_range": null
+        },
+        {
+          "sheet": "COMPTE DE RESULTAT",
+          "cell": "D5",
+          "row": 5,
+          "column": 4,
+          "column_letter": "D",
+          "column_type": "exercice_n",
+          "label": "PRODUITS D'EXPLOITATION",
+          "section_hint": "RESULTAT",
+          "locked": false,
+          "has_formula": false,
+          "number_format": "#,##0",
+          "data_validation": [],
+          "merged": false,
+          "merge_range": null
+        }
+      ],
+      "stats": {
+        "rows": 20,
+        "columns": 6,
+        "input_fields": 2
+      }
+    }
+  }
+}

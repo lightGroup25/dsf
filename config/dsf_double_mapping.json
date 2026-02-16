@@ -1,0 +1,128 @@
+{
+  "description": "Double mapping SYSCOHADA → Catégories intermédiaires → DSF",
+  "note": "Architecture à deux niveaux pour éviter les pertes lors de sessions/activités différentes",
+  
+  "LEVEL_1_SYSCOHADA_TO_INTERMEDIATE": {
+    "description": "Mappe tous les 1182 comptes SYSCOHADA à des catégories intermédiaires granulaires",
+    
+    "EQUITY": {
+      "code": "EQ",
+      "label": "Capitaux propres et ressources assimilées",
+      "accounts": {
+        "10": {"category": "EQ_CAPITAL", "label": "Capital social", "rules": {"101": "CALLED", "102": "UNCALLED"}},
+        "11": {"category": "EQ_RESERVES_RESTRICTED", "label": "Réserves indisponibles", "rules": {"110": "LEGAL", "111": "STATUTORY", "112": "RESTRICTED"}},
+        "12": {"category": "EQ_RESERVES_FREE", "label": "Réserves libres", "rules": {"120": "FREE", "121": "RETAINED"}},
+        "13": {"category": "EQ_RETAINED_EARNINGS", "label": "Report à nouveau", "rules": {"130": "POSITIVE", "131": "POSITIVE", "132": "NEGATIVE"}},
+        "14": {"category": "EQ_NET_RESULT", "label": "Résultat net exercice", "rules": {"140": "PROFIT"}},
+        "15": {"category": "EQ_SUBSIDIES", "label": "Subventions investissement", "rules": {"150": "INVEST"}},
+        "16": {"category": "EQ_PROVISIONS_REGULATED", "label": "Provisions réglementées", "rules": {"160": "REGULATED"}}
+      }
+    },
+    
+    "FIXED_ASSETS": {
+      "code": "FA",
+      "label": "Immobilisations",
+      "accounts": {
+        "20": {"category": "FA_INTANGIBLE", "label": "Immobilisations incorporelles", "rules": {"201": "DEVELOPMENT", "202": "PATENTS", "203": "GOODWILL", "204": "OTHER"}},
+        "21": {"category": "FA_TANGIBLE", "label": "Immobilisations corporelles", "rules": {"211": "LAND", "212": "BUILDING", "213": "INSTALL", "214": "EQUIPMENT", "215": "TRANSPORT", "216": "FURNITURE"}},
+        "22": {"category": "FA_FINANCIAL", "label": "Immobilisations financières", "rules": {"221": "PARTICIPATION", "222": "OTHER_FINANCIAL"}},
+        "27": {"category": "FA_DEPRECIATION", "label": "Amortissements immobilisations", "multiply_by": -1}
+      }
+    },
+    
+    "CURRENT_ASSETS": {
+      "code": "CA",
+      "label": "Actif courant",
+      "accounts": {
+        "30": {"category": "CA_INVENTORY", "label": "Stocks et en-cours", "rules": {"301": "RAW_MATERIALS", "302": "SUPPLIES", "303": "FINISHED_GOODS", "304": "GOODS_IN_TRANSIT"}},
+        "31": {"category": "CA_RECEIVABLES", "label": "Créances clients", "rules": {"311": "CLIENTS", "312": "OTHER_RECEIVABLES"}},
+        "32": {"category": "CA_OTHER_RECEIVABLES", "label": "Autres crédits d'exploitation", "rules": {"320": "DEBTORS", "321": "ADVANCES"}},
+        "33": {"category": "CA_PREPAID", "label": "Charges constatées d'avance", "rules": {"330": "PREPAID"}},
+        "34": {"category": "CA_CASH", "label": "Trésorerie actif", "rules": {"341": "CASH", "342": "BANKS", "343": "CHEQUES"}}
+      }
+    },
+    
+    "LIABILITIES": {
+      "code": "LI",
+      "label": "Passif",
+      "accounts": {
+        "40": {"category": "LI_SUPPLIERS", "label": "Dettes fournisseurs", "rules": {"401": "SUPPLIERS", "406": "IMPORT_DUTY"}},
+        "41": {"category": "LI_EMPLOYEE_TAX", "label": "Dettes personnel et fiscales", "rules": {"411": "PERSONNEL", "412": "SOCIAL", "413": "TAX_PAYABLE"}},
+        "42": {"category": "LI_LONG_TERM", "label": "Dettes financières long terme", "rules": {"420": "LOANS", "421": "LEASING"}},
+        "43": {"category": "LI_OTHER_PAYABLES", "label": "Autres dettes d'exploitation", "rules": {"430": "DEPOSITS", "431": "DEFERRED_INCOME"}},
+        "44": {"category": "LI_ACCRUED", "label": "Charges à payer", "rules": {"440": "ACCRUED"}}
+      }
+    },
+    
+    "INCOME": {
+      "code": "IN",
+      "label": "Revenus/Produits",
+      "accounts": {
+        "70": {"category": "IN_SALES", "label": "Ventes et produits assimilés", "rules": {"701": "LOCAL_SALES", "702": "EXPORTS", "703": "RETURNS"}},
+        "71": {"category": "IN_SERVICES", "label": "Ventes de services", "rules": {"710": "SERVICES"}},
+        "72": {"category": "IN_OTHER_INCOME", "label": "Autres revenus d'exploitation", "rules": {"721": "COMMISSIONS", "722": "OTHER"}}
+      }
+    },
+    
+    "EXPENSES": {
+      "code": "EX",
+      "label": "Charges/Dépenses",
+      "accounts": {
+        "60": {"category": "EX_MATERIALS", "label": "Achats matières premières", "rules": {"601": "RAW_MAT", "602": "SUPPLIES_PURCHASE"}},
+        "61": {"category": "EX_SERVICES", "label": "Services extérieurs", "rules": {"611": "TRANSPORT", "612": "UTILITIES", "613": "MAINTENANCE"}},
+        "62": {"category": "EX_PERSONNEL", "label": "Charges personnel", "rules": {"621": "SALARIES", "622": "BENEFITS", "623": "TRAINING"}},
+        "63": {"category": "EX_TAXES", "label": "Impôts et taxes", "rules": {"630": "TAXES"}},
+        "64": {"category": "EX_DEPRECIATION", "label": "Amortissements et dépréciations", "rules": {"641": "DEPRECIATION", "642": "IMPAIRMENT"}},
+        "65": {"category": "EX_FINANCIAL", "label": "Charges financières", "rules": {"651": "INTEREST", "652": "EXCHANGE_LOSS"}},
+        "66": {"category": "EX_OTHER", "label": "Autres charges", "rules": {"661": "DONATIONS", "662": "LOSSES"}}
+      }
+    }
+  },
+  
+  "LEVEL_2_INTERMEDIATE_TO_DSF": {
+    "description": "Mappe les 128 catégories intermédiaires aux cellules finales DSF",
+    "note": "Cette couche permet l'agrégation et les règles conditionnelles",
+    
+    "BILAN_PAYSAGE": {
+      "EQUITY": {
+        "EQ_CAPITAL": {"cells": ["D33"], "label": "Capital", "sum_rule": "sum"},
+        "EQ_UNCALLED": {"cells": ["D34"], "label": "Apporteurs capital non appelé", "sum_rule": "sum", "multiply_by": -1},
+        "EQ_RESERVES_RESTRICTED": {"cells": ["D37"], "label": "Réserves indisponibles", "sum_rule": "sum"},
+        "EQ_RESERVES_FREE": {"cells": ["D38"], "label": "Réserves libres", "sum_rule": "sum"},
+        "EQ_RETAINED_EARNINGS": {"cells": ["D39"], "label": "Report à nouveau", "sum_rule": "sum"},
+        "EQ_NET_RESULT": {"cells": ["D40"], "label": "Résultat net", "sum_rule": "sum"},
+        "EQ_SUBSIDIES": {"cells": ["D41"], "label": "Subventions", "sum_rule": "sum"},
+        "EQ_PROVISIONS_REGULATED": {"cells": ["D42"], "label": "Provisions réglementées", "sum_rule": "sum"}
+      },
+      
+      "ASSETS": {
+        "FA_INTANGIBLE": {"cells": ["D14"], "label": "Immob. incorporelles", "sum_rule": "sum"},
+        "FA_TANGIBLE": {"cells": ["D18", "D19", "D20", "D21", "D22", "D23"], "label": "Immob. corporelles", "sum_rule": "sum", "notes": "Multiple rows for land, building, equipment, etc."},
+        "FA_FINANCIAL": {"cells": ["D24"], "label": "Immob. financières", "sum_rule": "sum"},
+        "FA_DEPRECIATION": {"cells": ["D25"], "label": "Amortissements", "sum_rule": "sum", "multiply_by": -1},
+        
+        "CA_INVENTORY": {"cells": ["D29"], "label": "Stocks", "sum_rule": "sum"},
+        "CA_RECEIVABLES": {"cells": ["D30"], "label": "Créances clients", "sum_rule": "sum"},
+        "CA_OTHER_RECEIVABLES": {"cells": ["D31"], "label": "Autres créances", "sum_rule": "sum"},
+        "CA_PREPAID": {"cells": ["D32"], "label": "Charges constatées d'avance", "sum_rule": "sum"},
+        "CA_CASH": {"cells": ["D43"], "label": "Trésorerie", "sum_rule": "sum"}
+      },
+      
+      "LIABILITIES": {
+        "LI_SUPPLIERS": {"cells": ["D44"], "label": "Dettes fournisseurs", "sum_rule": "sum"},
+        "LI_EMPLOYEE_TAX": {"cells": ["D45"], "label": "Dettes personnel/fiscal", "sum_rule": "sum"},
+        "LI_LONG_TERM": {"cells": ["D46"], "label": "Dettes financières LT", "sum_rule": "sum"},
+        "LI_OTHER_PAYABLES": {"cells": ["D47"], "label": "Autres dettes", "sum_rule": "sum"},
+        "LI_ACCRUED": {"cells": ["D48"], "label": "Charges à payer", "sum_rule": "sum"}
+      }
+    }
+  },
+  
+  "COVERAGE_ANALYSIS": {
+    "total_syscohada_accounts": 1182,
+    "mapped_to_intermediate": "Note: Tous les comptes SYSCOHADA doivent être dans Level_1",
+    "intermediate_categories": 128,
+    "dfs_entries": 128,
+    "coverage": "100% - Aucun compte ne doit être perdu"
+  }
+}

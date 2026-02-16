@@ -1,0 +1,32 @@
+A2: PAGE DE GARDE
+A6: REPUBLIQUE DU CAMEROUN
+A7: MINISTERE DES FINANCES
+A8: DIRECTION GENERALE DES IMPÖTS
+A10: ENTREPRISE : GULFCAM SAS
+B10: CENTRE DE DEPOT DE: …………………………………………………………
+A12: NIU : M050900027774W
+A16: DU : 01/01/2024 AU : 31/12/2024
+C16: ……………………………………………………….
+B18: EXERCICE CLOS LE:
+C20: ………………………………………………………
+C22: DESIGNATION DE L'ENTITE
+A25: DENOMINATION SOCIALE: _______________________________________________________
+A26: (ou nom et prénoms de l'exploitant)
+A27: _______________________________________________________________________________________________
+A29: SIGLE USUEL:___________________________________________________________________________________
+A31: ADRESSE COMPLETE: ___________________________________________________________________________
+A33: N° D'IDENTIFICATION FISCALE: ___________________________________________________________________
+C36: SYSTÈME NORMAL
+B38: documents déposés
+F38: Réservé à la Direction Générale des Impôts
+B40: Fiche d'identification et renseignement divers
+Bilan
+Compte de résultat
+Tableau des flux trésorerie
+Notes annexes
+G40: Date de dépôt
+G43: Nom de l'agent de la DGI ayant réceptioné
+le dépôt
+G46: Signature de l'agent et cachet du service
+B47: Nombre de pages déposées par exemplaire: …………..…
+Nombre d'exemplaires déposés: ……………………………………

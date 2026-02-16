@@ -1,0 +1,68 @@
+[
+  {
+    "sheet": "BILAN PAYSAGE",
+    "header_row": 10,
+    "fillable": [
+      [
+        "D",
+        "BRUT"
+      ]
+    ],
+    "protected": [
+      [
+        "E",
+        "AMORT et \nDEPREC."
+      ],
+      [
+        "F",
+        "NET"
+      ],
+      [
+        "G",
+        "NET"
+      ],
+      [
+        "K",
+        "NET"
+      ],
+      [
+        "L",
+        "NET"
+      ]
+    ],
+    "unknown": []
+  },
+  {
+    "sheet": "NOTE 3B",
+    "header_row": 9,
+    "fillable": [
+      [
+        "E",
+        "MONTANT BRUT A L'OUVERTURE DE L'EXERCICE"
+      ],
+      [
+        "G",
+        "ACQUISITIONS\nAPPORTS\nCREATIONS"
+      ],
+      [
+        "H",
+        "VIREMENTS\nDE POSTE\nA  POSTE"
+      ],
+      [
+        "I",
+        "SUITE A UNE REEVALUATION PRATIQUEE AU COURS DE L'E"
+      ],
+      [
+        "K",
+        "CESSIONS SCISSIONS HORS SERVICES"
+      ]
+    ],
+    "protected": [],
+    "unknown": [
+      [
+        "L",
+        "VIREMENT DE POSTE A POSTE"
+      ]
+    ]
+  }
+]

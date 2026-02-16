@@ -1,0 +1,226 @@
+{
+  "PAGE DE GARDE": {
+    "cells": {
+      "B10": {
+        "attribute": "centre_depot",
+        "value_template": "CENTRE DE DEPOT DE : {}"
+      },
+      "B18": {
+        "attribute": "exercice_fin",
+        "format": "date",
+        "value_template": "EXERCICE CLOS LE : {}"
+      },
+      "A27": {
+        "attribute": "denomination_sociale",
+        "value_template": "Dénomination sociale : {}"
+      },
+      "A29": {
+        "attribute": "sigle_usuel",
+        "value_template": "Sigle usuel : {}"
+      },
+      "A31": {
+        "attribute": "adresse_complete",
+        "value_template": "Adresse complète : {}"
+      },
+      "A33": {
+        "attribute": "num_identification_fiscale",
+        "value_template": "N° d'identification fiscale : {}"
+      },
+      "C36": {
+        "attribute": "systeme_comptable",
+        "value_template": "Système : {}"
+      }
+    }
+  },
+  "ENTETE": {
+    "cells": {
+      "A2": {
+        "attribute": "denomination_sociale",
+        "label": "DÉNOMINATION SOCIALE",
+        "bold": true,
+        "value_template": "DÉNOMINATION SOCIALE : {}"
+      }
+    }
+  },
+  "Fiche R1": {
+    "title": "FICHE R1",
+    "cells": {
+      "A5": {
+        "attribute": "denomination_sociale",
+        "value_template": "Description sociale de l'entreprise : {}",
+        "label": "Description"
+      },
+      "A6": {
+        "attribute": "adresse_complete",
+        "value_template": "Siège social : {}",
+        "label": "Adresse"
+      },
+      "A7": {
+        "attribute": "num_identification_fiscale",
+        "value_template": "N° d'identification fiscal : {}",
+        "label": "NIU"
+      },
+      "E9": {
+        "attribute": "periode_exercice_str",
+        "label": "Periode Exercice"
+      },
+      "B11": {
+        "attribute": "date_arrete_comptes",
+        "format": "date",
+        "label": "Date Arrete"
+      },
+      "B13": {
+        "attribute": "exercice_precedent_fin",
+        "format": "date",
+        "label": "Cloture Prec."
+      },
+      "A16": {
+        "attribute": "registre_commerce",
+        "label": "RCCM",
+        "optional": true
+      },
+      "C18": {
+        "attribute": "cnps",
+        "label": "No Caisse",
+        "optional": true
+      },
+      "F18": {
+        "attribute": "code_importateur",
+        "label": "Code Imp.",
+        "optional": true
+      },
+      "I18": {
+        "attribute": "activite_principale_code",
+        "label": "Code Act.",
+        "optional": true
+      }
+    }
+  },
+  "Fiche R2": {
+    "title": "FICHE R2",
+    "cells": {
+      "A4": {
+        "attribute": "denomination_sociale",
+        "value_template": "Désignation entité : {}                                                                                 Exercice clos le 31-12-2024"
+      },
+      "A5": {
+        "attribute": "num_identification_fiscale",
+        "value_template": "Numéro d'identification : {}                                                              Durée (en mois) : 12"
+      },
+      "B9": {
+        "attribute": "forme_juridique",
+        "label": "Forme Juridique"
+      },
+      "B11": {
+        "attribute": "registre_fiscal",
+        "label": "Regisme Fiscal"
+      },
+      "B13": {
+        "attribute": "pays_siege_social",
+        "label": "Pays"
+      },
+      "B20": {
+        "attribute": "premiere_annee",
+        "label": "1ere annee",
+        "optional": true
+      }
+    },
+    "tables": {
+      "activites": {
+        "data_start_row": "B29",
+        "fields": {
+          "B": "designation",
+          "F": "code_nomenclature",
+          "M": "chiffre_affaire_ht",
+          "O": "pourcentage_ca"
+        }
+      }
+    }
+  },
+  "Fiche R3": {
+    "title": "FICHE R3",
+    "cells": {
+      "A4": {
+        "attribute": "denomination_sociale",
+        "value_template": "Désignation entité : {}                                                                                 Exercice clos le 31-12-2024"
+      },
+      "A5": {
+        "attribute": "num_identification_fiscale",
+        "value_template": "Numéro d'identification : {}                                                              Durée (en mois) : 12"
+      }
+    },
+    "tables": {
+      "dirigeants": {
+        "data_start_row": "A11",
+        "fields": {
+          "A": "nom",
+          "B": "prenoms",
+          "C": "qualite",
+          "D": "num_identification_fiscale",
+          "E": "adresse"
+        }
+      },
+      "conseil_administration": {
+        "sections": [
+          {
+            "label": "first_section",
+            "data_start_row": "A26",
+            "fields": {
+              "B": "nom",
+              "C": "prenoms",
+              "D": "qualite",
+              "E": "adresse"
+            },
+            "row_count": 4
+          },
+          {
+            "label": "second_section",
+            "explicit_rows": [31, 33, 34, 35],
+            "fields": {
+              "B": "nom_prenoms",
+              "E": "adresse"
+            }
+          }
+        ]
+      },
+      "actionnaires": {
+        "data_start_row": "A40",
+        "fields": {
+          "A": "nom",
+          "C": "nationalite",
+          "D": "nombre",
+          "E": "montant_total"
+        }
+      }
+    }
+  },
+  "NOTE 13 ": {
+    "title": "NOTE 13",
+    "cells": {
+      "A3": {
+        "attribute": "denomination_sociale",
+        "value_template": "Désignation entité : {}                                                                Exercice clos le 31-12-2024"
+      },
+      "A4": {
+        "attribute": "num_identification_fiscale",
+        "value_template": "Numéro d'identification : {}                                                                 Durée (en mois) : 12"
+      },
+      "A26": {
+        "attribute": "note_13_commentaire",
+        "value_template": "Commentaire : {}"
+      }
+    },
+    "tables": {
+      "actionnaires": {
+        "data_start_row": "A11",
+        "fields": {
+          "A": "nom",
+          "B": "nationalite",
+          "C": "nature_actions",
+          "D": "nombre",
+          "E": "montant_total"
+        }
+      }
+    }
+  }
+}

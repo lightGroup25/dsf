@@ -1,0 +1,392 @@
+{
+  "template": "templates\\DSF Normal standard.xlsx",
+  "sheets": [
+    {
+      "sheet": "Fiche R3",
+      "real_count": 0,
+      "textual_count": 1,
+      "samples": {
+        "real": [],
+        "textual": [
+          {
+            "cell": "A24",
+            "text": "ANT= PR",
+            "lhs": "ANT",
+            "excel_formula": "=PR"
+          }
+        ]
+      }
+    },
+    {
+      "sheet": "NOTE 3B",
+      "real_count": 0,
+      "textual_count": 1,
+      "samples": {
+        "real": [],
+        "textual": [
+          {
+            "cell": "N8",
+            "text": "D=A+B-C",
+            "lhs": "D",
+            "excel_formula": "=A+B-C"
+          }
+        ]
+      }
+    },
+    {
+      "sheet": "NOTE  3C",
+      "real_count": 0,
+      "textual_count": 1,
+      "samples": {
+        "real": [],
+        "textual": [
+          {
+            "cell": "E7",
+            "text": "D=A+B-C",
+            "lhs": "D",
+            "excel_formula": "=A+B-C"
+          }
+        ]
+      }
+    },
+    {
+      "sheet": "NOTE 3D ",
+      "real_count": 0,
+      "textual_count": 2,
+      "samples": {
+        "real": [],
+        "textual": [
+          {
+            "cell": "D9",
+            "text": "C=A - B",
+            "lhs": "C",
+            "excel_formula": "=A-B"
+          },
+          {
+            "cell": "F9",
+            "text": "E= D-C",
+            "lhs": "E",
+            "excel_formula": "=D-C"
+          }
+        ]
+      }
+    },
+    {
+      "sheet": "C1-NOTE 17 ",
+      "real_count": 0,
+      "textual_count": 1,
+      "samples": {
+        "real": [],
+        "textual": [
+          {
+            "cell": "L41",
+            "text": "7=1+2+3+4+5+6",
+            "lhs": "7",
+            "excel_formula": "=A+B+C+D+E+F"
+          }
+        ]
+      }
+    },
+    {
+      "sheet": "C2-NOTE 25",
+      "real_count": 0,
+      "textual_count": 5,
+      "samples": {
+        "real": [],
+        "textual": [
+          {
+            "cell": "E10",
+            "text": "4 = (2X3)",
+            "lhs": "4",
+            "excel_formula": "=(BXC)"
+          },
+          {
+            "cell": "F10",
+            "text": "5 = (2-4)",
+            "lhs": "5",
+            "excel_formula": "=(B-D)"
+          },
+          {
+            "cell": "I10",
+            "text": "7 = (5X6)",
+            "lhs": "7",
+            "excel_formula": "=(EXF)"
+          },
+          {
+            "cell": "F20",
+            "text": "5 = (2+3+4)",
+            "lhs": "5",
+            "excel_formula": "=(B+C+D)"
+          },
+          {
+            "cell": "I20",
+            "text": "8 = (5X7)",
+            "lhs": "8",
+            "excel_formula": "=(EXG)"
+          }
+        ]
+      }
+    },
+    {
+      "sheet": "NOTE 28",
+      "real_count": 0,
+      "textual_count": 1,
+      "samples": {
+        "real": [],
+        "textual": [
+          {
+            "cell": "I9",
+            "text": "D=A+B-C",
+            "lhs": "D",
+            "excel_formula": "=A+B-C"
+          }
+        ]
+      }
+    },
+    {
+      "sheet": "NOTE 34",
+      "real_count": 5,
+      "textual_count": 0,
+      "samples": {
+        "real": [
+          {
+            "cell": "A45",
+            "formula": "= Ressources stables "
+          },
+          {
+            "cell": "A50",
+            "formula": "= BESSOIN DE FINANCEMENT D’EXPLOITATION (2)"
+          },
+          {
+            "cell": "A53",
+            "formula": "= BESOIN DE FINANCEMENT HAO (3)"
+          },
+          {
+            "cell": "A62",
+            "formula": "= VARIATION DE LA TRESORERIE NETTE DE LA PERIODE"
+          },
+          {
+            "cell": "A66",
+            "formula": "= ENDETTEMENT FINANCIERE NET"
+          }
+        ],
+        "textual": []
+      }
+    },
+    {
+      "sheet": "C1-NOTE 27A",
+      "real_count": 19,
+      "textual_count": 0,
+      "samples": {
+        "real": [
+          {
+            "cell": "J12",
+            "formula": "=SUM(D12:I12)"
+          },
+          {
+            "cell": "J13",
+            "formula": "=SUM(D13:I13)"
+          },
+          {
+            "cell": "J14",
+            "formula": "=SUM(D14:I14)"
+          },
+          {
+            "cell": "J15",
+            "formula": "=SUM(D15:I15)"
+          },
+          {
+            "cell": "J16",
+            "formula": "=SUM(D16:I16)"
+          },
+          {
+            "cell": "J17",
+            "formula": "=SUM(D17:I17)"
+          },
+          {
+            "cell": "J18",
+            "formula": "=SUM(D18:I18)"
+          },
+          {
+            "cell": "J19",
+            "formula": "=SUM(D19:I19)"
+          },
+          {
+            "cell": "J20",
+            "formula": "=SUM(D20:I20)"
+          },
+          {
+            "cell": "J21",
+            "formula": "=SUM(D21:I21)"
+          }
+        ],
+        "textual": []
+      }
+    },
+    {
+      "sheet": "CF1 BIS",
+      "real_count": 0,
+      "textual_count": 2,
+      "samples": {
+        "real": [],
+        "textual": [
+          {
+            "cell": "B15",
+            "text": "LES=2* (LIGNE3-LIGNE4)",
+            "lhs": "LES",
+            "excel_formula": "=B*(LIGNEC-LIGNED)"
+          },
+          {
+            "cell": "B20",
+            "text": "LES=2*(LIGNE7",
+            "lhs": "LES",
+            "excel_formula": "=B*(LIGNEG"
+          }
+        ]
+      }
+    },
+    {
+      "sheet": "CF1 TER",
+      "real_count": 0,
+      "textual_count": 1,
+      "samples": {
+        "real": [],
+        "textual": [
+          {
+            "cell": "B21",
+            "text": "LES = 2 X (LIGNE 8 - LIGNE 9)",
+            "lhs": "LES",
+            "excel_formula": "=BX(LIGNEH-LIGNEI)"
+          }
+        ]
+      }
+    },
+    {
+      "sheet": "CF1 QUATER",
+      "real_count": 13,
+      "textual_count": 1,
+      "samples": {
+        "real": [
+          {
+            "cell": "H11",
+            "formula": "=SUM(C11:G11)"
+          },
+          {
+            "cell": "H12",
+            "formula": "=SUM(C12:G12)"
+          },
+          {
+            "cell": "H13",
+            "formula": "=SUM(C13:G13)"
+          },
+          {
+            "cell": "H14",
+            "formula": "=SUM(C14:G14)"
+          },
+          {
+            "cell": "H15",
+            "formula": "=SUM(C15:G15)"
+          },
+          {
+            "cell": "H16",
+            "formula": "=SUM(C16:G16)"
+          },
+          {
+            "cell": "H17",
+            "formula": "=SUM(C17:G17)"
+          },
+          {
+            "cell": "H18",
+            "formula": "=SUM(C18:G18)"
+          },
+          {
+            "cell": "H19",
+            "formula": "=SUM(C19:G19)"
+          },
+          {
+            "cell": "H20",
+            "formula": "=SUM(C20:G20)"
+          }
+        ],
+        "textual": [
+          {
+            "cell": "H9",
+            "text": "6=1+2+3+4+5",
+            "lhs": "6",
+            "excel_formula": "=A+B+C+D+E"
+          }
+        ]
+      }
+    },
+    {
+      "sheet": "CF2",
+      "real_count": 30,
+      "textual_count": 0,
+      "samples": {
+        "real": [
+          {
+            "cell": "P12",
+            "formula": "=SUM(I12:O12)"
+          },
+          {
+            "cell": "P13",
+            "formula": "=SUM(I13:O13)"
+          },
+          {
+            "cell": "P14",
+            "formula": "=SUM(I14:O14)"
+          },
+          {
+            "cell": "P15",
+            "formula": "=SUM(I15:O15)"
+          },
+          {
+            "cell": "P16",
+            "formula": "=SUM(I16:O16)"
+          },
+          {
+            "cell": "P17",
+            "formula": "=SUM(I17:O17)"
+          },
+          {
+            "cell": "P18",
+            "formula": "=SUM(I18:O18)"
+          },
+          {
+            "cell": "P19",
+            "formula": "=SUM(I19:O19)"
+          },
+          {
+            "cell": "P20",
+            "formula": "=SUM(I20:O20)"
+          },
+          {
+            "cell": "P21",
+            "formula": "=SUM(I21:O21)"
+          }
+        ],
+        "textual": []
+      }
+    },
+    {
+      "sheet": "CF2 BIS",
+      "real_count": 0,
+      "textual_count": 1,
+      "samples": {
+        "real": [],
+        "textual": [
+          {
+            "cell": "G10",
+            "text": "6=2+5",
+            "lhs": "6",
+            "excel_formula": "=B+E"
+          }
+        ]
+      }
+    }
+  ],
+  "totals": {
+    "real": 67,
+    "textual": 17
+  }
+}
