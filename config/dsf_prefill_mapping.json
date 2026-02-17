@@ -184,13 +184,29 @@
         ]
       },
       "actionnaires": {
-        "data_start_row": "A40",
-        "fields": {
-          "A": "nom",
-          "C": "nationalite",
-          "D": "nombre",
-          "E": "montant_total"
-        }
+        "sections": [
+          {
+            "label": "merged_cd_rows",
+            "data_start_row": "A40",
+            "row_count": 4,
+            "fields": {
+              "A": "nom",
+              "C": "nombre",
+              "E": "montant_total"
+            }
+          },
+          {
+            "label": "standard_rows",
+            "data_start_row": "A44",
+            "row_count": 20,
+            "fields": {
+              "A": "nom",
+              "C": "nationalite",
+              "D": "nombre",
+              "E": "montant_total"
+            }
+          }
+        ]
       }
     }
   },

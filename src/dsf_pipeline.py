@@ -8,7 +8,7 @@ import time
 from dataclasses import dataclass, field
 from decimal import Decimal
 from pathlib import Path
-from typing import Dict, Optional
+from typing import Callable, Dict, Optional
 
 from balance_normalizer import BalanceNormalizer
 from dsf_controls import ControlReport, ControlSuite
@@ -20,7 +20,7 @@ from dsf_reporting import generate_reports
 from dsf_rule_config import DSFRuleSet, load_rule_set
 from dsf_rule_engine import RuleEngine, RuleEngineResult
 from dsf_secure_writer import ProtectedDSFWriter
-from semantic_balance_filler import SemanticBalanceFiller
+from semantic_balance_filler import CellAssignment, SemanticBalanceFiller
 from semantic_validators import SemanticFillerValidator
 from openpyxl.utils import coordinate_to_tuple, range_boundaries
 from dsf_calculation_applier import DSFCalculationApplier
@@ -41,6 +41,7 @@ class PipelineArtifacts:
 class DSFPipelineConfig:
     template_dsf: Path = Path("templates/DSF Normal standard.xlsx")
     balance_input: Path = Path("input/BALANCE AU 31 12 2024 VERSION DU 26 05 25.xlsx")
+    previous_balance_input: Optional[Path] = None
     inventory_path: Path = Path("data/dsf_inventory.json")
     rules_path: Path = Path("config/dsf_rule_generated.yaml")
     prefill_mapping_path: Path = Path("config/dsf_prefill_mapping.json")
@@ -52,11 +53,11 @@ class DSFPipelineConfig:
     chunk_size: int = 500
     writer_chunk_size: int = 200
     control_tolerance: Decimal = Decimal("1")
-    filling_method: str = "semantic"  # "semantic" or "rule-based"
+    filling_method: str = "semantic"  # "semantic", "hybrid" or "rule-based"
     fuzzy_threshold: float = 0.6  # For semantic filling
     apply_calculations: bool = True  # Apply TOTAL, VARIATION, RATIO formulas
     use_calculation_formulas: bool = True  # Use Excel formulas vs numeric values
-    use_smart_general_filler: bool = True  # Use intelligent zone detection for ENTETE/R1/R2/R3/NOTE13
+    use_smart_general_filler: bool = False  # Prefer explicit mapping for ENTETE/R1/R2/R3/NOTE13/PAGE DE GARDE
     apply_note_rules_in_semantic: bool = True  # Apply intelligent rules for all notes in semantic mode
     general_info: DSF_InfosGenerales = field(default_factory=get_gulfcam_config)
     balance_column_overrides: Optional[Dict[str, object]] = field(
@@ -77,6 +78,8 @@ class DSFPipelineConfig:
     def __post_init__(self) -> None:
         self.template_dsf = Path(self.template_dsf)
         self.balance_input = Path(self.balance_input)
+        if self.previous_balance_input:
+            self.previous_balance_input = Path(self.previous_balance_input)
         self.inventory_path = Path(self.inventory_path)
         self.rules_path = Path(self.rules_path)
         self.prefill_mapping_path = Path(self.prefill_mapping_path)
@@ -91,15 +94,32 @@ class DSFPipelineConfig:
 
 
 class DSFPipeline:
-    def __init__(self, config: DSFPipelineConfig):
+    def __init__(
+        self,
+        config: DSFPipelineConfig,
+        progress_callback: Optional[Callable[[int, str], None]] = None,
+    ):
         self.config = config
         self.inventory: Optional[DSFInventory] = None
         self.rule_set: Optional[DSFRuleSet] = None
+        self.progress_callback = progress_callback
+
+    def _emit_progress(self, percent: int, message: str) -> None:
+        percent = max(0, min(100, int(percent)))
+        if self.progress_callback is None:
+            return
+        try:
+            self.progress_callback(percent, message)
+        except Exception as exc:
+            logger.warning("Progress callback error: %s", exc)
 
     def run(self) -> PipelineArtifacts:
         start_time = time.time()
+        self._emit_progress(3, "Vérification des entrées")
         self._validate_inputs()
+        self._emit_progress(8, "Chargement de l'inventaire DSF")
         self.inventory = DSFInventory.from_json(self.config.inventory_path)
+        self._emit_progress(15, "Initialisation du pipeline")
 
         logger.info(
             "Pipeline DSF %s - exercice %s (mode: %s)",
@@ -108,22 +128,49 @@ class DSFPipeline:
             self.config.filling_method,
         )
 
+        self._emit_progress(22, "Pré-remplissage des sections générales")
         prefilled_template = self._prefill_general_sections()
+        self._emit_progress(36, "Pré-remplissage terminé")
 
         if self.config.filling_method == "semantic":
+            self._emit_progress(45, "Remplissage sémantique en cours")
             dsf_output = self._fill_semantic_balance(prefilled_template)
+            self._emit_progress(80, "Remplissage sémantique terminé")
             reports = {"html": None, "json": None}
             
             # Apply calculations (TOTAL, VARIATION, RATIOS, etc)
             if self.config.apply_calculations:
+                self._emit_progress(86, "Application des calculs DSF")
                 self._apply_calculations(dsf_output)
-        else:
+                self._emit_progress(92, "Calculs appliqués")
+        elif self.config.filling_method == "hybrid":
+            self._emit_progress(44, "Chargement des règles pour mode hybride")
             self.rule_set = load_rule_set(self.config.rules_path)
+            self._emit_progress(50, "Remplissage sémantique (hybride)")
+            dsf_output = self._fill_semantic_balance(
+                prefilled_template,
+                apply_note_overlay=False,
+                apply_full_rule_overlay=True,
+            )
+            self._emit_progress(82, "Overlay règles globales terminé")
+            reports = {"html": None, "json": None}
+            if self.config.apply_calculations:
+                self._emit_progress(88, "Application des calculs DSF")
+                self._apply_calculations(dsf_output)
+                self._emit_progress(93, "Calculs appliqués")
+        else:
+            self._emit_progress(46, "Chargement des règles")
+            self.rule_set = load_rule_set(self.config.rules_path)
+            self._emit_progress(56, "Affectation des comptes")
             result = self._run_rule_engine()
+            self._emit_progress(72, "Contrôles de cohérence")
             controls = self._evaluate_controls(result)
+            self._emit_progress(84, "Écriture du classeur DSF")
             dsf_output = self._write_assignments(prefilled_template, result)
+            self._emit_progress(92, "Génération des rapports")
             reports = self._emit_reports(result, controls)
 
+        self._emit_progress(98, "Finalisation des sorties")
         duration = time.time() - start_time
         logger.info("Pipeline terminé en %.2fs", duration)
         logger.info("DSF généré: %s", dsf_output)
@@ -131,6 +178,7 @@ class DSFPipeline:
             logger.info("Rapport HTML: %s", reports["html"])
         if reports.get("json"):
             logger.info("Rapport JSON: %s", reports["json"])
+        self._emit_progress(100, "Génération DSF terminée")
 
         return PipelineArtifacts(
             dsf_output=dsf_output,
@@ -151,6 +199,8 @@ class DSFPipeline:
             ("règles", self.config.rules_path),
             ("mapping préremplissage", self.config.prefill_mapping_path),
         ]
+        if self.config.previous_balance_input:
+            missing.append(("balance N-1", self.config.previous_balance_input))
         errors = [label for label, path in missing if not path.exists()]
         if errors:
             raise FileNotFoundError(f"Entrées manquantes: {', '.join(errors)}")
@@ -186,7 +236,13 @@ class DSFPipeline:
         logger.info("Pré-remplissage ENTETE/R1/R2/R3/NOTE13: %s éléments", filled)
         return prefilled_path
 
-    def _fill_semantic_balance(self, prefilled_template: Path) -> Path:
+    def _fill_semantic_balance(
+        self,
+        prefilled_template: Path,
+        *,
+        apply_note_overlay: bool = True,
+        apply_full_rule_overlay: bool = False,
+    ) -> Path:
         """
         NEW: Semantic balance filling approach
         Analyzes each cell label, fuzzy-matches balance accounts, fills values
@@ -202,41 +258,59 @@ class DSFPipeline:
             self.inventory,
             fuzzy_threshold=self.config.fuzzy_threshold,
             column_overrides=self.config.balance_column_overrides,
+            previous_balance_file=self.config.previous_balance_input,
+            previous_column_overrides=self.config.balance_column_overrides,
         )
         filler.load()
         filled = filler.fill()
         logger.info("Remplissage sémantique: %s assignations", filled)
 
-        # Validate and generate reports
-        validator = SemanticFillerValidator(filler)
-        report = validator.validate()
-        logger.info("Validation: %s cells / %.1f%% success", 
-                   report.total_cells_processed, report.success_rate)
-
-        # Print console report
-        validator.print_console_report()
-
-        # Generate detailed reports
-        json_report_path = validator.generate_json_report(self.config.report_json_path)
-        html_report_path = validator.generate_html_report(self.config.report_html_path)
-
-        logger.info("Rapport JSON: %s", json_report_path)
-        logger.info("Rapport HTML: %s", html_report_path)
-
-        # Apply intelligent rules for notes (strict mode)
-        if self.config.apply_note_rules_in_semantic:
+        # Optional rule overlays:
+        # - semantic mode: notes only
+        # - hybrid mode: full rules on empty cells
+        if apply_full_rule_overlay:
+            try:
+                if not self.rule_set:
+                    self.rule_set = load_rule_set(self.config.rules_path)
+                result = self._run_rule_engine(rule_set=self.rule_set)
+                applied = self._apply_rule_assignments_to_workbook(
+                    filler.wb,
+                    result,
+                    filler=filler,
+                    notes_only=False,
+                )
+                logger.info("Hybrid: %s rule assignments added on top of semantic fill", applied)
+            except Exception as exc:
+                logger.warning("Hybrid: failed to apply global rule overlay: %s", exc)
+        elif apply_note_overlay and self.config.apply_note_rules_in_semantic:
             try:
                 if not self.rule_set:
                     self.rule_set = load_rule_set(self.config.rules_path)
                 note_rule_set = self._filter_note_rules(self.rule_set)
                 if note_rule_set.rules:
                     note_result = self._run_rule_engine(rule_set=note_rule_set)
-                    applied = self._apply_note_assignments_to_workbook(filler.wb, note_result)
+                    applied = self._apply_rule_assignments_to_workbook(
+                        filler.wb,
+                        note_result,
+                        filler=filler,
+                        notes_only=True,
+                    )
                     logger.info("Notes: %s assignments applied in semantic mode", applied)
                 else:
                     logger.warning("Notes: no rules found for notes in ruleset")
             except Exception as exc:
                 logger.warning("Notes: failed to apply note rules: %s", exc)
+
+        # Validate and generate reports after note-rule enrichment so reports
+        # reflect the same logical state as the saved workbook.
+        validator = SemanticFillerValidator(filler)
+        report = validator.validate()
+        logger.info("Validation: %s cells / %.1f%% success", report.total_cells_processed, report.success_rate)
+        validator.print_console_report()
+        json_report_path = validator.generate_json_report(self.config.report_json_path)
+        html_report_path = validator.generate_html_report(self.config.report_html_path)
+        logger.info("Rapport JSON: %s", json_report_path)
+        logger.info("Rapport HTML: %s", html_report_path)
 
         # Emit formula application log
         try:
@@ -276,9 +350,9 @@ class DSFPipeline:
     def _filter_note_rules(self, rule_set: DSFRuleSet) -> DSFRuleSet:
         note_rules = []
         for rule in rule_set.rules:
-            section = (rule.section or "").upper()
             target_sheet = (rule.target.sheet or "").upper()
-            if section.startswith("NOTE") or "NOTE" in target_sheet:
+            # Keep only true NOTE sheet targets in semantic enrichment mode.
+            if "NOTE" in target_sheet:
                 note_rules.append(rule)
         return DSFRuleSet(
             version=rule_set.version,
@@ -288,12 +362,28 @@ class DSFPipeline:
             metadata=dict(rule_set.metadata),
         )
 
-    def _apply_note_assignments_to_workbook(self, wb, result: RuleEngineResult) -> int:
+    def _apply_rule_assignments_to_workbook(
+        self,
+        wb,
+        result: RuleEngineResult,
+        filler: Optional[SemanticBalanceFiller] = None,
+        *,
+        notes_only: bool = True,
+    ) -> int:
         if not self.inventory:
             raise RuntimeError("Inventaire non chargé")
         applied = 0
         skipped = 0
+        appended = 0
+        removed_unmatched = 0
+        existing_keys = set()
+        if filler is not None:
+            existing_keys = {(a.sheet, a.cell) for a in filler.assignments}
         for assignment in result.assignments:
+            sheet_upper = assignment.sheet.upper()
+            if notes_only and "NOTE" not in sheet_upper:
+                skipped += 1
+                continue
             field = self.inventory.get_field(assignment.sheet, assignment.cell)
             if not field:
                 skipped += 1
@@ -302,7 +392,6 @@ class DSFPipeline:
                 skipped += 1
                 continue
             if field.locked:
-                sheet_upper = assignment.sheet.upper()
                 if "NOTE" not in sheet_upper and "SYNTHESE" not in sheet_upper and "SYNTH" not in sheet_upper:
                     skipped += 1
                     continue
@@ -317,7 +406,44 @@ class DSFPipeline:
                 continue
             cell.value = assignment.amount
             applied += 1
-        logger.info("Notes: applied=%s skipped=%s", applied, skipped)
+            if filler is not None:
+                key = (assignment.sheet, assignment.cell)
+                if key not in existing_keys:
+                    filler.assignments.append(
+                        CellAssignment(
+                            sheet=assignment.sheet,
+                            cell=assignment.cell,
+                            row_label=field.label or "",
+                            col_label=field.column_type or "",
+                            is_total=False,
+                            matched_accounts=[],
+                            total_amount=assignment.amount,
+                            source_accounts=[
+                                acc.get("compte", "")
+                                for acc in (assignment.accounts or [])
+                                if isinstance(acc, dict)
+                            ],
+                            confidence=0.88,
+                            notes="source=rule_engine_note",
+                        )
+                    )
+                    existing_keys.add(key)
+                    appended += 1
+                before = len(filler.unmatched_cells)
+                filler.unmatched_cells = [
+                    need
+                    for need in filler.unmatched_cells
+                    if not (need.sheet == assignment.sheet and need.cell == assignment.cell)
+                ]
+                removed_unmatched += max(0, before - len(filler.unmatched_cells))
+        logger.info(
+            "Rule overlay (notes_only=%s): applied=%s skipped=%s report_sync_added=%s report_sync_removed_unmatched=%s",
+            notes_only,
+            applied,
+            skipped,
+            appended,
+            removed_unmatched,
+        )
         return applied
 
     def _write_assignments(self, template: Path, result: RuleEngineResult) -> Path:

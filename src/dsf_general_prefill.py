@@ -16,6 +16,20 @@ from dsf_general_info import DSF_InfosGenerales, format_date
 
 
 class DSFGeneralPrefiller:
+    SAFE_HEADER_SHEETS = {
+        "ENTETE",
+        "ENTÊTE",
+        "FICHE R1",
+        "R1",
+        "FICHE R2",
+        "R2",
+        "FICHE R3",
+        "R3",
+        "NOTE 13",
+        "NOTE13",
+        "PAGE DE GARDE",
+    }
+
     def __init__(self, template_path: Path | str, mapping_path: Path | str = "dsf_prefill_mapping.json"):
         self.template_path = Path(template_path)
         self.mapping_path = Path(mapping_path)
@@ -48,6 +62,8 @@ class DSFGeneralPrefiller:
             filled += self._fill_cells(ws, spec.get("cells", {}), info, info_dict)
             for table_name, table_spec in (spec.get("tables", {}) or {}).items():
                 filled += self._fill_table(ws, table_name, table_spec, info, info_dict)
+        # Fallback hardening for PAGE DE GARDE so critical identity fields are always set.
+        filled += self._fill_page_de_garde_fallback(info)
         return filled
     
     def _fill_universal_headers(self, wb, info: DSF_InfosGenerales) -> int:
@@ -67,18 +83,62 @@ class DSFGeneralPrefiller:
         ]
 
         for ws in wb.worksheets:
+            if self._normalize_sheet_name(ws.title) not in self.SAFE_HEADER_SHEETS:
+                continue
             # Only scan top 10 rows
             for r in range(1, 11):
                 for c in range(1, 4): # Scan columns A, B, C usually
                     cell = ws.cell(row=r, column=c)
                     val = cell.value
                     if isinstance(val, str):
+                        text = val.lower()
+                        # Guardrail: only replace explicit placeholder-like header lines.
+                        if "…" not in val and "..." not in val and "_" not in val:
+                            continue
                         for start_marker, end_marker, replacement in search_patterns:
-                             if start_marker.lower() in val.lower() and end_marker.lower() in val.lower():
+                             if start_marker.lower() in text and end_marker.lower() in text:
                                  # print(f"DEBUG: Found header pattern in {ws.title}!{cell.coordinate}")
                                  # We use the master cell to ensure we write to the merged range top-left
                                  if self._write_cell(ws, cell.coordinate, replacement):
                                      count += 1
+        return count
+
+    def _fill_page_de_garde_fallback(self, info: DSF_InfosGenerales) -> int:
+        if self.wb is None:
+            return 0
+
+        ws = None
+        for candidate in self.wb.worksheets:
+            if self._normalize_sheet_name(candidate.title) == "PAGE DE GARDE":
+                ws = candidate
+                break
+        if ws is None:
+            return 0
+
+        fallback_values = {
+            "B10": f"CENTRE DE DEPOT DE : {info.centre_depot}",
+            "B18": f"EXERCICE CLOS LE : {format_date(info.exercice_fin)}",
+            "A27": f"Dénomination sociale : {info.denomination_sociale}",
+            "A29": f"Sigle usuel : {info.sigle_usuel}",
+            "A31": f"Adresse complète : {info.adresse_complete}",
+            "A33": f"N° d'identification fiscale : {info.num_identification_fiscale}",
+            "C36": f"Système : {info.systeme_comptable}",
+        }
+
+        count = 0
+        for cell_ref, value in fallback_values.items():
+            master = self._master_cell(ws, cell_ref)
+            current = master.value
+            should_write = False
+            if current is None or (isinstance(current, str) and not current.strip()):
+                should_write = True
+            elif isinstance(current, str):
+                txt = current.strip()
+                # If placeholder survived mapping, force replacement.
+                if "…" in txt or "..." in txt or "_" in txt:
+                    should_write = True
+            if should_write and self._write_cell(ws, cell_ref, value):
+                count += 1
         return count
 
     def save(self, output_path: Path | str) -> Path:
@@ -267,6 +327,14 @@ class DSFGeneralPrefiller:
         fmt: Optional[str],
     ) -> Any:
         value = getattr(info_obj, attribute, None) if attribute else None
+        if attribute == "exercice_precedent_fin" and value is None:
+            current_end = getattr(info_obj, "exercice_fin", None)
+            if isinstance(current_end, date):
+                try:
+                    value = current_end.replace(year=current_end.year - 1)
+                except ValueError:
+                    # Handle leap-year edge case (e.g., 29/02 -> 28/02).
+                    value = current_end.replace(year=current_end.year - 1, day=28)
         if fmt in {"date", "currency"}:
             return self._format_value(value, fmt)
         if fmt and hasattr(info_obj, fmt):
@@ -321,6 +389,10 @@ class DSFGeneralPrefiller:
             return bool(eval(condition, {}, info_dict))
         except Exception:
             return False
+
+    @staticmethod
+    def _normalize_sheet_name(name: str) -> str:
+        return " ".join((name or "").upper().split())
 
 
 def _infer_format(value: Any) -> Optional[str]:
