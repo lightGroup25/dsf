@@ -2724,8 +2724,10 @@ class MainWorkView(QWidget):
 
         # Section Rapports et historique DSF - AGRANDIE
         reports_card = ModernCard(colors=self.colors)
-        reports_card.setMinimumHeight(400)  # Augmentation de la hauteur minimale
+        reports_card.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
         reports_layout = QVBoxLayout(reports_card)
+        reports_layout.setContentsMargins(20, 20, 20, 20)
+        reports_layout.setSpacing(12)
 
         reports_title = QLabel("4. Rapports et historique")
         reports_title.setStyleSheet(f"""
@@ -2737,7 +2739,7 @@ class MainWorkView(QWidget):
         
         # Zone des rapports récents avec plus d'espace
         reports_frame = QFrame()
-        reports_frame.setMinimumHeight(150)
+        reports_frame.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
         reports_frame.setStyleSheet(f"""
             QFrame {{
                 background-color: {self.colors['light']};
@@ -2765,17 +2767,19 @@ class MainWorkView(QWidget):
 
         # Historique des DSF générés - PLUS GRAND
         history_header = QHBoxLayout()
+        history_header.setContentsMargins(0, 6, 0, 0)
+        history_header.setSpacing(12)
         history_label = QLabel("Historique des DSF produits (30 derniers)")
         history_label.setStyleSheet(f"""
             font-size: 20px;
             font-weight: 700;
             color: {self.colors['primary']};
-            margin-top: 16px;
-            margin-bottom: 8px;
         """)
         history_refresh_btn = QPushButton("Actualiser")
         history_refresh_btn.setCursor(Qt.PointingHandCursor)
         history_refresh_btn.setMinimumHeight(36)
+        history_refresh_btn.setMinimumWidth(118)
+        history_refresh_btn.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         history_refresh_btn.setStyleSheet(f"""
             QPushButton {{ 
                 font-size: 13px; 
@@ -2795,9 +2799,9 @@ class MainWorkView(QWidget):
             }}
         """)
         history_refresh_btn.clicked.connect(self._refresh_dsf_history)
-        history_header.addWidget(history_label)
-        history_header.addStretch()
-        history_header.addWidget(history_refresh_btn)
+        history_header.addWidget(history_label, 0, Qt.AlignLeft | Qt.AlignVCenter)
+        history_header.addStretch(1)
+        history_header.addWidget(history_refresh_btn, 0, Qt.AlignRight | Qt.AlignVCenter)
         reports_layout.addLayout(history_header)
         
         # Table d'historique agrandie
@@ -2806,17 +2810,17 @@ class MainWorkView(QWidget):
         self.dsf_history_list.horizontalHeader().setStretchLastSection(False)
         self.dsf_history_list.horizontalHeader().setSectionResizeMode(0, QHeaderView.Stretch)
         self.dsf_history_list.horizontalHeader().setSectionResizeMode(1, QHeaderView.Fixed)
-        self.dsf_history_list.horizontalHeader().setSectionResizeMode(2, QHeaderView.Fixed)
+        self.dsf_history_list.horizontalHeader().setSectionResizeMode(2, QHeaderView.ResizeToContents)
         self.dsf_history_list.setColumnWidth(1, 190)
-        self.dsf_history_list.setColumnWidth(2, 170)
+        self.dsf_history_list.setColumnWidth(2, 160)
         self.dsf_history_list.setAlternatingRowColors(True)
         self.dsf_history_list.setShowGrid(False)
         self.dsf_history_list.verticalHeader().setVisible(False)
-        self.dsf_history_list.verticalHeader().setDefaultSectionSize(42)
+        self.dsf_history_list.verticalHeader().setDefaultSectionSize(44)
         self.dsf_history_list.horizontalHeader().setMinimumHeight(40)
-        self.dsf_history_list.setMinimumHeight(250)
-        self.dsf_history_list.setMaximumHeight(16777215)
-        self.dsf_history_list.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.MinimumExpanding)
+        self.dsf_history_list.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        self.dsf_history_list.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        self.dsf_history_list.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.dsf_history_list.setStyleSheet(f"""
             QTableWidget {{
                 background-color: {self.colors['card-bg']};
@@ -2858,11 +2862,11 @@ class MainWorkView(QWidget):
                 height: 0px;
             }}
         """)
-        reports_layout.addWidget(self.dsf_history_list)
+        reports_layout.addWidget(self.dsf_history_list, 1)
         self._refresh_dsf_history()
 
         self.section_widgets["reports"] = reports_card
-        content_layout.addWidget(reports_card)
+        content_layout.addWidget(reports_card, 1)
         
         # Footer
         footer = QLabel(f"{GULFCAM_LOGO_TEXT} • {GULFCAM_TAGLINE} • DSF Mapper v1.0")
@@ -2908,6 +2912,7 @@ class MainWorkView(QWidget):
                     pass
 
         entries.sort(key=lambda x: x[1], reverse=True)
+        max_action_col_width = 0
         for path, mtime in entries[:30]:
             row = self.dsf_history_list.rowCount()
             self.dsf_history_list.insertRow(row)
@@ -2922,13 +2927,15 @@ class MainWorkView(QWidget):
             # Bouton d'ouverture stylisé
             btn_widget = QWidget()
             btn_layout = QHBoxLayout(btn_widget)
-            btn_layout.setContentsMargins(6, 4, 6, 4)
+            btn_layout.setContentsMargins(8, 4, 8, 4)
+            btn_layout.setSpacing(0)
             btn_layout.setAlignment(Qt.AlignCenter)
             
             btn = QPushButton("Ouvrir DSF")
             btn.setCursor(Qt.PointingHandCursor)
-            btn.setMinimumHeight(30)
-            btn.setMinimumWidth(128)
+            btn.setMinimumHeight(22)
+            btn.setMinimumWidth(65)
+            btn.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed)
             btn.setStyleSheet(f"""
                 QPushButton {{ 
                     background-color: {self.colors['primary']}; 
@@ -2937,7 +2944,7 @@ class MainWorkView(QWidget):
                     border-radius: 8px; 
                     padding: 6px 14px; 
                     font-weight: 700;
-                    font-size: 12px;
+                    font-size: 8px;
                 }}
                 QPushButton:hover {{ 
                     background-color: {self.colors['primary_light']}; 
@@ -2948,8 +2955,29 @@ class MainWorkView(QWidget):
                 }}
             """)
             btn.clicked.connect(lambda checked, fp=path: self._open_dsf_from_history(fp))
-            btn_layout.addWidget(btn)
+            btn_layout.addWidget(btn, 0, Qt.AlignCenter)
             self.dsf_history_list.setCellWidget(row, 2, btn_widget)
+
+            row_height = max(
+                self.dsf_history_list.verticalHeader().defaultSectionSize(),
+                btn.sizeHint().height() + btn_layout.contentsMargins().top() + btn_layout.contentsMargins().bottom() + 2,
+            )
+            self.dsf_history_list.setRowHeight(row, row_height)
+
+            action_col_width = (
+                btn.sizeHint().width()
+                + btn_layout.contentsMargins().left()
+                + btn_layout.contentsMargins().right()
+                + 8
+            )
+            max_action_col_width = max(max_action_col_width, action_col_width)
+
+        if max_action_col_width > 0:
+            self.dsf_history_list.setColumnWidth(2, max(152, max_action_col_width))
+            self.dsf_history_list.resizeColumnToContents(2)
+            self.dsf_history_list.setColumnWidth(
+                2, max(self.dsf_history_list.columnWidth(2), max(152, max_action_col_width))
+            )
 
         self._resize_history_table_to_content()
 
@@ -2959,10 +2987,15 @@ class MainWorkView(QWidget):
             return
         row_count = self.dsf_history_list.rowCount()
         header_h = self.dsf_history_list.horizontalHeader().height() or 40
-        row_h = self.dsf_history_list.verticalHeader().defaultSectionSize() or 42
+        row_h = self.dsf_history_list.verticalHeader().defaultSectionSize() or 44
         frame = self.dsf_history_list.frameWidth() * 2
         target_rows = max(4, row_count)
-        total_height = header_h + (target_rows * row_h) + frame + 8
+        rows_height = sum(self.dsf_history_list.rowHeight(i) for i in range(row_count))
+        rows_height = max(rows_height, target_rows * row_h)
+        content_margins = self.dsf_history_list.contentsMargins()
+        margins_height = content_margins.top() + content_margins.bottom()
+        h_scroll_h = self.dsf_history_list.horizontalScrollBar().sizeHint().height()
+        total_height = header_h + rows_height + frame + margins_height + h_scroll_h + 6
         self.dsf_history_list.setMinimumHeight(total_height)
 
     def _open_dsf_from_history(self, path: Path) -> None:
