@@ -75,6 +75,23 @@ class DSFInventory:
     def get_field(self, sheet: str, cell: str) -> Optional[InventoryField]:
         return self._fields_by_sheet.get(sheet, {}).get(cell)
 
+    def get_field_with_fallback(self, sheet: str, cell: str) -> Optional[InventoryField]:
+        """Recherche un champ avec tolérance aux variations de nom (espaces, casse)."""
+        field = self.get_field(sheet, cell)
+        if field:
+            return field
+        # Essayer sans espaces de fin (ex: "NOTE 12 " -> "NOTE 12")
+        alt = sheet.rstrip()
+        if alt != sheet:
+            field = self.get_field(alt, cell)
+            if field:
+                return field
+        # Essayer avec espace final (inverse)
+        alt2 = sheet if sheet.endswith(" ") else (sheet + " ")
+        if alt2 in self._fields_by_sheet:
+            return self._fields_by_sheet[alt2].get(cell)
+        return None
+
     def iter_fields(
         self,
         sheet: str,

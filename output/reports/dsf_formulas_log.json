@@ -1,0 +1,77 @@
+{
+  "total": 12,
+  "items": [
+    {
+      "sheet": "NOTE 3D ",
+      "cell": "D12",
+      "formula": "=A12-B12",
+      "source": "header"
+    },
+    {
+      "sheet": "NOTE 3D ",
+      "cell": "F12",
+      "formula": "=D12-C12",
+      "source": "header"
+    },
+    {
+      "sheet": "NOTE 3D ",
+      "cell": "D18",
+      "formula": "=A18-B18",
+      "source": "header"
+    },
+    {
+      "sheet": "NOTE 3D ",
+      "cell": "F18",
+      "formula": "=D18-C18",
+      "source": "header"
+    },
+    {
+      "sheet": "NOTE 3D ",
+      "cell": "D24",
+      "formula": "=A24-B24",
+      "source": "header"
+    },
+    {
+      "sheet": "NOTE 3D ",
+      "cell": "F24",
+      "formula": "=D24-C24",
+      "source": "header"
+    },
+    {
+      "sheet": "NOTE 3D ",
+      "cell": "D25",
+      "formula": "=A25-B25",
+      "source": "header"
+    },
+    {
+      "sheet": "NOTE 3D ",
+      "cell": "F25",
+      "formula": "=D25-C25",
+      "source": "header"
+    },
+    {
+      "sheet": "NOTE 3D ",
+      "cell": "D30",
+      "formula": "=A30-B30",
+      "source": "header"
+    },
+    {
+      "sheet": "NOTE 3D ",
+      "cell": "F30",
+      "formula": "=D30-C30",
+      "source": "header"
+    },
+    {
+      "sheet": "NOTE 3D ",
+      "cell": "D32",
+      "formula": "=A32-B32",
+      "source": "header"
+    },
+    {
+      "sheet": "NOTE 3D ",
+      "cell": "F32",
+      "formula": "=D32-C32",
+      "source": "header"
+    }
+  ]
+}

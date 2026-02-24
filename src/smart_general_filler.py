@@ -146,8 +146,9 @@ class SmartGeneralFiller:
                     else:
                         logger.debug(f"✗ Failed to fill {zone.sheet}!{zone.cell_ref}")
         
-        # Remplir les tableaux de dirigeants et conseil d'administration
+        # Remplir les tableaux de dirigeants, conseil d'administration et actionnaires
         filled_tables = self._fill_r3_tables(info)
+        filled_tables += self._fill_actionnaires_table(info)
         self.filled_count += filled_tables
         
         logger.info(f"Filled {self.filled_count}/{len(self.input_zones)} zones + {filled_tables} table rows")
@@ -172,12 +173,12 @@ class SmartGeneralFiller:
         
         logger.info(f"Filling R3 tables: {len(info.dirigeants)} dirigeants, {len(info.conseil_administration)} conseil members")
         
-        # TABLEAU 1: DIRIGEANTS (ligne 9 = headers, données à partir ligne 10)
+        # TABLEAU 1: DIRIGEANTS (ligne 9-10 = headers, données à partir ligne 11)
         if info.dirigeants:
-            dirigeants_start_row = 10
+            dirigeants_start_row = 11
             for idx, dirigeant in enumerate(info.dirigeants):
-                if idx >= 14:  # Max 14 lignes disponibles (10-23)
-                    logger.warning(f"Too many dirigeants ({len(info.dirigeants)}), only first 14 filled")
+                if idx >= 13:  # Max 13 lignes disponibles (11-23)
+                    logger.warning(f"Too many dirigeants ({len(info.dirigeants)}), only first 13 filled")
                     break
                 
                 row_num = dirigeants_start_row + idx
@@ -191,12 +192,12 @@ class SmartGeneralFiller:
                 filled += 5
                 logger.debug(f"Filled dirigeant row {row_num}: {dirigeant.nom} {dirigeant.prenoms}")
         
-        # TABLEAU 2: CONSEIL D'ADMINISTRATION (ligne 32 = headers, données à partir ligne 33)
+        # TABLEAU 2: CONSEIL D'ADMINISTRATION (ligne 33 = header "Nom", données à partir ligne 34)
         if info.conseil_administration:
-            conseil_start_row = 33
+            conseil_start_row = 34
             for idx, membre in enumerate(info.conseil_administration):
-                if idx >= 15:  # Max environ 15 lignes
-                    logger.warning(f"Too many conseil members ({len(info.conseil_administration)}), only first 15 filled")
+                if idx >= 9:  # Max environ 9 lignes (34-42) car Actionnaires commence ligne 43-44
+                    logger.warning(f"Too many conseil members ({len(info.conseil_administration)}), only first 9 filled")
                     break
                 
                 row_num = conseil_start_row + idx
@@ -210,6 +211,58 @@ class SmartGeneralFiller:
                 logger.debug(f"Filled conseil row {row_num}: {membre.nom} {membre.prenoms}")
         
         logger.info(f"Filled {filled} cells in R3 tables")
+        return filled
+
+    def _fill_actionnaires_table(self, info: DSF_InfosGenerales) -> int:
+        """Remplit le tableau des actionnaires dans la fiche R3 ou Note 13"""
+        filled = 0
+        if not info.actionnaires:
+            return 0
+
+        # Chercher la fiche R3
+        r3_sheet = None
+        for sheet_name in self.wb.sheetnames:
+            if "R3" in sheet_name.upper() or "FICHE R3" in sheet_name.upper():
+                r3_sheet = self.wb[sheet_name]
+                break
+
+        if r3_sheet:
+            logger.info(f"Filling R3 actionnaires table: {len(info.actionnaires)} actionnaires")
+            # TABLEAU 3: ACTIONNAIRES (données à partir ligne 44 d'après le mapping/template estimé)
+            actionnaires_start_row = 44
+            for idx, actionnaire in enumerate(info.actionnaires):
+                if idx >= 10:  # Limite raisonnable
+                    break
+                row_num = actionnaires_start_row + idx
+                self._write_cell_safe(r3_sheet, row_num, 1, actionnaire.nom)  # A
+                self._write_cell_safe(r3_sheet, row_num, 2, actionnaire.nationalite)  # B
+                self._write_cell_safe(r3_sheet, row_num, 4, actionnaire.adresse or "")  # D
+                self._write_cell_safe(r3_sheet, row_num, 6, actionnaire.nombre or 0)  # F
+                self._write_cell_safe(r3_sheet, row_num, 8, actionnaire.montant_total or 0)  # H
+                filled += 5
+        
+        # Aussi remplir Note 13 si elle existe
+        n13_sheet = None
+        for sheet_name in self.wb.sheetnames:
+            if "NOTE 13" in sheet_name.upper():
+                n13_sheet = self.wb[sheet_name]
+                break
+        
+        if n13_sheet:
+            logger.info(f"Filling Note 13 actionnaires table")
+            # Note 13, tableau commence souvent ligne 11
+            n13_start_row = 11
+            for idx, actionnaire in enumerate(info.actionnaires):
+                if idx >= 20: 
+                    break
+                row_num = n13_start_row + idx
+                self._write_cell_safe(n13_sheet, row_num, 1, actionnaire.nom)
+                self._write_cell_safe(n13_sheet, row_num, 2, actionnaire.nationalite)
+                self._write_cell_safe(n13_sheet, row_num, 4, actionnaire.adresse or "")
+                self._write_cell_safe(n13_sheet, row_num, 6, actionnaire.nombre or 0)
+                self._write_cell_safe(n13_sheet, row_num, 8, actionnaire.montant_total or 0)
+                filled += 5
+
         return filled
     
     def _write_cell_safe(self, ws, row: int, col: int, value: Any) -> bool:
@@ -303,8 +356,8 @@ class SmartGeneralFiller:
         zones = []
         sheet_name = ws.title
         
-        # Scan les 50 premières lignes (zone typique des headers/infos générales)
-        for row_idx in range(1, min(51, ws.max_row + 1)):
+        # Scan les 100 premières lignes (zone étendue pour gérer les décalages)
+        for row_idx in range(1, min(101, ws.max_row + 1)):
             for col_idx in range(1, min(10, ws.max_column + 1)):  # Colonnes A-J
                 cell = ws.cell(row=row_idx, column=col_idx)
                 

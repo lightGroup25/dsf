@@ -150,51 +150,115 @@ DSF_MAPPING: Dict[str, BalanceLigneMapping] = {
     "391": BalanceLigneMapping("391", "DÉPRÉCIATIONS STOCKS", "BILAN PAYSAGE", "D32", "INVENTORY_DEPRECIATION", False),
     
     # ===== CLASSE 4: TIERS / CRÉANCES / DETTES =====
-    
-    # Clients et créances
-    "401": BalanceLigneMapping("401", "CLIENTS", "BILAN PAYSAGE", "D11", "RECEIVABLES_CLIENTS", True),  # CL
-    "408": BalanceLigneMapping("408", "CLIENTS FACTURES À ÉTABLIR", "BILAN PAYSAGE", "D11", "RECEIVABLES_CLIENTS", True),
-    "411": BalanceLigneMapping("411", "CLIENTS FACTURES REÇUES", "BILAN PAYSAGE", "D11", "RECEIVABLES_CLIENTS", True),
-    "417": BalanceLigneMapping("417", "CLIENTS PRODUITS NON FACTURÉS", "BILAN PAYSAGE", "D11", "RECEIVABLES_CLIENTS", True),
-    
-    # Fournisseurs et dettes
-    "501": BalanceLigneMapping("501", "FOURNISSEURS", "BILAN PAYSAGE", "K51", "PAYABLES_SUPPLIERS", False),  # DB
+    # SYSCOHADA révisé :
+    #   401-408 = Fournisseurs → PASSIF (BJ - Dettes fournisseurs)
+    #   409     = Fournisseurs débiteurs → ACTIF (avances versées)
+    #   411-418 = Clients → ACTIF (BH - Créances clients)
+    #   419     = Clients créditeurs → PASSIF (avances reçues)
+    #   421-422 = Personnel → PASSIF (BK)
+    #   431     = Sécurité sociale → PASSIF (BL)
+    #   441     = État impôts directs → PASSIF (BM)
+    #   444     = TVA collectée → PASSIF (BM)
+    #   445     = TVA récupérable → ACTIF (BH)
+    #   461     = Débiteurs divers → ACTIF (BH)
+    #   471     = Créditeurs divers → PASSIF (BN)
+    #   476     = Charges constatées d'avance → ACTIF
+    #   477     = Produits constatés d'avance → PASSIF
+
+    # Fournisseurs et dettes (PASSIF)
+    "401": BalanceLigneMapping("401", "FOURNISSEURS", "BILAN PAYSAGE", "K51", "PAYABLES_SUPPLIERS", False),  # BJ
+    "402": BalanceLigneMapping("402", "FOURNISSEURS EFFETS À PAYER", "BILAN PAYSAGE", "K51", "PAYABLES_SUPPLIERS", False),
     "404": BalanceLigneMapping("404", "FOURNISSEURS FACTURES À RECEVOIR", "BILAN PAYSAGE", "K51", "PAYABLES_SUPPLIERS", False),
-    "407": BalanceLigneMapping("407", "FOURNISSEURS FACTURES REÇUES", "BILAN PAYSAGE", "K51", "PAYABLES_SUPPLIERS", False),
-    
-    # Personnel et dettes sociales
-    "421": BalanceLigneMapping("421", "PERSONNEL - SALAIRES DUES", "BILAN PAYSAGE", "K52", "PAYABLES_PERSONNEL", False),
+    "408": BalanceLigneMapping("408", "FOURNISSEURS FACTURES NON PARVENUES", "BILAN PAYSAGE", "K51", "PAYABLES_SUPPLIERS", False),
+
+    # Fournisseurs débiteurs (ACTIF — avances versées aux fournisseurs)
+    "409": BalanceLigneMapping("409", "FOURNISSEURS DÉBITEURS", "BILAN PAYSAGE", "D11", "RECEIVABLES_ADVANCES", True),
+
+    # Clients et créances (ACTIF)
+    "411": BalanceLigneMapping("411", "CLIENTS", "BILAN PAYSAGE", "D11", "RECEIVABLES_CLIENTS", True),  # BH
+    "412": BalanceLigneMapping("412", "CLIENTS EFFETS À RECEVOIR", "BILAN PAYSAGE", "D11", "RECEIVABLES_CLIENTS", True),
+    "413": BalanceLigneMapping("413", "CLIENTS DOUTEUX", "BILAN PAYSAGE", "D11", "RECEIVABLES_CLIENTS", True),
+    "416": BalanceLigneMapping("416", "CRÉANCES CLIENTS LITIGIEUSES", "BILAN PAYSAGE", "D11", "RECEIVABLES_CLIENTS", True),
+    "417": BalanceLigneMapping("417", "CLIENTS PRODUITS NON FACTURÉS", "BILAN PAYSAGE", "D11", "RECEIVABLES_CLIENTS", True),
+
+    # Clients créditeurs (PASSIF — avances reçues des clients)
+    "419": BalanceLigneMapping("419", "CLIENTS CRÉDITEURS", "BILAN PAYSAGE", "K55", "PAYABLES_ADVANCES", False),
+
+    # Personnel et dettes sociales (PASSIF)
+    "421": BalanceLigneMapping("421", "PERSONNEL - SALAIRES DUES", "BILAN PAYSAGE", "K52", "PAYABLES_PERSONNEL", False),  # BK
     "422": BalanceLigneMapping("422", "PERSONNEL - CONGÉS PAYÉS", "BILAN PAYSAGE", "K52", "PAYABLES_PERSONNEL", False),
-    
-    # Organismes sociaux
-    "431": BalanceLigneMapping("431", "ORGANISMES SOCIAUX", "BILAN PAYSAGE", "K53", "PAYABLES_SOCIAL", False),
+    "423": BalanceLigneMapping("423", "PERSONNEL - ACOMPTES", "BILAN PAYSAGE", "D11", "RECEIVABLES_PERSONNEL", True),
+
+    # Organismes sociaux (PASSIF)
+    "431": BalanceLigneMapping("431", "ORGANISMES SOCIAUX", "BILAN PAYSAGE", "K53", "PAYABLES_SOCIAL", False),  # BL
     "4311": BalanceLigneMapping("4311", "CNPS COTISATIONS PATRONALES", "BILAN PAYSAGE", "K53", "PAYABLES_SOCIAL", False),
-    
-    # État - impôts
-    "441": BalanceLigneMapping("441", "ÉTAT - IMPÔTS DIRECTS", "BILAN PAYSAGE", "K54", "PAYABLES_TAXES", False),
+
+    # État - impôts directs (PASSIF)
+    "441": BalanceLigneMapping("441", "ÉTAT - IMPÔTS DIRECTS", "BILAN PAYSAGE", "K54", "PAYABLES_TAXES", False),  # BM
     "4411": BalanceLigneMapping("4411", "IMPÔT SOCIÉTÉ", "BILAN PAYSAGE", "K54", "PAYABLES_TAXES", False),
     "4412": BalanceLigneMapping("4412", "IMPÔT SYNTHÉTIQUE", "BILAN PAYSAGE", "K54", "PAYABLES_TAXES", False),
-    
-    # TVA
-    "4451": BalanceLigneMapping("4451", "TVA FACTURÉE", "BILAN PAYSAGE", "K54", "PAYABLES_TAXES", True),
-    "4452": BalanceLigneMapping("4452", "TVA RÉCUPÉRABLE", "BILAN PAYSAGE", "K54", "PAYABLES_TAXES", True),
-    
-    # Comptes courants associés
+
+    # TVA collectée → PASSIF (dette envers l'État)
+    "4431": BalanceLigneMapping("4431", "TVA FACTURÉE SUR VENTES", "BILAN PAYSAGE", "K54", "PAYABLES_TVA_COLLECTED", False),
+    "4432": BalanceLigneMapping("4432", "TVA SUR PRESTATIONS", "BILAN PAYSAGE", "K54", "PAYABLES_TVA_COLLECTED", False),
+    "444": BalanceLigneMapping("444", "TVA COLLECTÉE", "BILAN PAYSAGE", "K54", "PAYABLES_TVA_COLLECTED", False),
+
+    # TVA récupérable → ACTIF (créance sur l'État)
+    "4451": BalanceLigneMapping("4451", "TVA RÉCUPÉRABLE SUR ACHATS", "BILAN PAYSAGE", "D11", "RECEIVABLES_TVA", True),
+    "4452": BalanceLigneMapping("4452", "TVA RÉCUPÉRABLE SUR IMMOBILISATIONS", "BILAN PAYSAGE", "D11", "RECEIVABLES_TVA", True),
+    "445": BalanceLigneMapping("445", "TVA RÉCUPÉRABLE", "BILAN PAYSAGE", "D11", "RECEIVABLES_TVA", True),
+
+    # Comptes courants associés (PASSIF)
     "455": BalanceLigneMapping("455", "COMPTES COURANTS ASSOCIÉS", "BILAN PAYSAGE", "K55", "PAYABLES_ASSOCIATES", False),
-    
-    # Autres tiers
+
+    # Débiteurs divers (ACTIF)
     "461": BalanceLigneMapping("461", "DÉBITEURS DIVERS", "BILAN PAYSAGE", "D12", "RECEIVABLES_OTHER", True),
+    "462": BalanceLigneMapping("462", "CRÉANCES SUR CESSIONS IMMOBILISATIONS", "BILAN PAYSAGE", "D12", "RECEIVABLES_OTHER", True),
+
+    # Créditeurs divers (PASSIF)
     "471": BalanceLigneMapping("471", "CRÉDITEURS DIVERS", "BILAN PAYSAGE", "K55", "PAYABLES_OTHER", False),
+    "472": BalanceLigneMapping("472", "DETTES SUR ACQUISITIONS IMMOBILISATIONS", "BILAN PAYSAGE", "K55", "PAYABLES_OTHER", False),
+
+    # Comptes de régularisation
+    "476": BalanceLigneMapping("476", "CHARGES CONSTATÉES D'AVANCE", "BILAN PAYSAGE", "D12", "PREPAID_EXPENSES", True),
+    "477": BalanceLigneMapping("477", "PRODUITS CONSTATÉS D'AVANCE", "BILAN PAYSAGE", "K55", "DEFERRED_INCOME", False),
+    "478": BalanceLigneMapping("478", "CHARGES À PAYER", "BILAN PAYSAGE", "K55", "ACCRUED_CHARGES", False),
+    "479": BalanceLigneMapping("479", "PRODUITS À RECEVOIR", "BILAN PAYSAGE", "D12", "ACCRUED_INCOME", True),
     
     # ===== CLASSE 5: COMPTES DE TRÉSORERIE =====
-    
-    "500": BalanceLigneMapping("500", "TITRES DE PLACEMENT", "BILAN PAYSAGE", "D9", "SECURITIES", True),
-    "501": BalanceLigneMapping("501", "ACTIONS", "BILAN PAYSAGE", "D9", "SECURITIES", True),
-    "502": BalanceLigneMapping("502", "OBLIGATIONS", "BILAN PAYSAGE", "D9", "SECURITIES", True),
-    "510": BalanceLigneMapping("510", "PRÊTS", "BILAN PAYSAGE", "D9", "LOANS", True),
-    "520": BalanceLigneMapping("520", "COMPTES COURANTS BANCAIRES", "BILAN PAYSAGE", "D8", "BANK_ACCOUNTS", True),
-    "521": BalanceLigneMapping("521", "COMPTES COURANTS PRINCIPAUX", "BILAN PAYSAGE", "D8", "BANK_ACCOUNTS", True),
-    "530": BalanceLigneMapping("530", "CAISSE", "BILAN PAYSAGE", "D10", "CASH", True),
+    # SYSCOHADA révisé :
+    #   50x = Titres de placement (VMP) → ACTIF
+    #   51x = Valeurs à encaisser → ACTIF
+    #   52x = Banques comptes courants → ACTIF (ou PASSIF si créditeur : 561)
+    #   57x = Caisse → ACTIF
+    #   56x = Concours bancaires courants → PASSIF
+
+    # Titres de placement (ACTIF)
+    "500": BalanceLigneMapping("500", "TITRES DE PLACEMENT", "BILAN PAYSAGE", "D9", "SECURITIES_PLACEMENT", True),
+    "501": BalanceLigneMapping("501", "ACTIONS EN PORTEFEUILLE", "BILAN PAYSAGE", "D9", "SECURITIES_PLACEMENT", True),
+    "502": BalanceLigneMapping("502", "OBLIGATIONS EN PORTEFEUILLE", "BILAN PAYSAGE", "D9", "SECURITIES_PLACEMENT", True),
+    "503": BalanceLigneMapping("503", "BONS DE CAISSE ET ASSIMILÉS", "BILAN PAYSAGE", "D9", "SECURITIES_PLACEMENT", True),
+    "504": BalanceLigneMapping("504", "AUTRES TITRES DE PLACEMENT", "BILAN PAYSAGE", "D9", "SECURITIES_PLACEMENT", True),
+
+    # Valeurs à encaisser (ACTIF)
+    "511": BalanceLigneMapping("511", "VALEURS À L'ENCAISSEMENT", "BILAN PAYSAGE", "D8", "BANK_ACCOUNTS", True),
+    "512": BalanceLigneMapping("512", "CHÈQUES À ENCAISSER", "BILAN PAYSAGE", "D8", "BANK_ACCOUNTS", True),
+
+    # Banques comptes courants (ACTIF)
+    "521": BalanceLigneMapping("521", "BANQUES COMPTES COURANTS", "BILAN PAYSAGE", "D8", "BANK_ACCOUNTS", True),
+    "522": BalanceLigneMapping("522", "BANQUES COMPTES À TERME", "BILAN PAYSAGE", "D8", "BANK_ACCOUNTS", True),
+    "523": BalanceLigneMapping("523", "CHÈQUES POSTAUX", "BILAN PAYSAGE", "D8", "BANK_ACCOUNTS", True),
+    "524": BalanceLigneMapping("524", "TRÉSOR PUBLIC", "BILAN PAYSAGE", "D8", "BANK_ACCOUNTS", True),
+
+    # Concours bancaires courants (PASSIF si créditeur)
+    "561": BalanceLigneMapping("561", "BANQUES CRÉDITRICES", "BILAN PAYSAGE", "K56", "BANK_OVERDRAFT", False),
+    "565": BalanceLigneMapping("565", "ÉTABLISSEMENTS FINANCIERS CRÉDITEURS", "BILAN PAYSAGE", "K56", "BANK_OVERDRAFT", False),
+
+    # Caisse (ACTIF)
+    "571": BalanceLigneMapping("571", "CAISSE SIÈGE", "BILAN PAYSAGE", "D10", "CASH", True),
+    "572": BalanceLigneMapping("572", "CAISSE SUCCURSALES", "BILAN PAYSAGE", "D10", "CASH", True),
+    "573": BalanceLigneMapping("573", "CAISSE EN DEVISES", "BILAN PAYSAGE", "D10", "CASH", True),
+    "581": BalanceLigneMapping("581", "RÉGIES D'AVANCES", "BILAN PAYSAGE", "D10", "CASH", True),
     
     # ===== CLASSE 6: CHARGES (RÉSULTATS) =====
     
