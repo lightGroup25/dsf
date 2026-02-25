@@ -10,7 +10,7 @@ import logging
 import re
 import unicodedata
 from collections import Counter
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from decimal import Decimal, InvalidOperation
 from difflib import SequenceMatcher
 from pathlib import Path
@@ -104,6 +104,7 @@ class SemanticBalanceFiller:
         column_overrides: Optional[Dict[str, object]] = None,
         previous_balance_file: Optional[Path | str] = None,
         previous_column_overrides: Optional[Dict[str, object]] = None,
+        allow_n1_fallback_without_prev: bool = False,
     ):
         self.template_path = Path(template_path)
         self.balance_file = Path(balance_file)
@@ -119,6 +120,7 @@ class SemanticBalanceFiller:
             "credit_columns": [27, 26, 20, 14, 13],
         }
         self.previous_column_overrides = previous_column_overrides or self.column_overrides
+        self.allow_n1_fallback_without_prev = allow_n1_fallback_without_prev
         self.wb = None
         self.balance_accounts: Dict[str, NormalizedBalanceRow] = {}
         self.previous_balance_accounts: Dict[str, NormalizedBalanceRow] = {}
@@ -134,6 +136,11 @@ class SemanticBalanceFiller:
         self._col_label_cache: Dict[Tuple[str, int], Optional[str]] = {}
         self._sheet_source_hints_cache: Dict[str, Dict[int, Tuple[str, int]]] = {}
         self._sheet_code_row_cache: Dict[str, Dict[str, int]] = {}
+        # Cache des résultats de matching par combinaison (feuille, label ligne/colonne, contrat N/N-1)
+        self._need_cache: Dict[
+            Tuple[str, str, str, str, str],
+            Optional[CellAssignment],
+        ] = {}
 
     def load(self) -> None:
         """Load template and normalize balance"""
@@ -172,6 +179,10 @@ class SemanticBalanceFiller:
         self.previous_balance_accounts = {}
         self.previous_account_time_slices = {}
         if self.previous_balance_file:
+            from_same_file = (
+                self.previous_balance_file.resolve() == self.balance_file.resolve()
+                and self.previous_column_overrides is not None
+            )
             self.previous_balance_accounts = self._load_balance_accounts(
                 self.previous_balance_file,
                 self.previous_column_overrides,
@@ -180,11 +191,19 @@ class SemanticBalanceFiller:
                 self.previous_balance_file,
                 self.previous_column_overrides,
             )
-            logger.info(
-                "Loaded N-1 balance: %s accounts / %s timeslices",
-                len(self.previous_balance_accounts),
-                len(self.previous_account_time_slices),
-            )
+            if from_same_file:
+                logger.info(
+                    "N-1 chargé depuis les colonnes d'ouverture de la balance N (même fichier) : "
+                    "%s comptes / %s timeslices — les cellules N-1 du DSF sont remplies avec la clôture N-1 = ouverture N.",
+                    len(self.previous_balance_accounts),
+                    len(self.previous_account_time_slices),
+                )
+            else:
+                logger.info(
+                    "Loaded N-1 balance: %s accounts / %s timeslices",
+                    len(self.previous_balance_accounts),
+                    len(self.previous_account_time_slices),
+                )
 
         non_zero = sum(1 for row in self.balance_accounts.values() if row.debit_balance > 0 or row.credit_balance > 0)
         logger.info(f"  Accounts with non-zero amounts: {non_zero}/{len(self.balance_accounts)}")
@@ -279,6 +298,15 @@ class SemanticBalanceFiller:
 
                     col_label = self._extract_col_label_cached(ws, col_num)
                     field = self.inventory.get_field(sheet_name, cell.coordinate) if self.inventory else None
+                    # Quand l'en-tête de colonne n'est pas détecté, utiliser column_type de l'inventaire pour N/N-1
+                    if not col_label and field and getattr(field, "column_type", None):
+                        ct = (field.column_type or "").strip().lower()
+                        if "n-1" in ct or "n1" in ct or "exercice_n1" in ct:
+                            col_label = "exercice_n1"
+                        elif "n-2" in ct or "n2" in ct:
+                            col_label = "exercice_n2"
+                        elif "exercice_n" in ct or ct == "n":
+                            col_label = "exercice_n"
 
                     if not self._is_inventory_writable(sheet_name, cell.coordinate, col_label):
                         continue
@@ -397,7 +425,7 @@ class SemanticBalanceFiller:
         if not col_label:
             return None
         label = col_label.lower()
-        if "n-1" in label or "n - 1" in label or "n- 1" in label:
+        if "n-1" in label or "n - 1" in label or "n- 1" in label or label == "exercice_n1":
             return "exercice_n1"
         if any(k in label for k in ("precedent", "precedant", "annee prec", "cloture prec")):
             return "exercice_n1"
@@ -611,15 +639,23 @@ class SemanticBalanceFiller:
         return None
 
     def _extract_col_label(self, ws, col_num: int) -> Optional[str]:
-        """Build a stable column label from header rows."""
+        """Build a stable column label from header rows (lignes 1-20, cellules fusionnées prises en compte)."""
         parts: List[str] = []
         seen: Set[str] = set()
 
-        for row in range(1, 13):
+        for row in range(1, min(21, (ws.max_row or 21) + 1)):
             cell = ws.cell(row=row, column=col_num)
-            if not isinstance(cell.value, str):
+            # Si la cellule fait partie d'une fusion, prendre la valeur de la cellule maître
+            val = cell.value
+            if val is None and ws.merged_cells:
+                coord = f"{get_column_letter(col_num)}{row}"
+                for merged in ws.merged_cells.ranges:
+                    if coord in merged:
+                        val = ws[merged.start_cell.coordinate].value
+                        break
+            if not isinstance(val, str):
                 continue
-            val = " ".join(cell.value.strip().split())
+            val = " ".join(val.strip().split())
             if not val:
                 continue
             val_norm = self._normalize_text(val)
@@ -637,7 +673,10 @@ class SemanticBalanceFiller:
         if not parts:
             return None
 
-        priority = [p for p in parts if any(k in self._normalize_text(p) for k in ("exercice", "montant", "solde", "net", "brut", "debit", "credit", "ouverture", "cloture"))]
+        priority = [p for p in parts if any(k in self._normalize_text(p) for k in (
+            "exercice", "montant", "solde", "net", "brut", "debit", "credit", "ouverture", "cloture",
+            "n-1", "n 1", "precedent", "n-2", "variation"
+        ))]
         if priority:
             return " | ".join(priority[:2])
         return " | ".join(parts[:2])
@@ -686,6 +725,16 @@ class SemanticBalanceFiller:
         preferred_prefixes = self._preferred_prefixes_for_label(need.row_label)
         sheet_group = self._sheet_group(need.sheet)
 
+        # Clé de cache pour éviter de refaire le même matching sur des cellules
+        # partageant le même contexte (feuille, libellés, année/source).
+        cache_key = (
+            sheet_group,
+            self._normalize_text(need.row_label or ""),
+            (need.col_label or "").lower(),
+            (col_type or "") + "|" + (year_hint or ""),
+            value_source or "",
+        )
+
         # Force NOTE 3C via deterministic amortization rules before fuzzy/business matching.
         forced_note3c = self._compute_note3c_amortization_value(need, col_type, year_hint)
         if forced_note3c is not None:
@@ -696,7 +745,7 @@ class SemanticBalanceFiller:
                 side=col_type or "debit",
                 similarity_score=0.90,
             )
-            return CellAssignment(
+            assignment = CellAssignment(
                 sheet=need.sheet,
                 cell=need.cell,
                 row_label=need.row_label,
@@ -708,6 +757,8 @@ class SemanticBalanceFiller:
                 confidence=0.90,
                 notes=f"source=final; year={year_hint or 'n'}; derived=note3c_amortization_prefix_sum",
             )
+            self._need_cache[cache_key] = assignment
+            return assignment
 
         # Force NOTE 3A with deterministic sub-row mapping to avoid duplicated fills
         # across adjacent sections (terrains/batiments, etc.).
@@ -720,7 +771,7 @@ class SemanticBalanceFiller:
                 side=col_type or "debit",
                 similarity_score=0.90,
             )
-            return CellAssignment(
+            assignment = CellAssignment(
                 sheet=need.sheet,
                 cell=need.cell,
                 row_label=need.row_label,
@@ -732,6 +783,8 @@ class SemanticBalanceFiller:
                 confidence=0.90,
                 notes=f"source={value_source}; year={year_hint or 'n'}; derived=note3a_targeted_prefix_sum",
             )
+            self._need_cache[cache_key] = assignment
+            return assignment
 
         forced_bilan = self._compute_bilan_targeted_value(need, col_type, year_hint, value_source)
         if forced_bilan is not None:
@@ -742,7 +795,7 @@ class SemanticBalanceFiller:
                 side=col_type or "debit",
                 similarity_score=0.90,
             )
-            return CellAssignment(
+            assignment = CellAssignment(
                 sheet=need.sheet,
                 cell=need.cell,
                 row_label=need.row_label,
@@ -754,6 +807,8 @@ class SemanticBalanceFiller:
                 confidence=0.90,
                 notes=f"source={value_source}; year={year_hint or 'n'}; derived=bilan_targeted_prefix_sum",
             )
+            self._need_cache[cache_key] = assignment
+            return assignment
 
         forced_cr = self._compute_cr_targeted_value(need, col_type, year_hint, value_source)
         if forced_cr is not None:
@@ -764,7 +819,7 @@ class SemanticBalanceFiller:
                 side=col_type or "debit",
                 similarity_score=0.88,
             )
-            return CellAssignment(
+            assignment = CellAssignment(
                 sheet=need.sheet,
                 cell=need.cell,
                 row_label=need.row_label,
@@ -776,6 +831,16 @@ class SemanticBalanceFiller:
                 confidence=0.88,
                 notes=f"source={value_source}; year={year_hint or 'n'}; derived=cr_targeted_prefix_sum",
             )
+            self._need_cache[cache_key] = assignment
+            return assignment
+
+        # Si un résultat a déjà été calculé pour ce contexte, le réutiliser.
+        if cache_key in self._need_cache:
+            cached = self._need_cache[cache_key]
+            if cached is None:
+                return None
+            # Recréation d'un assignment pour la cellule courante (nouvelle coordonnée)
+            return replace(cached, cell=need.cell)
 
         matches = self._match_explicit_account_codes(
             row_label=need.row_label,
@@ -836,8 +901,10 @@ class SemanticBalanceFiller:
         if not matches:
             derived_assignment = self._build_derived_assignment(need, col_type, year_hint, value_source)
             if derived_assignment:
+                self._need_cache[cache_key] = derived_assignment
                 return derived_assignment
             logger.debug(f"No matches for {need.cell}: row+col composite")
+            self._need_cache[cache_key] = None
             return None
 
         total_amount = sum(m.amount for m in matches)
@@ -861,6 +928,9 @@ class SemanticBalanceFiller:
             confidence=matches[0].similarity_score if matches else 0.0,
             notes=notes,
         )
+
+        # Mettre en cache pour les futures cellules avec le même contexte.
+        self._need_cache[cache_key] = assignment
 
         return assignment
 
@@ -2002,6 +2072,10 @@ class SemanticBalanceFiller:
         row_norm = self._normalize_text(row_label)
         balance_accounts, slices_map, use_previous_dataset = self._select_balance_dataset_for_year(year_hint)
 
+        # Seuil minimal pour considérer qu'un compte est significatif pour le matching.
+        # Les très petits montants sont ignorés pour accélérer et éviter de sur-remplir.
+        significance_threshold = Decimal("1000")
+
         for compte, normalized_row in balance_accounts.items():
             if expected_classes and normalized_row.classe not in expected_classes:
                 continue
@@ -2017,6 +2091,8 @@ class SemanticBalanceFiller:
                 use_previous_year_dataset=use_previous_dataset,
             )
             if amount <= 0:
+                continue
+            if abs(amount) < significance_threshold:
                 continue
 
             score = self._score_account_match(row_label, row_tokens, normalized_row, row_norm=row_norm)
@@ -2442,7 +2518,7 @@ class SemanticBalanceFiller:
             return "variation"
         if "flux" in label:
             return "flux"
-        if any(k in label for k in ("ouverture", "initial", "n-1")):
+        if any(k in label for k in ("ouverture", "initial", "n-1", "n1", "exercice_n1")):
             return "opening"
         return "final"
 

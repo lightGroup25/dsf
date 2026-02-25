@@ -17,7 +17,7 @@ from dsf_general_prefill import DSFGeneralPrefiller
 from smart_general_filler import SmartGeneralFiller
 from dsf_inventory import DSFInventory
 from dsf_reporting import generate_reports
-from dsf_rule_config import DSFRuleSet, load_rule_set
+from dsf_rule_confihttps://github.com/lightGroup25/dsf/pull/1/conflict?name=src%252Fdsf_pipeline.py&ancestor_oid=351480c4c66912f2302c6d9c7dc1b973cf451ff5&base_oid=b5edf5a408da02a2695d643914244031c9fe2f46&head_oid=2ddd07ba9f154f3d7010afcb241ffa82e696222bg import DSFRuleSet, load_rule_set
 from dsf_rule_engine import RuleEngine, RuleEngineResult
 from dsf_secure_writer import ProtectedDSFWriter
 from semantic_balance_filler import CellAssignment, SemanticBalanceFiller
@@ -34,6 +34,34 @@ from dsf_anomaly_detector import detect_abnormal_balances
 from dsf_presubmission_validator import run_presubmission_validation
 
 logger = logging.getLogger(__name__)
+
+
+# Cellules DSF critiques où les affectations issues du moteur de règles
+# doivent être prioritaires sur tout remplissage sémantique.
+PROTECTED_CELLS = {
+    # Bilan — Totaux
+    ("BILAN PAYSAGE", "D99"),  # Total Actif N
+    ("BILAN PAYSAGE", "F99"),  # Total Actif N-1
+    ("BILAN PAYSAGE", "K99"),  # Total Passif N
+    ("BILAN PAYSAGE", "M99"),  # Total Passif N-1
+    # Compte de Résultat — Résultat Net (coordonnées à adapter si besoin)
+    ("COMPTE DE RESULTAT", "D99"),  # Résultat net N
+    ("COMPTE DE RESULTAT", "F99"),  # Résultat net N-1
+}
+
+# Sections / notes considérées comme sensibles et donc protégées
+PROTECTED_SECTIONS = {
+    "BILAN_ACTIF",
+    "BILAN_PASSIF",
+    "CR_RESULTAT",
+    "NOTE_4",
+    "NOTE_7",
+    "NOTE_10",
+    "NOTE_11",
+    "NOTE_15",
+    "NOTE_16",
+    "NOTE_17",
+}
 
 
 @dataclass
@@ -59,14 +87,14 @@ class DSFPipelineConfig:
     report_json_path: Path = Path("output/reports/dsf_report.json")
     report_html_path: Path = Path("output/reports/dsf_report.html")
     exercice_year: int = 2024
-    chunk_size: int = 500
-    writer_chunk_size: int = 200
+    chunk_size: int = 2000
+    writer_chunk_size: int = 1000
     control_tolerance: Decimal = Decimal("1")
-    filling_method: str = "semantic"  # "semantic", "hybrid" or "rule-based"
-    fuzzy_threshold: float = 0.6  # For semantic filling
+    filling_method: str = "hybrid"  # "semantic", "hybrid" or "rule-based"
+    fuzzy_threshold: float = 0.7  # For semantic filling (plus strict = moins de matching coûteux)
     apply_calculations: bool = True  # Apply TOTAL, VARIATION, RATIO formulas
     use_calculation_formulas: bool = True  # Use Excel formulas vs numeric values
-    use_smart_general_filler: bool = False  # Prefer explicit mapping for ENTETE/R1/R2/R3/NOTE13/PAGE DE GARDE
+    use_smart_general_filler: bool = True  # Prefer SmartGeneralFiller for ENTETE/R1/R2/R3/NOTE13/PAGE DE GARDE
     apply_note_rules_in_semantic: bool = True  # Apply intelligent rules for all notes in semantic mode
     general_info: DSF_InfosGenerales = field(default_factory=get_gulfcam_config)
     balance_column_overrides: Optional[Dict[str, object]] = field(
@@ -129,6 +157,8 @@ class DSFPipeline:
         self.inventory: Optional[DSFInventory] = None
         self.rule_set: Optional[DSFRuleSet] = None
         self.progress_callback = progress_callback
+        # Conserver une référence interne aux infos générales pour la validation pré-soumission
+        self._general_info = self.config.general_info
 
     def _emit_progress(self, percent: int, message: str) -> None:
         percent = max(0, min(100, int(percent)))
@@ -170,15 +200,26 @@ class DSFPipeline:
                 self._apply_calculations(dsf_output)
                 self._emit_progress(92, "Calculs appliqués")
         elif self.config.filling_method == "hybrid":
+            # Mode hybride : sémantique en premier, puis overlay intelligent des règles
             self._emit_progress(44, "Chargement des règles pour mode hybride")
             self.rule_set = load_rule_set(self.config.rules_path)
+
             self._emit_progress(50, "Remplissage sémantique (hybride)")
+            # 1. Remplissage sémantique sans overlay de règles
             dsf_output = self._fill_semantic_balance(
                 prefilled_template,
                 apply_note_overlay=False,
-                apply_full_rule_overlay=True,
+                apply_full_rule_overlay=False,
             )
-            self._emit_progress(82, "Overlay règles globales terminé")
+            self._emit_progress(60, "Application moteur de règles (hybride)")
+
+            # 2. Exécution du moteur de règles sur la même balance normalisée
+            result_rules = self._run_rule_engine()
+
+            # 3. Overlay prioritaire des règles sur certaines cellules (Bilan, CR, notes clés)
+            self._emit_progress(70, "Overlay règles vs remplissage sémantique")
+            self._apply_rule_overlay_hybrid_on_file(dsf_output, result_rules)
+
             reports = {"html": None, "json": None}
             if self.config.apply_calculations:
                 self._emit_progress(88, "Application des calculs DSF")
@@ -189,12 +230,19 @@ class DSFPipeline:
             self.rule_set = load_rule_set(self.config.rules_path)
             self._emit_progress(56, "Affectation des comptes")
             result = self._run_rule_engine()
+            # Construire les lignes normalisées pour Notes/TFT/validations en mode règles
+            self._emit_progress(62, "Préparation des données N / N-1 pour Notes et TFT")
+            self._build_normalized_rows_for_notes()
             self._emit_progress(72, "Contrôles de cohérence")
             controls = self._evaluate_controls(result)
             self._emit_progress(84, "Écriture du classeur DSF")
             dsf_output = self._write_assignments(prefilled_template, result)
             self._emit_progress(92, "Génération des rapports")
             reports = self._emit_reports(result, controls)
+
+        # Enrichissements post-génération communs à tous les modes
+        self._emit_progress(95, "Enrichissements post-génération (notes, flux, contrôles)")
+        self._post_generation_enrichment(dsf_output)
 
         self._emit_progress(98, "Finalisation des sorties")
         duration = time.time() - start_time
@@ -212,6 +260,7 @@ class DSFPipeline:
             report_json=reports.get("json"),
             report_html=reports.get("html"),
             controls_summary={},
+            pipeline_warnings=getattr(self, "_pipeline_warnings", []),
         )
 
     # ------------------------------------------------------------------
@@ -230,6 +279,73 @@ class DSFPipeline:
         errors = [label for label, path in missing if not path.exists()]
         if errors:
             raise FileNotFoundError(f"Entrées manquantes: {', '.join(errors)}")
+
+    def _build_normalized_rows_for_notes(self) -> None:
+        """
+        Construit les listes normalized_rows / previous_normalized_rows
+        à partir des balances N et N-1 pour les modules Notes / TFT / validations.
+
+        Utilisé notamment dans le mode purement 'rule-based' où _fill_semantic_balance
+        n'est pas appelé et donc ne peuple pas ces attributs.
+        """
+        # Si déjà définis (cas du mode sémantique / hybride), ne rien refaire
+        if hasattr(self, "_normalized_rows") and getattr(self, "_normalized_rows", None):
+            return
+
+        # Balance N
+        normalizer_n = BalanceNormalizer(
+            self.config.balance_input,
+            chunk_size=self.config.chunk_size,
+            column_overrides=self.config.balance_column_overrides,
+        )
+        try:
+            self._normalized_rows = list(normalizer_n.iterate())
+        finally:
+            normalizer_n.close()
+
+        # Balance N-1 (séparée ou dérivée des colonnes d'ouverture N)
+        prev_overrides = self._resolve_previous_column_overrides()
+        prev_file = self.config.previous_balance_input
+        self._previous_normalized_rows = []
+        if prev_file is None and prev_overrides is not None:
+            prev_file = self.config.balance_input
+
+        if prev_file is not None and prev_overrides is not None:
+            normalizer_n1 = BalanceNormalizer(
+                prev_file,
+                chunk_size=self.config.chunk_size,
+                column_overrides=prev_overrides,
+            )
+            try:
+                self._previous_normalized_rows = list(normalizer_n1.iterate())
+            finally:
+                normalizer_n1.close()
+
+    def _build_protected_cell_set(self) -> set[tuple[str, str]]:
+        """
+        Construit l'ensemble des cellules (feuille, cellule) considérées comme
+        critiques et donc prioritairement alimentées par les règles en mode hybride.
+        """
+        protected: set[tuple[str, str]] = set(PROTECTED_CELLS)
+
+        if self.inventory and self.rule_set:
+            try:
+                for rule in self.rule_set.rules:
+                    if rule.section not in PROTECTED_SECTIONS:
+                        continue
+                    target = rule.target
+                    for field in self.inventory.iter_fields(
+                        target.sheet,
+                        column_letter=target.column,
+                        column_type=target.exercice_column_type,
+                        row_min=target.row_start,
+                        row_max=target.row_end,
+                    ):
+                        protected.add((field.sheet, field.cell))
+            except Exception as exc:
+                logger.debug("Impossible de construire l'ensemble des cellules protégées: %s", exc)
+
+        return protected
 
     def _prefill_general_sections(self) -> Path:
         """
@@ -403,11 +519,18 @@ class DSFPipeline:
         return output_path
 
     def _run_rule_engine(self, rule_set: Optional[DSFRuleSet] = None) -> RuleEngineResult:
+        """
+        Exécute le moteur de règles DSF sur la balance normalisée.
+
+        Cette méthode se limite à la production des affectations / statistiques.
+        Tous les enrichissements post-génération (notes, TFT, contrôles fiscaux, etc.)
+        sont gérés séparément dans _post_generation_enrichment.
+        """
         if not self.inventory or not (rule_set or self.rule_set):
             raise RuntimeError("Inventaire ou règle manquante")
-        
+
         logger.info("Using overrides: %s", self.config.balance_column_overrides)
-        
+
         normalizer = BalanceNormalizer(
             self.config.balance_input,
             chunk_size=self.config.chunk_size,
@@ -418,6 +541,7 @@ class DSFPipeline:
             result = engine.apply(normalizer.iterate())
         finally:
             normalizer.close()
+
         logger.info(
             "Affectations: %s | Comptes ignorés: %s",
             len(result.assignments),
@@ -426,18 +550,19 @@ class DSFPipeline:
         return result
 
     def _filter_note_rules(self, rule_set: DSFRuleSet) -> DSFRuleSet:
+        """Return a ruleset containing only note-related rules."""
         note_rules = []
         for rule in rule_set.rules:
-            target_sheet = (rule.target.sheet or "").upper()
-            # Keep only true NOTE sheet targets in semantic enrichment mode.
-            if "NOTE" in target_sheet:
+            section = (rule.section or "").upper()
+            sheet = (rule.target.sheet or "").upper()
+            if section.startswith("NOTE") or "NOTE" in sheet:
                 note_rules.append(rule)
         return DSFRuleSet(
             version=rule_set.version,
             template_name=rule_set.template_name,
             generated_from_inventory=rule_set.generated_from_inventory,
             rules=note_rules,
-            metadata=dict(rule_set.metadata),
+            metadata=rule_set.metadata,
         )
 
     def _apply_rule_assignments_to_workbook(
@@ -573,8 +698,8 @@ class DSFPipeline:
 
         # --- Calculs DSF (TOTAL, VARIATION, RATIOS) ---
         try:
-            logger.info("Applying automatic calculations (TOTAL, VARIATION, RATIOS)...")
-            applier = DSFCalculationApplier(
+            # P3- Lot B : Application des calculs (formules Excel ou valeurs)
+            count = apply_calculations_to_dsf(
                 dsf_output,
                 use_formulas=self.config.use_calculation_formulas,
                 has_previous_balance_n1=bool(
@@ -743,7 +868,8 @@ __all__ = ["DSFPipeline", "DSFPipelineConfig", "PipelineArtifacts"]
 
 def main():
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s %(message)s")
-    pipeline = DSFPipeline(DSFPipelineConfig())
+    config = DSFPipelineConfig(enable_notes_filler=True)
+    pipeline = DSFPipeline(config)
     artifacts = pipeline.run()
     print("\n✓ DSF généré:", artifacts.dsf_output)
     if artifacts.report_html:
