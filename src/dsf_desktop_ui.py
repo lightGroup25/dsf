@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""LIGHT DSF MAPPER – Design GULFCAM avec Landing Page Animée et Excel Intégré"""
+"""LIGHT DSF MAPPER – Design GULFCAM avec Landing Page Animée et Excel Intégré (CORRIGÉ - FINAL)"""
 
 from __future__ import annotations
 
@@ -23,18 +23,22 @@ if IS_WINDOWS:
         import win32com.client
         import win32gui
         import win32con
+        import win32process
+        from win32com.client import Dispatch
         WINDOWS_COM_AVAILABLE = True
     except ImportError:
         pythoncom = None
         win32com = None
         win32gui = None
         win32con = None
+        win32process = None
         WINDOWS_COM_AVAILABLE = False
 else:
     pythoncom = None
     win32com = None
     win32gui = None
     win32con = None
+    win32process = None
     WINDOWS_COM_AVAILABLE = False
 
 from PySide6.QtCore import (
@@ -172,10 +176,21 @@ class AppSettings:
     window_width: int = 1400
     window_height: int = 900
     recent_files: List[str] = None
+    recent_dsf_files: List[str] = None  # Historique des DSF générés
     
     def __post_init__(self):
         if self.recent_files is None:
             self.recent_files = []
+        if self.recent_dsf_files is None:
+            self.recent_dsf_files = []
+    
+    def add_recent_dsf(self, path: str, max_entries: int = 30) -> None:
+        """Ajoute un DSF à l'historique (dédoublonné, limité)."""
+        path_str = str(path).replace("\\", "/")
+        if path_str in self.recent_dsf_files:
+            self.recent_dsf_files.remove(path_str)
+        self.recent_dsf_files.insert(0, path_str)
+        self.recent_dsf_files = self.recent_dsf_files[:max_entries]
     
     def save(self):
         try:
@@ -190,8 +205,7 @@ class AppSettings:
             try:
                 with open(SETTINGS_FILE, 'r') as f:
                     data = json.load(f)
-                    # Filtrer les clés inconnues
-                    valid_keys = ['dark_mode', 'window_width', 'window_height', 'recent_files']
+                    valid_keys = ['dark_mode', 'window_width', 'window_height', 'recent_files', 'recent_dsf_files']
                     filtered_data = {k: v for k, v in data.items() if k in valid_keys}
                     return AppSettings(**filtered_data)
             except Exception as e:
@@ -687,7 +701,7 @@ class AnimatedButton(QPushButton):
         self.update_style()
 
 class ExcelIntegratedWidget(QWidget):
-    """Widget Excel avec intégration forcée et couleurs GULFCAM"""
+    """Widget Excel avec intégration forcée et couleurs GULFCAM (VERSION FINALE CORRIGÉE)"""
     
     def __init__(self, parent=None, colors=None):
         super().__init__(parent)
@@ -699,14 +713,19 @@ class ExcelIntegratedWidget(QWidget):
         self.current_file = None
         self.is_modified = False
         self.excel_window_hwnd = None
+        self.excel_container_widget = None
         self.embed_timer = None
+        self.resize_timer = None
         self.retry_count = 0
         self.max_retries = 30
+        self.rpc_error_count = 0
+        self.max_rpc_errors = 3
         self.preview_max_rows = 350
         self.preview_max_cols = 80
         self._updating_table = False
         self.status_color_key = "success"
         self.use_windows_com = WINDOWS_COM_AVAILABLE
+        self.excel_process_id = None
         self.spreadsheet_command = self._detect_spreadsheet_command()
         self.native_can_embed, self.native_embed_block_reason = self._detect_native_embed_support()
         self.external_editor_process = None
@@ -896,7 +915,8 @@ class ExcelIntegratedWidget(QWidget):
 
     def _set_loaded_mode(self, loaded: bool):
         """Agrandit la zone de prévisualisation quand un fichier est chargé."""
-        self.excel_container.setMinimumHeight(620 if loaded else 420)
+        # HAUTEUR AUGMENTÉE à 800px pour mieux voir Excel
+        self.excel_container.setMinimumHeight(800 if loaded else 420)
 
     def _clear_embedded_container(self):
         """Supprime le conteneur Qt qui héberge une fenêtre externe."""
@@ -1471,14 +1491,14 @@ class ExcelIntegratedWidget(QWidget):
         toolbar_layout.addWidget(self.refresh_btn)
         toolbar_layout.addWidget(self.embed_btn)
         
-        # Conteneur Excel
+        # Conteneur Excel - HAUTEUR AUGMENTÉE
         self.excel_container = QFrame()
         self.excel_container.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        self.excel_container.setMinimumHeight(420)
+        self.excel_container.setMinimumHeight(800)  # Augmenté de 600 à 800
         
         # Layout du conteneur
         container_layout = QVBoxLayout(self.excel_container)
-        container_layout.setContentsMargins(10, 10, 10, 10)
+        container_layout.setContentsMargins(0, 0, 0, 0)
         
         # Message placeholder
         self.placeholder = QFrame()
@@ -1560,9 +1580,16 @@ class ExcelIntegratedWidget(QWidget):
         preview_layout.addWidget(self.preview_table, 1)
 
         self.content_stack = QStackedWidget()
+        
+        # Page dédiée pour l'intégration COM (Windows)
+        self.excel_com_page = QWidget()
+        self.excel_com_layout = QVBoxLayout(self.excel_com_page)
+        self.excel_com_layout.setContentsMargins(0, 0, 0, 0)
+        
         self.content_stack.addWidget(self.placeholder)
         self.content_stack.addWidget(self.native_embed_page)
         self.content_stack.addWidget(self.preview_page)
+        self.content_stack.addWidget(self.excel_com_page)
         self.content_stack.setCurrentWidget(self.placeholder)
 
         native_layout.addWidget(self.native_embed_banner)
@@ -1575,14 +1602,49 @@ class ExcelIntegratedWidget(QWidget):
         self._apply_theme_styles()
         self._set_status("Prêt", self.status_color_key)
         
-        # Timer pour forcer le reparenting
-        self.embed_timer = QTimer()
+        # Timer pour l'intégration COM
         if self.use_windows_com:
-            self.embed_timer.timeout.connect(self.force_embed_excel)
-            self.embed_timer.start(1000)
+            self.embed_timer = QTimer()
+            self.embed_timer.timeout.connect(self._attempt_excel_integration)
+            self.resize_timer = QTimer()
+            self.resize_timer.setInterval(100)
+            self.resize_timer.timeout.connect(self._force_excel_resize)
+            
         self.native_embed_timer = QTimer(self)
         self.native_embed_timer.setInterval(350)
         self.native_embed_timer.timeout.connect(self._poll_native_embed)
+
+    def _close_all_other_excel_windows(self, keep_hwnd=None):
+        """Ferme toutes les fenêtres Excel sauf celle à garder"""
+        if not win32gui:
+            return
+            
+        def enum_windows_callback(hwnd, ctx):
+            try:
+                # Vérifier si c'est une fenêtre Excel
+                class_name = win32gui.GetClassName(hwnd)
+                if class_name != "XLMAIN":
+                    return True
+                    
+                # Ne pas fermer la fenêtre à garder
+                if keep_hwnd and hwnd == keep_hwnd:
+                    return True
+                    
+                # Vérifier si c'est une fenêtre sans fichier ou de récupération
+                window_text = win32gui.GetWindowText(hwnd)
+                if "récupéré" in window_text.lower() or "recovered" in window_text.lower():
+                    print(f"Fermeture fenêtre de récupération: {window_text}")
+                    win32gui.PostMessage(hwnd, win32con.WM_CLOSE, 0, 0)
+                elif "Microsoft Excel" in window_text and not self.current_file:
+                    # Fenêtre Excel vide
+                    print(f"Fermeture fenêtre Excel vide: {window_text}")
+                    win32gui.PostMessage(hwnd, win32con.WM_CLOSE, 0, 0)
+                    
+            except:
+                pass
+            return True
+            
+        win32gui.EnumWindows(enum_windows_callback, None)
         
     def force_embed_excel_now(self):
         """Force l'intégration d'Excel immédiatement"""
@@ -1592,28 +1654,100 @@ class ExcelIntegratedWidget(QWidget):
                 return
             self._start_native_embed(self.current_file)
             return
-        self.retry_count = 0
-        self.force_embed_excel()
         
-    def force_embed_excel(self):
-        """Force l'intégration d'Excel dans l'application"""
-        if not self.use_windows_com:
+        if not self.excel or not self.workbook:
+            QMessageBox.warning(self, "Erreur GULFCAM", "Aucun fichier Excel chargé.")
             return
-        if self.excel_window_hwnd or not self.excel or not self.workbook:
+            
+        self.retry_count = 0
+        self.embed_timer.start(500)
+        self._attempt_excel_integration()
+        
+    def _check_excel_connection(self) -> bool:
+        """Vérifie si la connexion Excel est toujours valide et la réinitialise si nécessaire."""
+        if self.excel is None:
+            return False
+            
+        try:
+            # Test simple pour vérifier la connexion
+            _ = self.excel.Name
+            self.rpc_error_count = 0
+            return True
+        except Exception as e:
+            self.rpc_error_count += 1
+            print(f"Erreur de connexion Excel (tentative {self.rpc_error_count}/{self.max_rpc_errors}): {e}")
+            
+            if self.rpc_error_count >= self.max_rpc_errors:
+                print("Trop d'erreurs RPC, réinitialisation complète...")
+                self._reset_excel_connection()
+                return False
+            
+            # Attendre un peu avant de réessayer
+            QTimer.singleShot(1000, lambda: self._check_excel_connection())
+            return False
+            
+    def _reset_excel_connection(self):
+        """Réinitialise complètement la connexion Excel."""
+        try:
+            # Nettoyer l'ancienne connexion
+            if self.workbook:
+                try:
+                    self.workbook.Close(SaveChanges=False)
+                except:
+                    pass
+                self.workbook = None
+                
+            if self.excel:
+                try:
+                    self.excel.Quit()
+                except:
+                    pass
+                self.excel = None
+                
+            # Nettoyer les handles
+            self.excel_window_hwnd = None
+            if self.excel_container_widget:
+                self.excel_com_layout.removeWidget(self.excel_container_widget)
+                self.excel_container_widget.deleteLater()
+                self.excel_container_widget = None
+                
+            # Réinitialiser le compteur
+            self.rpc_error_count = 0
+            
+            # Recharger le fichier si nécessaire
+            if self.current_file and self.current_file.exists():
+                print("Tentative de reconnexion à Excel...")
+                QTimer.singleShot(2000, lambda: self.load_file(self.current_file))
+                
+        except Exception as e:
+            print(f"Erreur lors de la réinitialisation Excel: {e}")
+            
+    def _attempt_excel_integration(self):
+        """Tente d'intégrer la fenêtre Excel (appelé par le timer)"""
+        if self.excel_window_hwnd and self.excel_container_widget:
+            # Déjà intégré, arrêter le timer et lancer le redimensionnement
+            self.embed_timer.stop()
+            if not self.resize_timer.isActive():
+                self.resize_timer.start()
+            return
+            
+        if not self.excel or not self.workbook:
+            self.embed_timer.stop()
+            return
+            
+        # Vérifier la connexion avant de continuer
+        if not self._check_excel_connection():
             return
             
         try:
             self.excel.Visible = True
-            time.sleep(0.5)
             
+            # Chercher la fenêtre Excel
             def find_excel_window(hwnd, ctx):
                 try:
-                    window_text = win32gui.GetWindowText(hwnd)
-                    if self.current_file:
-                        file_name = self.current_file.name
-                        if file_name in window_text and "Excel" in window_text:
-                            ctx['hwnd'] = hwnd
-                            return False
+                    if win32gui.GetClassName(hwnd) == "XLMAIN":
+                        ctx['hwnd'] = hwnd
+                        return False
                 except:
                     pass
                 return True
@@ -1621,138 +1755,296 @@ class ExcelIntegratedWidget(QWidget):
             ctx = {'hwnd': None}
             win32gui.EnumWindows(find_excel_window, ctx)
             
-            if ctx['hwnd']:
-                excel_hwnd = ctx['hwnd']
-                
-                # Obtenir le handle du conteneur
-                container_hwnd = int(self.excel_container.winId())
-                
-                # Sauvegarder la position originale
-                rect = win32gui.GetWindowRect(excel_hwnd)
-                
-                # Modifier les styles de la fenêtre
-                current_style = win32gui.GetWindowLong(excel_hwnd, win32con.GWL_STYLE)
-                new_style = current_style & ~(
-                    win32con.WS_CAPTION | 
-                    win32con.WS_THICKFRAME | 
-                    win32con.WS_MINIMIZEBOX | 
-                    win32con.WS_MAXIMIZEBOX | 
-                    win32con.WS_SYSMENU
-                )
-                new_style |= win32con.WS_CHILD
-                
-                win32gui.SetWindowLong(excel_hwnd, win32con.GWL_STYLE, new_style)
-                
-                # Reparenter la fenêtre
-                win32gui.SetParent(excel_hwnd, container_hwnd)
-                
-                # Redimensionner pour remplir le conteneur
-                container_rect = self.excel_container.geometry()
-                win32gui.MoveWindow(
-                    excel_hwnd, 
-                    0, 0, 
-                    container_rect.width(), 
-                    container_rect.height(), 
-                    True
-                )
-                
-                self.excel_window_hwnd = excel_hwnd
-                self.placeholder.hide()
-                
-                # Rafraîchir
-                win32gui.InvalidateRect(container_hwnd, None, True)
-                win32gui.UpdateWindow(container_hwnd)
-                
-                print(f"Excel intégré avec succès: {excel_hwnd}")
-                self.retry_count = 0
-                self.embed_timer.stop()
-                
-            else:
+            if not ctx['hwnd']:
                 self.retry_count += 1
-                if self.retry_count > self.max_retries:
-                    print("Impossible de trouver la fenêtre Excel")
-                    self.status_indicator.setText("Échec intégration")
-                    self.status_indicator.setStyleSheet(f"color: {self.colors['danger']}; font-weight: 600;")
-                    
-        except Exception as e:
-            print(f"Erreur embedding Excel: {e}")
-            self.retry_count += 1
-            if self.retry_count > self.max_retries:
-                self.embed_timer.stop()
+                if self.retry_count >= self.max_retries:
+                    print("Fenêtre Excel introuvable après plusieurs tentatives")
+                    self.embed_timer.stop()
+                    self._set_status("Intégration échouée - prévisualisation locale", "warning")
+                    self._fallback_to_preview_windows("fenêtre Excel introuvable")
+                return
                 
-    def resize_excel_window(self):
-        """Redimensionne Excel pour remplir le conteneur"""
-        if not self.use_windows_com:
-            return
-        if self.excel_window_hwnd:
-            try:
-                container_rect = self.excel_container.geometry()
-                win32gui.MoveWindow(
-                    self.excel_window_hwnd,
-                    0, 0,
-                    container_rect.width(),
-                    container_rect.height(),
-                    True
-                )
-                win32gui.InvalidateRect(self.excel_window_hwnd, None, True)
-            except Exception as e:
-                print(f"Erreur resize: {e}")
+            excel_hwnd = ctx['hwnd']
             
+            # Fermer toutes les autres fenêtres Excel (récupération, etc.)
+            self._close_all_other_excel_windows(keep_hwnd=excel_hwnd)
+            
+            # Vérifier que la fenêtre n'est pas déjà intégrée
+            if excel_hwnd == self.excel_window_hwnd and self.excel_container_widget:
+                self.embed_timer.stop()
+                if not self.resize_timer.isActive():
+                    self.resize_timer.start()
+                return
+                
+            # S'assurer que la fenêtre est restaurée
+            win32gui.ShowWindow(excel_hwnd, win32con.SW_RESTORE)
+            
+            # CRITIQUE: Créer d'abord le conteneur Qt, puis faire le reparenting
+            # 1. Créer la QWindow à partir du HWND
+            self.excel_window = QWindow.fromWinId(excel_hwnd)
+            
+            # 2. Nettoyer l'ancien conteneur s'il existe
+            if self.excel_container_widget:
+                self.excel_com_layout.removeWidget(self.excel_container_widget)
+                self.excel_container_widget.deleteLater()
+                self.excel_container_widget = None
+                
+            # 3. Créer le nouveau conteneur
+            self.excel_container_widget = QWidget.createWindowContainer(self.excel_window)
+            self.excel_container_widget.setParent(self.excel_com_page)
+            
+            # 4. Nettoyer le layout et ajouter le nouveau conteneur
+            while self.excel_com_layout.count():
+                child = self.excel_com_layout.takeAt(0)
+                if child.widget():
+                    child.widget().deleteLater()
+                    
+            self.excel_com_layout.addWidget(self.excel_container_widget)
+            
+            # 5. Appliquer le style WS_CLIPCHILDREN
+            try:
+                container_hwnd = int(self.excel_com_page.winId())
+                style = win32gui.GetWindowLong(container_hwnd, win32con.GWL_STYLE)
+                win32gui.SetWindowLong(container_hwnd, win32con.GWL_STYLE, style | win32con.WS_CLIPCHILDREN)
+            except:
+                pass
+                
+            # 6. Configurer Excel (sans DisplayAlerts qui cause l'erreur)
+            try:
+                self.excel.DisplayFormulaBar = False
+                self.excel.DisplayStatusBar = False
+                self.excel.WindowState = -4137  # Maximized
+            except:
+                # Ignorer les erreurs de configuration mineures
+                pass
+            
+            # 7. Activer la page
+            self.content_stack.setCurrentWidget(self.excel_com_page)
+            
+            # 8. Stocker le HWND et arrêter le timer
+            self.excel_window_hwnd = excel_hwnd
+            self.retry_count = 0
+            self.embed_timer.stop()
+            
+            # 9. Démarrer le timer de redimensionnement
+            if not self.resize_timer.isActive():
+                self.resize_timer.start()
+            
+            self._set_status("Excel intégré", "success")
+            print(f"Excel intégré avec succès: {excel_hwnd}")
+            
+        except Exception as e:
+            self.retry_count += 1
+            if "RPC" in str(e) or "-2147023174" in str(e):
+                # Erreur RPC, réinitialiser la connexion
+                self._reset_excel_connection()
+                
+            if self.retry_count >= self.max_retries:
+                print(f"Erreur intégration Excel: {e}")
+                self.embed_timer.stop()
+                self._set_status("Intégration échouée - prévisualisation locale", "warning")
+                self._fallback_to_preview_windows(str(e))
+                
+    def _fallback_to_preview_windows(self, reason: str) -> bool:
+        """Sur Windows: bascule vers la prévisualisation openpyxl si l'intégration COM échoue."""
+        if not self.current_file or not self.current_file.exists():
+            return False
+        try:
+            if self.workbook:
+                try:
+                    self.workbook.Close(SaveChanges=False)
+                except Exception:
+                    pass
+                self.workbook = None
+            if self.excel:
+                try:
+                    self.excel.Quit()
+                except Exception:
+                    pass
+                self.excel = None
+            self.excel_window_hwnd = None
+            self.excel_container_widget = None
+        except Exception:
+            pass
+        ok = self._load_preview_workbook(self.current_file)
+        if ok:
+            self._set_status("Prévisualisation locale (Excel non intégré)", "warning")
+        return ok
+
+    def _force_excel_resize(self):
+        """Force le redimensionnement de la fenêtre Excel pour remplir tout l'espace"""
+        if not self.excel_window_hwnd or not self.excel_container_widget:
+            self.resize_timer.stop()
+            return
+            
+        # Vérifier que la connexion est toujours valide
+        if not self._check_excel_connection():
+            self.resize_timer.stop()
+            return
+            
+        try:
+            # Obtenir la taille du conteneur
+            container_size = self.excel_container_widget.size()
+            if container_size.width() <= 10 or container_size.height() <= 10:
+                # Si le conteneur n'a pas encore de taille valide, réessayer plus tard
+                return
+                
+            # Obtenir la taille actuelle de la fenêtre Excel
+            try:
+                rect = win32gui.GetWindowRect(self.excel_window_hwnd)
+                current_width = rect[2] - rect[0]
+                current_height = rect[3] - rect[1]
+            except:
+                # Fenêtre peut-être détruite, réinitialiser
+                self.excel_window_hwnd = None
+                self.resize_timer.stop()
+                return
+            
+            # Vérifier si un redimensionnement est nécessaire (marge de 5 pixels)
+            if abs(current_width - container_size.width()) > 5 or abs(current_height - container_size.height()) > 5:
+                # Redimensionner la fenêtre Excel pour remplir le conteneur
+                try:
+                    win32gui.SetWindowPos(
+                        self.excel_window_hwnd,
+                        win32con.HWND_TOP,
+                        0, 0,
+                        container_size.width(),
+                        container_size.height(),
+                        win32con.SWP_NOACTIVATE | win32con.SWP_SHOWWINDOW | win32con.SWP_FRAMECHANGED
+                    )
+                    
+                    # Forcer le rafraîchissement
+                    win32gui.InvalidateRect(self.excel_window_hwnd, None, True)
+                    
+                    print(f"Excel redimensionné à {container_size.width()}x{container_size.height()}")
+                except Exception as e:
+                    if "RPC" in str(e) or "-2147023174" in str(e):
+                        # Erreur RPC, réinitialiser la connexion
+                        self._reset_excel_connection()
+                        self.resize_timer.stop()
+                    else:
+                        print(f"Erreur lors du redimensionnement: {e}")
+                
+        except Exception as e:
+            print(f"Erreur dans _force_excel_resize: {e}")
+                
     def resizeEvent(self, event):
         """Redimensionne Excel quand le widget change de taille"""
         super().resizeEvent(event)
-        self.resize_excel_window()
+        # Déclencher un redimensionnement après le changement de taille
+        if self.use_windows_com and self.excel_window_hwnd:
+            QTimer.singleShot(50, self._force_excel_resize)
         
     def showEvent(self, event):
         """Quand le widget devient visible"""
         super().showEvent(event)
-        QTimer.singleShot(100, self.resize_excel_window)
+        # Forcer un redimensionnement après l'affichage
+        if self.use_windows_com and self.excel_window_hwnd:
+            QTimer.singleShot(100, self._force_excel_resize)
         
     def load_file(self, file_path: Path) -> bool:
-        """Charge un fichier Excel"""
+        """Charge un fichier Excel - GARANTIT QUE C'EST LE BON FICHIER QUI EST AFFICHÉ"""
+        print(f"[DEBUG] load_file appelé avec: {file_path}")
+        print(f"[DEBUG] WINDOWS_COM_AVAILABLE = {WINDOWS_COM_AVAILABLE}")
+        
         try:
             if not file_path or not file_path.exists():
+                print("[DEBUG] Fichier n'existe pas ou chemin vide!")
                 return False
-                
+            
             self.current_file = file_path
             self.file_indicator.setText(file_path.name)
 
             if not self.use_windows_com:
                 return self._start_native_embed(file_path)
             
-            # Initialiser Excel
+            # Arrêter les timers existants
+            if self.embed_timer and self.embed_timer.isActive():
+                self.embed_timer.stop()
+            if self.resize_timer and self.resize_timer.isActive():
+                self.resize_timer.stop()
+            
+            # Initialiser/Vérifier Excel
+            need_dispatch = False
             if self.excel is None:
-                self.excel = win32com.client.Dispatch("Excel.Application")
-                self.excel.DisplayAlerts = False
+                need_dispatch = True
+            else:
+                try:
+                    # Test de connexion RPC actif
+                    _ = self.excel.Name
+                except Exception as e:
+                    print(f"Connexion RPC perdue: {e}. Réinitialisation...")
+                    need_dispatch = True
+                    self.excel = None
+                    self.workbook = None
+                    self.excel_window_hwnd = None
+                    self.excel_container_widget = None
+            
+            if need_dispatch:
+                try:
+                    # Réinitialiser le compteur d'erreurs
+                    self.rpc_error_count = 0
+                    self.excel = Dispatch("Excel.Application")
+                    # Ne pas définir DisplayAlerts ici car cela peut causer des erreurs
+                    # self.excel.DisplayAlerts = False
+                    print("Nouvelle instance Excel créée avec succès")
+                except Exception as e:
+                    QMessageBox.critical(self, "Erreur GULFCAM", f"Impossible de démarrer Excel :\n{str(e)}")
+                    return False
                 
-            # Fermer l'ancien classeur
+            # Fermer l'ancien classeur s'il existe
             if self.workbook:
                 try:
-                    self.workbook.Close(SaveChanges=False)
-                except:
-                    pass
+                    # Vérifier si c'est le même fichier
+                    if hasattr(self.workbook, 'FullName') and self.workbook.FullName == str(file_path.absolute()):
+                        print(f"Le fichier {file_path.name} est déjà ouvert")
+                    else:
+                        self.workbook.Close(SaveChanges=False)
+                        self.workbook = None
+                except Exception as e:
+                    print(f"Erreur lors de la fermeture de l'ancien classeur: {e}")
+                    self.workbook = None
                     
-            # Ouvrir le nouveau fichier
+            # Ouvrir le nouveau fichier - GARANTIE QUE C'EST LE BON FICHIER
             self.excel.Visible = True
-            self.workbook = self.excel.Workbooks.Open(str(file_path.absolute()))
             
-            # Réinitialiser
-            if self.excel_window_hwnd:
+            # Si le classeur est déjà ouvert avec le bon fichier, on le garde
+            if self.workbook is None:
                 try:
-                    win32gui.DestroyWindow(self.excel_window_hwnd)
-                except:
-                    pass
-                    
+                    self.workbook = self.excel.Workbooks.Open(str(file_path.absolute()))
+                    print(f"Fichier ouvert avec succès: {file_path.name}")
+                except Exception as e:
+                    QMessageBox.critical(self, "Erreur GULFCAM", f"Impossible d'ouvrir le fichier Excel:\n{str(e)}")
+                    return False
+            
+            # Vérifier que c'est bien le bon fichier qui est ouvert
+            if hasattr(self.workbook, 'FullName'):
+                if self.workbook.FullName != str(file_path.absolute()):
+                    print(f"ERREUR: Mauvais fichier ouvert! Attendu: {file_path}, Obtenu: {self.workbook.FullName}")
+                    # Forcer la réouverture
+                    try:
+                        self.workbook.Close(SaveChanges=False)
+                        self.workbook = self.excel.Workbooks.Open(str(file_path.absolute()))
+                    except Exception as e:
+                        QMessageBox.critical(self, "Erreur GULFCAM", f"Impossible d'ouvrir le bon fichier:\n{str(e)}")
+                        return False
+            
+            # Fermer toutes les fenêtres Excel de récupération
+            self._close_all_other_excel_windows()
+            
+            # Réinitialiser les handles
             self.excel_window_hwnd = None
+            self.excel_container_widget = None
             self.retry_count = 0
-            self.content_stack.setCurrentWidget(self.placeholder)
+            
+            # Afficher la page d'intégration
+            self.content_stack.setCurrentWidget(self.excel_com_page)
             self._set_loaded_mode(True)
             
-            # Forcer l'embedding
-            self.embed_timer.start(1000)
-            self.force_embed_excel()
+            # Lancer l'intégration après un court délai
+            QTimer.singleShot(1000, self.force_embed_excel_now)
             
-            self._set_status("Chargé", "success")
+            self._set_status(f"Chargé: {file_path.name}", "success")
             
             return True
             
@@ -1792,9 +2084,13 @@ class ExcelIntegratedWidget(QWidget):
 
         if self.workbook:
             try:
-                self.workbook.Save()
-                self._set_status("Enregistré", "success")
-                QMessageBox.information(self, "GULFCAM", "Modifications enregistrées avec succès!")
+                # Vérifier la connexion avant de sauvegarder
+                if self._check_excel_connection():
+                    self.workbook.Save()
+                    self._set_status("Enregistré", "success")
+                    QMessageBox.information(self, "GULFCAM", "Modifications enregistrées avec succès!")
+                else:
+                    QMessageBox.warning(self, "Erreur GULFCAM", "Connexion Excel perdue. Veuillez recharger le fichier.")
             except Exception as e:
                 QMessageBox.critical(self, "Erreur GULFCAM", f"Impossible d'enregistrer:\n{str(e)}")
                 
@@ -1817,6 +2113,11 @@ class ExcelIntegratedWidget(QWidget):
 
     def clear_loaded_file(self):
         """Réinitialise le fichier chargé sans fermer le widget."""
+        if self.resize_timer and self.resize_timer.isActive():
+            self.resize_timer.stop()
+        if self.embed_timer and self.embed_timer.isActive():
+            self.embed_timer.stop()
+            
         if self.use_windows_com:
             if self.workbook:
                 try:
@@ -1825,6 +2126,8 @@ class ExcelIntegratedWidget(QWidget):
                     pass
                 self.workbook = None
             self.excel_window_hwnd = None
+            self.excel_container_widget = None
+            self.rpc_error_count = 0
         else:
             self._stop_embedded_process()
             if self.preview_workbook is not None:
@@ -1848,8 +2151,11 @@ class ExcelIntegratedWidget(QWidget):
 
     def shutdown(self):
         """Libère proprement les ressources COM / workbook."""
-        if self.embed_timer:
+        if hasattr(self, 'embed_timer') and self.embed_timer:
             self.embed_timer.stop()
+        if hasattr(self, 'resize_timer') and self.resize_timer:
+            self.resize_timer.stop()
+            
         if self.use_windows_com:
             if self.workbook:
                 try:
@@ -1949,66 +2255,66 @@ class CompanyDashboard(QWidget):
         logo_layout.addWidget(logo_label)
         logo_layout.addLayout(brand_text)
         
+        # Date et session
         date_label = QLabel(time.strftime("%d %B %Y"))
-        date_label.setAlignment(Qt.AlignCenter)
         date_label.setStyleSheet(f"""
             color: {self.colors['gray']};
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
-            padding: 10px 20px;
+            padding: 8px 16px;
             background-color: {self.colors['light-gray']};
-            border-radius: 16px;
+            border-radius: 12px;
         """)
 
-        lightgroup_label = QLabel()
-        lightgroup_pixmap = load_lightgroup_pixmap(250, 160)
-        if not lightgroup_pixmap.isNull():
-            lightgroup_label.setPixmap(lightgroup_pixmap)
-            lightgroup_label.setFixedSize(154, 64)
-            lightgroup_label.setAlignment(Qt.AlignCenter)
-        else:
-            lightgroup_label.setText("LIGHTGROUP")
-            lightgroup_label.setAlignment(Qt.AlignCenter)
-            lightgroup_label.setStyleSheet(f"""
-                color: {self.colors['primary']};
-                font-size: 14px;
-                font-weight: 700;
-                border: 1px solid {self.colors['light-gray']};
-                border-radius: 10px;
-                padding: 8px 12px;
-            """)
-
         header_layout.addWidget(logo_container, 0, 0, Qt.AlignLeft | Qt.AlignVCenter)
-        header_layout.addWidget(date_label, 0, 1, Qt.AlignCenter)
-        header_layout.addWidget(lightgroup_label, 0, 2, Qt.AlignRight | Qt.AlignVCenter)
+        header_layout.addWidget(date_label, 0, 1, Qt.AlignRight | Qt.AlignVCenter)
         
         layout.addWidget(header)
         
-        # Message de bienvenue
+        # Message de bienvenue avec design enrichi
         welcome_card = ModernCard(colors=self.colors)
+        welcome_card.setStyleSheet(welcome_card.styleSheet() + f"""
+            ModernCard {{
+                background: qlineargradient(x1:0, y1:0, x2:1, y2:0, 
+                    stop:0 {self.colors['primary']}15, 
+                    stop:1 {self.colors['card-bg']});
+                border-left: 5px solid {self.colors['primary']};
+            }}
+        """)
         welcome_layout = QHBoxLayout(welcome_card)
+        welcome_layout.setContentsMargins(20, 20, 20, 20)
         
         welcome_icon = QLabel()
         welcome_icon.setPixmap(
             ui_icon(
                 self,
-                "fa5s.bolt",
-                color=self.colors["secondary"],
+                "fa5s.gem",
+                color=self.colors["primary"],
                 fallback=QStyle.StandardPixmap.SP_ComputerIcon,
-            ).pixmap(28, 28)
+            ).pixmap(32, 32)
         )
-        welcome_icon.setFixedSize(34, 34)
+        welcome_icon.setFixedSize(40, 40)
         welcome_icon.setAlignment(Qt.AlignCenter)
         
-        welcome_text = QLabel(f"Bienvenue sur la plateforme DSF de {GULFCAM_LOGO_TEXT}")
-        welcome_text.setStyleSheet(f"""
-            font-size: 20px;
-            font-weight: 600;
+        welcome_text_layout = QVBoxLayout()
+        welcome_text_layout.setSpacing(4)
+        
+        welcome_title = QLabel(f"Bienvenue sur GULFCAM DSF Mapper")
+        welcome_title.setStyleSheet(f"""
+            font-size: 22px;
+            font-weight: 800;
             color: {self.colors['primary']};
         """)
         
+        welcome_subtitle = QLabel("L'excellence digitale au service de votre conformité fiscale.")
+        welcome_subtitle.setStyleSheet(f"color: {self.colors['gray']}; font-size: 14px; font-weight: 500;")
+        
+        welcome_text_layout.addWidget(welcome_title)
+        welcome_text_layout.addWidget(welcome_subtitle)
+        
         welcome_layout.addWidget(welcome_icon)
-        welcome_layout.addWidget(welcome_text)
+        welcome_layout.addSpacing(15)
+        welcome_layout.addLayout(welcome_text_layout)
         welcome_layout.addStretch()
         
         layout.addWidget(welcome_card)
@@ -2042,16 +2348,21 @@ class CompanyDashboard(QWidget):
             btn.setCursor(Qt.PointingHandCursor)
             btn.setStyleSheet(f"""
                 QPushButton {{
-                    background-color: {color}10;
-                    color: {color};
-                    border: 1px solid {color}30;
-                    border-radius: 8px;
-                    padding: 16px;
-                    font-weight: 600;
+                    background-color: {self.colors['card-bg']};
+                    color: {self.colors['dark']};
+                    border: 1px solid {self.colors['light-gray']};
+                    border-radius: 12px;
+                    padding: 24px;
+                    font-weight: 700;
                     text-align: left;
-                    font-size: 14px;
+                    font-size: 15px;
                 }}
                 QPushButton:hover {{
+                    background-color: {color}10;
+                    border: 2px solid {color};
+                    padding: 23px;
+                }}
+                QPushButton:pressed {{
                     background-color: {color}20;
                 }}
             """)
@@ -2071,7 +2382,7 @@ class CompanyDashboard(QWidget):
         self.colors = colors
 
 class MainWorkView(QWidget):
-    """Vue de travail principale avec branding GULFCAM"""
+    """Vue de travail principale avec branding GULFCAM - SECTION 4 AGRANDIE"""
     
     def __init__(self, controller, colors):
         super().__init__()
@@ -2399,24 +2710,103 @@ class MainWorkView(QWidget):
         self.section_widgets["dsf"] = dsf_card
         content_layout.addWidget(dsf_card)
 
-        # Section Rapports
+        # Section Rapports et historique DSF - AGRANDIE
         reports_card = ModernCard(colors=self.colors)
+        reports_card.setMinimumHeight(400)  # Augmentation de la hauteur minimale
         reports_layout = QVBoxLayout(reports_card)
 
-        reports_title = QLabel("4. Rapports")
+        reports_title = QLabel("4. Rapports et historique")
         reports_title.setStyleSheet(f"""
             font-size: 20px;
             font-weight: 600;
             color: {self.colors['primary']};
-            margin-bottom: 8px;
+            margin-bottom: 12px;
         """)
+        
+        # Zone des rapports récents avec plus d'espace
+        reports_frame = QFrame()
+        reports_frame.setMinimumHeight(150)
+        reports_frame_layout = QVBoxLayout(reports_frame)
+        reports_frame_layout.setContentsMargins(0, 0, 0, 0)
+        
         self.report_status_label = QLabel("Aucun rapport généré pour le moment.")
         self.report_status_label.setStyleSheet(f"""
             color: {self.colors['gray']};
             font-size: 13px;
+            padding: 20px;
+            background-color: {self.colors['light']};
+            border-radius: 8px;
         """)
+        reports_frame_layout.addWidget(self.report_status_label)
+        
         reports_layout.addWidget(reports_title)
-        reports_layout.addWidget(self.report_status_label)
+        reports_layout.addWidget(reports_frame)
+
+        # Historique des DSF générés - PLUS GRAND
+        history_header = QHBoxLayout()
+        history_label = QLabel("Historique des DSF produits (30 derniers)")
+        history_label.setStyleSheet(f"""
+            font-size: 16px;
+            font-weight: 600;
+            color: {self.colors['primary']};
+            margin-top: 16px;
+            margin-bottom: 8px;
+        """)
+        history_refresh_btn = QPushButton("Actualiser")
+        history_refresh_btn.setCursor(Qt.PointingHandCursor)
+        history_refresh_btn.setStyleSheet(f"""
+            QPushButton {{ 
+                font-size: 12px; 
+                padding: 4px 12px; 
+                color: {self.colors['primary']}; 
+                background: transparent; 
+                border: 1px solid {self.colors['primary']}; 
+                border-radius: 4px; 
+                font-weight: 500;
+            }}
+            QPushButton:hover {{ 
+                background-color: {self.colors['primary']}15; 
+            }}
+        """)
+        history_refresh_btn.clicked.connect(self._refresh_dsf_history)
+        history_header.addWidget(history_label)
+        history_header.addStretch()
+        history_header.addWidget(history_refresh_btn)
+        reports_layout.addLayout(history_header)
+        
+        # Table d'historique agrandie
+        self.dsf_history_list = QTableWidget(0, 3)
+        self.dsf_history_list.setHorizontalHeaderLabels(["Fichier", "Date", ""])
+        self.dsf_history_list.horizontalHeader().setStretchLastSection(False)
+        self.dsf_history_list.horizontalHeader().setSectionResizeMode(0, QHeaderView.Stretch)
+        self.dsf_history_list.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeToContents)
+        self.dsf_history_list.horizontalHeader().setSectionResizeMode(2, QHeaderView.Fixed)
+        self.dsf_history_list.setColumnWidth(2, 100)
+        self.dsf_history_list.verticalHeader().setVisible(False)
+        self.dsf_history_list.setMinimumHeight(250)  # Hauteur minimale augmentée
+        self.dsf_history_list.setMaximumHeight(400)  # Hauteur maximale augmentée
+        self.dsf_history_list.setStyleSheet(f"""
+            QTableWidget {{
+                background-color: {self.colors['card-bg']};
+                border: 1px solid {self.colors['light-gray']};
+                border-radius: 8px;
+                gridline-color: {self.colors['light-gray']};
+            }}
+            QTableWidget::item {{
+                padding: 8px;
+            }}
+            QHeaderView::section {{
+                background-color: {self.colors['light']};
+                color: {self.colors['primary']};
+                border: none;
+                border-bottom: 2px solid {self.colors['primary']};
+                padding: 8px;
+                font-weight: 600;
+            }}
+        """)
+        reports_layout.addWidget(self.dsf_history_list)
+        self._refresh_dsf_history()
+
         self.section_widgets["reports"] = reports_card
         content_layout.addWidget(reports_card)
         
@@ -2434,6 +2824,78 @@ class MainWorkView(QWidget):
         self.scroll_area.setWidget(content)
         main_layout.addWidget(self.scroll_area, 1)
         
+    def _refresh_dsf_history(self) -> None:
+        """Rafraîchit la liste des DSF produits (output + historique sauvegardé)."""
+        if not hasattr(self, "dsf_history_list"):
+            return
+        self.dsf_history_list.setRowCount(0)
+        seen: set = set()
+        entries: List[tuple] = []  # (path, mtime)
+
+        # 1. Fichiers dans output/ (DSF_OUTPUT_UI_*.xlsx)
+        if DEFAULT_OUTPUT_DIR.exists():
+            for p in DEFAULT_OUTPUT_DIR.glob("DSF_OUTPUT_UI_*.xlsx"):
+                if p.is_file() and str(p) not in seen:
+                    seen.add(str(p))
+                    try:
+                        mtime = p.stat().st_mtime
+                        entries.append((p, mtime))
+                    except OSError:
+                        pass
+
+        # 2. Historique sauvegardé (fichiers encore existants)
+        for path_str in getattr(self.controller.settings, "recent_dsf_files", []) or []:
+            p = Path(path_str)
+            if p.exists() and str(p) not in seen:
+                seen.add(str(p))
+                try:
+                    entries.append((p, p.stat().st_mtime))
+                except OSError:
+                    pass
+
+        entries.sort(key=lambda x: x[1], reverse=True)
+        for path, mtime in entries[:30]:
+            row = self.dsf_history_list.rowCount()
+            self.dsf_history_list.insertRow(row)
+            self.dsf_history_list.setItem(row, 0, QTableWidgetItem(path.name))
+            self.dsf_history_list.setItem(row, 1, QTableWidgetItem(time.strftime("%d/%m/%Y %H:%M", time.localtime(mtime))))
+            
+            # Bouton d'ouverture stylisé
+            btn_widget = QWidget()
+            btn_layout = QHBoxLayout(btn_widget)
+            btn_layout.setContentsMargins(4, 2, 4, 2)
+            btn_layout.setAlignment(Qt.AlignCenter)
+            
+            btn = QPushButton("Ouvrir")
+            btn.setCursor(Qt.PointingHandCursor)
+            btn.setStyleSheet(f"""
+                QPushButton {{ 
+                    background-color: {self.colors['primary']}; 
+                    color: white;
+                    border: none; 
+                    border-radius: 4px; 
+                    padding: 4px 12px; 
+                    font-weight: 600;
+                    font-size: 11px;
+                }}
+                QPushButton:hover {{ 
+                    background-color: {self.colors['primary_light']}; 
+                }}
+            """)
+            btn.clicked.connect(lambda checked, fp=path: self._open_dsf_from_history(fp))
+            btn_layout.addWidget(btn)
+            self.dsf_history_list.setCellWidget(row, 2, btn_widget)
+
+    def _open_dsf_from_history(self, path: Path) -> None:
+        """Ouvre un DSF depuis l'historique dans le widget Excel."""
+        if not path.exists():
+            QMessageBox.warning(self, "GULFCAM", f"Fichier introuvable: {path.name}")
+            return
+        if self.excel_widget.load_file(path):
+            self.generated_dsf_file = path
+            self.controller.statusBar().showMessage(f"GULFCAM - DSF ouvert: {path.name}")
+            self.navigate_to(2)
+
     def pick_balance(self):
         default_dir = PROJECT_ROOT / "input"
         if not default_dir.exists():
@@ -2617,9 +3079,11 @@ class MainWorkView(QWidget):
             fuzzy_threshold=0.6,
             apply_calculations=True,
             use_calculation_formulas=True,
-            # Mapping explicite plus fiable sur ce template (ENTETE/R1/R2/R3/NOTE 13/PAGE DE GARDE)
             use_smart_general_filler=False,
             apply_note_rules_in_semantic=True,
+            enable_notes_filler=True,
+            enable_cash_flow=True,
+            enable_fiscal_controls=False,
         )
 
     def _start_pipeline_async(self, config: "DSFPipelineConfig"):
@@ -2656,6 +3120,12 @@ class MainWorkView(QWidget):
             self.report_status_label.setText(f"Rapport disponible: {self.latest_report_path.name}")
         else:
             self.report_status_label.setText("DSF généré, sans rapport attaché.")
+
+        # Historique des DSF
+        self.controller.settings.add_recent_dsf(str(artifacts.dsf_output))
+        self.controller.settings.save()
+        self._refresh_dsf_history()
+        self.report_btn.setEnabled(True)
 
         loaded = self.excel_widget.load_file(artifacts.dsf_output)
         if not loaded:

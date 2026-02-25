@@ -9,6 +9,11 @@ from dataclasses import dataclass, field
 from typing import List, Dict, Optional
 from datetime import date
 from enum import Enum
+import json
+from pathlib import Path
+
+# Chemin par défaut vers le fichier de configuration JSON
+_DEFAULT_CONFIG_PATH = Path(__file__).parent.parent / "config" / "gulfcam_config.json"
 
 class Forme_Juridique(Enum):
     """Codes de forme juridique"""
@@ -100,7 +105,19 @@ class DSF_InfosGenerales:
     
     # Système comptable
     systeme_comptable: str = "SYSTEME NORMAL"
-    
+
+    # Champs obligatoires PAGE DE GARDE DGI
+    registre_commerce: str = ""          # N° RCCM
+    cnps: str = ""                        # N° CNPS
+    capital_social: float = 0.0           # Capital social en FCFA
+    telephone: str = ""                   # Téléphone
+    email: str = ""                       # Email
+    secteur_activite: str = ""            # Secteur d'activité
+    code_activite: str = ""               # Code activité principale
+    activite_principale: str = ""         # Libellé activité principale
+    premiere_annee: bool = False          # Première année d'imposition
+    code_importateur: str = ""            # Code importateur
+
     # Note 13 specific
     note_13_commentaire: str = ""
 
@@ -122,8 +139,107 @@ def format_date(d: Optional[date]) -> str:
         return ""
     return d.strftime("%d/%m/%Y")
 
+
+def load_config_from_json(path: Optional[Path] = None) -> DSF_InfosGenerales:
+    """
+    Charge la configuration entreprise depuis un fichier JSON.
+    Si le fichier est absent ou invalide, lève une FileNotFoundError.
+    """
+    config_path = path or _DEFAULT_CONFIG_PATH
+    if not config_path.exists():
+        raise FileNotFoundError(f"Fichier de configuration introuvable : {config_path}")
+
+    with open(config_path, encoding="utf-8") as f:
+        data = json.load(f)
+
+    def _parse_date(s: Optional[str]) -> Optional[date]:
+        if not s:
+            return None
+        return date.fromisoformat(s)
+
+    activites = [
+        Activite_Entreprise(
+            designation=a["designation"],
+            code_nomenclature=a["code_nomenclature"],
+            chiffre_affaire_ht=a["chiffre_affaire_ht"],
+            pourcentage_ca=a["pourcentage_ca"],
+        )
+        for a in data.get("activites", [])
+    ]
+    dirigeants = [
+        Dirigeant(
+            nom=d["nom"],
+            prenoms=d["prenoms"],
+            qualite=d["qualite"],
+            adresse=d["adresse"],
+        )
+        for d in data.get("dirigeants", [])
+    ]
+    conseil = [
+        Conseil_Administration(
+            nom=c["nom"],
+            prenoms=c["prenoms"],
+            qualite=c["qualite"],
+            adresse=c["adresse"],
+        )
+        for c in data.get("conseil_administration", [])
+    ]
+    actionnaires = [
+        Actionnaire(
+            nom=a["nom"],
+            nationalite=a.get("nationalite", ""),
+            nature_actions=a.get("nature_actions"),
+            nombre=a["nombre"],
+            montant_total=a["montant_total"],
+        )
+        for a in data.get("actionnaires", [])
+    ]
+
+    return DSF_InfosGenerales(
+        denomination_sociale=data["denomination_sociale"],
+        sigle_usuel=data.get("sigle_usuel", data["denomination_sociale"]),
+        adresse_complete=data["adresse_complete"],
+        num_identification_fiscale=data["num_identification_fiscale"],
+        exercice_debut=_parse_date(data.get("exercice_debut")),
+        exercice_fin=_parse_date(data.get("exercice_fin")),
+        date_arrete_comptes=_parse_date(data.get("date_arrete_comptes")),
+        duree_mois=data.get("duree_mois", 12),
+        forme_juridique=data.get("forme_juridique", "08"),
+        registre_fiscal=data.get("registre_fiscal", "1"),
+        # Champs DGI obligatoires
+        registre_commerce=data.get("registre_commerce", ""),
+        cnps=data.get("cnps", ""),
+        capital_social=float(data.get("capital_social", 0)),
+        telephone=data.get("telephone", ""),
+        email=data.get("email", ""),
+        secteur_activite=data.get("secteur_activite", ""),
+        code_activite=data.get("code_activite", ""),
+        activite_principale=data.get("activite_principale", ""),
+        premiere_annee=bool(data.get("premiere_annee", False)),
+        code_importateur=data.get("code_importateur", ""),
+        activites=activites,
+        dirigeants=dirigeants,
+        conseil_administration=conseil,
+        actionnaires=actionnaires,
+        note_13_commentaire=data.get("note_13_commentaire", ""),
+    )
+
+
 def get_gulfcam_config() -> DSF_InfosGenerales:
-    """Retourne la configuration spécifique pour GULFCAM SAS 2024"""
+    """
+    Retourne la configuration GULFCAM SAS.
+    Charge depuis config/gulfcam_config.json si disponible,
+    sinon utilise les valeurs hardcodées comme fallback.
+    """
+    try:
+        return load_config_from_json()
+    except (FileNotFoundError, KeyError, json.JSONDecodeError):
+        # Fallback sur les valeurs hardcodées si le JSON est absent ou invalide
+        return _get_gulfcam_config_hardcoded()
+
+
+def _get_gulfcam_config_hardcoded() -> DSF_InfosGenerales:
+    """Valeurs GULFCAM hardcodées — fallback si config/gulfcam_config.json est absent."""
     return DSF_InfosGenerales(
         denomination_sociale="GULFCAM SAS",
         sigle_usuel="GULFCAM SAS",

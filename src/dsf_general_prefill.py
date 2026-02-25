@@ -3,16 +3,19 @@
 from __future__ import annotations
 
 import json
+import logging
 from dataclasses import asdict, is_dataclass
 from datetime import date
 from pathlib import Path
-from typing import Any, Dict, Iterable, List, Optional
+from typing import Any, Dict, Iterable, List, Optional, Tuple
 
 from openpyxl import load_workbook
 from openpyxl.styles import Font
 from openpyxl.worksheet.worksheet import Worksheet
 
 from dsf_general_info import DSF_InfosGenerales, format_date
+
+logger = logging.getLogger(__name__)
 
 
 class DSFGeneralPrefiller:
@@ -28,6 +31,30 @@ class DSFGeneralPrefiller:
         "NOTE 13",
         "NOTE13",
         "PAGE DE GARDE",
+    }
+
+    # P3-Prefill : Zones protégées par feuille.
+    # Toute cellule dont le numéro de ligne est >= la limite définie ici
+    # ne sera PAS écrite par _fill_cells (évite écriture hors zones dans tableaux).
+    PROTECTED_ZONES: Dict[str, int] = {
+        "PAGE DE GARDE": 50,  # Éviter écriture hors zone identité
+        "FICHE R1": 25,
+        "R1":       25,
+        "FICHE R2": 48,
+        "R2":       48,
+        "FICHE R3": 12,
+        "R3":       12,
+    }
+
+    # Limites des tableaux : max nombre de lignes à écrire (évite débordement)
+    TABLE_ROW_LIMITS: Dict[Tuple[str, str], int] = {
+        ("FICHE R1", "activites"): 0,   # R1 n'a pas activites
+        ("FICHE R2", "activites"): 25,
+        ("FICHE R3", "dirigeants"): 13,
+        ("FICHE R3", "conseil_administration"): 9,
+        ("FICHE R3", "actionnaires"): 0,
+        ("R3", "actionnaires"): 0,
+        ("NOTE 13", "actionnaires"): 20,
     }
 
     def __init__(self, template_path: Path | str, mapping_path: Path | str = "dsf_prefill_mapping.json"):
@@ -56,12 +83,13 @@ class DSFGeneralPrefiller:
 
         # 2. Configured Mapping Filling
         for sheet_name, spec in self.mapping.items():
-            if sheet_name not in self.wb.sheetnames:
+            ws = self._find_sheet(sheet_name)
+            if ws is None:
                 continue
-            ws = self.wb[sheet_name]
-            filled += self._fill_cells(ws, spec.get("cells", {}), info, info_dict)
+            sheet_key = self._normalize_sheet_name(ws.title)
+            filled += self._fill_cells(ws, sheet_name, spec.get("cells", {}), info, info_dict)
             for table_name, table_spec in (spec.get("tables", {}) or {}).items():
-                filled += self._fill_table(ws, table_name, table_spec, info, info_dict)
+                filled += self._fill_table(ws, sheet_name, sheet_key, table_name, table_spec, info, info_dict)
         # Fallback hardening for PAGE DE GARDE so critical identity fields are always set.
         filled += self._fill_page_de_garde_fallback(info)
         return filled
@@ -70,37 +98,49 @@ class DSFGeneralPrefiller:
         """Scan all sheets for header patterns and fill them."""
         count = 0
         
-        # Prepare formatted values
+        # Valeurs depuis la balance N (exercice_fin)
         designation = info.denomination_sociale
-        cloture = format_date(info.exercice_fin) if info.exercice_fin else "31-12-2024" # Fallback or use exact date
+        cloture = format_date(info.exercice_fin) if info.exercice_fin else "31/12/2024"
+        cloture_dash = info.exercice_fin.strftime("%d-%m-%Y") if info.exercice_fin else "31-12-2024"
+        annee = str(info.exercice_fin.year) if info.exercice_fin else "2024"
         niu = info.num_identification_fiscale
         duree = str(info.duree_mois)
 
         search_patterns = [
-            ("Désignation entité", "Exercice clos le", f"Désignation entité : {designation}                                                                Exercice clos le {cloture}"),
+            ("Désignation entité", "Exercice clos le", f"Désignation entité : {designation}                                                                Exercice clos le {cloture_dash}"),
+            ("Désignation entité", "exercice clos", f"Désignation entité : {designation}                                                                Exercice clos le {cloture_dash}"),
+            ("N° d'identification", "Exercice clos le", f"N° d'identification fiscal : {niu}                                          Exercice clos le : {cloture_dash}                                           Durée en mois : {duree}"),
             ("N° d'identification", "Durée (en mois)", f"Numéro d'identification : {niu}                                                                 Durée (en mois) : {duree}"),
             ("Numéro d’identification", "Durée (en mois)", f"Numéro d'identification : {niu}                                                                 Durée (en mois) : {duree}")
         ]
 
+        # Toutes les feuilles (sauf SOMMAIRE) : en-têtes sur BILAN, CR, Notes, R1, R2, R3, etc.
+        EXCLUDED = {"SOMMAIRE"}
         for ws in wb.worksheets:
-            if self._normalize_sheet_name(ws.title) not in self.SAFE_HEADER_SHEETS:
+            if self._normalize_sheet_name(ws.title) in EXCLUDED:
                 continue
-            # Only scan top 10 rows
-            for r in range(1, 11):
-                for c in range(1, 4): # Scan columns A, B, C usually
+            for r in range(1, min(21, ws.max_row + 1)):
+                for c in range(1, min(9, ws.max_column + 1)):
                     cell = ws.cell(row=r, column=c)
                     val = cell.value
-                    if isinstance(val, str):
-                        text = val.lower()
-                        # Guardrail: only replace explicit placeholder-like header lines.
-                        if "…" not in val and "..." not in val and "_" not in val:
-                            continue
-                        for start_marker, end_marker, replacement in search_patterns:
-                             if start_marker.lower() in text and end_marker.lower() in text:
-                                 # print(f"DEBUG: Found header pattern in {ws.title}!{cell.coordinate}")
-                                 # We use the master cell to ensure we write to the merged range top-left
-                                 if self._write_cell(ws, cell.coordinate, replacement):
-                                     count += 1
+                    if not isinstance(val, str) or not val.strip():
+                        continue
+                    text = val
+                    text_lower = text.lower()
+                    # 1. Désignation entité / N° identification
+                    for start_marker, end_marker, replacement in search_patterns:
+                        if start_marker.lower() in text_lower and end_marker.lower() in text_lower:
+                            if self._write_cell(ws, cell.coordinate, replacement):
+                                count += 1
+                            break
+                    else:
+                        # 2. BILAN AU 31 DECEMBRE / COMPTE DE RESULTAT (date = exercice N)
+                        if "BILAN AU 31 DECEMBRE" in text.upper():
+                            self._write_cell(ws, cell.coordinate, f"BILAN AU 31 DECEMBRE {annee}")
+                            count += 1
+                        elif "COMPTE" in text_lower and "RESULTAT" in text_lower and "31 DECEMBRE" in text.upper():
+                            self._write_cell(ws, cell.coordinate, f"COMPTE DE RESULTAT AU 31 DECEMBRE {annee}")
+                            count += 1
         return count
 
     def _fill_page_de_garde_fallback(self, info: DSF_InfosGenerales) -> int:
@@ -155,20 +195,23 @@ class DSFGeneralPrefiller:
     def _fill_cells(
         self,
         ws: Worksheet,
+        sheet_name: str,
         cells_spec: Dict[str, Dict[str, Any]],
         info_obj: DSF_InfosGenerales,
         info_dict: Dict[str, Any],
     ) -> int:
         filled = 0
         for cell_ref, spec in cells_spec.items():
+            # P3-Prefill : Skip si la cellule est dans une zone protégée (évite écriture hors zones)
+            if self._is_in_protected_zone(ws, cell_ref):
+                logger.debug("Zone protégée : skip %s!%s", ws.title, cell_ref)
+                continue
+
             attribute = spec.get("attribute")
             fmt = spec.get("format")
             optional = spec.get("optional", False)
             value = self._resolve_value(info_obj, info_dict, attribute, fmt)
-            
-            # Debug log
-            # print(f"DEBUG: Cell {cell_ref} -> Attr: {attribute} -> Value: {value}")
-            
+
             value_template = spec.get("value_template")
             if value_template and value is not None:
                 try:
@@ -177,18 +220,20 @@ class DSFGeneralPrefiller:
                     pass  # Keep original value if format fails
 
             if optional and (value is None or value == ""):
-                print(f"DEBUG: Skipping optional empty cell {cell_ref}")
+                logger.debug("Champ optionnel vide : skip %s", cell_ref)
                 continue
-            
+
             if self._write_cell(ws, cell_ref, value):
                 filled += 1
             else:
-                print(f"DEBUG: Failed to write {ws.title}!{cell_ref} with value '{value}'")
+                logger.debug("Impossible d'écrire %s!%s = '%s'", ws.title, cell_ref, value)
         return filled
 
     def _fill_table(
         self,
         ws: Worksheet,
+        sheet_name: str,
+        sheet_key: str,
         table_name: str,
         table_spec: Dict[str, Any],
         info_obj: DSF_InfosGenerales,
@@ -197,6 +242,14 @@ class DSFGeneralPrefiller:
         records = getattr(info_obj, table_name, [])
         if not isinstance(records, Iterable):
             return 0
+
+        # Limite de lignes pour éviter débordement hors zone
+        limit_key = (sheet_key, table_name)
+        alt_key = (sheet_name.strip().upper(), table_name)
+        max_rows = self.TABLE_ROW_LIMITS.get(limit_key) or self.TABLE_ROW_LIMITS.get(alt_key)
+        if max_rows is not None and max_rows <= 0:
+            return 0
+        records = list(records)[:max_rows] if max_rows else list(records)
         
         # Check if table uses sections (for split table layouts)
         sections = table_spec.get("sections")
@@ -381,6 +434,24 @@ class DSFGeneralPrefiller:
                 return ws[merged.start_cell.coordinate]
         return cell
 
+    @classmethod
+    def _is_in_protected_zone(cls, ws: Worksheet, cell_ref: str) -> bool:
+        """
+        P3-Prefill : vérifie si une cellule est dans la zone protégée d'une feuille.
+        
+        Les zones protégées sont définies dans PROTECTED_ZONES par nom de feuille normalisé.
+        Une cellule est protégée si son numéro de ligne >= la limite définie.
+        """
+        sheet_key = cls._normalize_sheet_name(ws.title)
+        min_protected_row = cls.PROTECTED_ZONES.get(sheet_key)
+        if min_protected_row is None:
+            return False
+        try:
+            row_num = int(''.join(ch for ch in cell_ref if ch.isdigit()))
+            return row_num >= min_protected_row
+        except (ValueError, TypeError):
+            return False
+
     @staticmethod
     def _evaluate_condition(condition: Optional[str], info_dict: Dict[str, Any]) -> bool:
         if not condition:
@@ -393,6 +464,18 @@ class DSFGeneralPrefiller:
     @staticmethod
     def _normalize_sheet_name(name: str) -> str:
         return " ".join((name or "").upper().split())
+
+    def _find_sheet(self, name: str):
+        """Trouve une feuille par nom exact ou normalisé (tolère espaces finaux)."""
+        if self.wb is None:
+            return None
+        if name in self.wb.sheetnames:
+            return self.wb[name]
+        key = self._normalize_sheet_name(name)
+        for ws in self.wb.worksheets:
+            if self._normalize_sheet_name(ws.title) == key:
+                return ws
+        return None
 
 
 def _infer_format(value: Any) -> Optional[str]:
