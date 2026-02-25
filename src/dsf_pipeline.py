@@ -17,7 +17,7 @@ from dsf_general_prefill import DSFGeneralPrefiller
 from smart_general_filler import SmartGeneralFiller
 from dsf_inventory import DSFInventory
 from dsf_reporting import generate_reports
-from dsf_rule_confihttps://github.com/lightGroup25/dsf/pull/1/conflict?name=src%252Fdsf_pipeline.py&ancestor_oid=351480c4c66912f2302c6d9c7dc1b973cf451ff5&base_oid=b5edf5a408da02a2695d643914244031c9fe2f46&head_oid=2ddd07ba9f154f3d7010afcb241ffa82e696222bg import DSFRuleSet, load_rule_set
+from dsf_rule_config import DSFRuleSet, load_rule_set
 from dsf_rule_engine import RuleEngine, RuleEngineResult
 from dsf_secure_writer import ProtectedDSFWriter
 from semantic_balance_filler import CellAssignment, SemanticBalanceFiller
