@@ -429,7 +429,7 @@ class SemanticBalanceFiller:
             return "exercice_n1"
         if any(k in label for k in ("precedent", "precedant", "annee prec", "cloture prec")):
             return "exercice_n1"
-        if label == "exercice_n" or (("exercice" in label or "exerc" in label) and "n-1" not in label and "n - 1" not in label and "precedent" not in label):
+        if ("exercice" in label or "exerc" in label) and "n-1" not in label and "n - 1" not in label and "precedent" not in label:
             return "exercice_n"
         return None
 
@@ -719,12 +719,8 @@ class SemanticBalanceFiller:
         col_type, year_hint, value_source = self._derive_cell_contract(need, field)
         effective_source = value_source
         if year_hint == "n1" and not self.previous_balance_accounts:
-            if not self.allow_n1_fallback_without_prev:
-                # Strict policy: do not populate N-1 cells without an explicit N-1 balance dataset.
-                return None
-            if value_source in ("final", "opening"):
-                value_source = "opening"
-                effective_source = "opening"
+            # Strict policy: do not populate N-1 cells without an explicit N-1 balance dataset.
+            return None
         expected_classes = self._expected_classes_for_sheet(need.sheet, need.cell)
         preferred_prefixes = self._preferred_prefixes_for_label(need.row_label)
         sheet_group = self._sheet_group(need.sheet)
@@ -2264,8 +2260,6 @@ class SemanticBalanceFiller:
         if year_hint == "n1":
             if self.previous_balance_accounts:
                 return self.previous_balance_accounts, self.previous_account_time_slices, True
-            if self.allow_n1_fallback_without_prev:
-                return self.balance_accounts, self.account_time_slices, False
             # Strict behavior: N-1 must come only from the N-1 balance dataset.
             return {}, {}, True
         return self.balance_accounts, self.account_time_slices, False
@@ -2383,22 +2377,14 @@ class SemanticBalanceFiller:
         label = self._normalize_text(col_label)
         compact = label.replace(" ", "")
         col_lower = col_label.lower()
-        # N-1 explicite (plusieurs variantes courantes dans les DSF)
-        if "n-1" in col_lower or "n - 1" in col_lower or "n- 1" in col_lower:
+        # N-1 explicite
+        if "n-1" in col_lower or "n - 1" in col_lower or "n1" in compact or "n1" in label:
             return "n1"
-        if "n1" in compact or "n1" in label or (col_lower.strip() == "exercice_n1"):
-            return "n1"
-        if any(k in label for k in (
-            "precedent", "precedant", "annee prec", "exercice prec", "cloture prec",
-            "anterieur", "antérieur", "ex n-1", "exercice n-1", "solde n-1", "montant n-1",
-            "net n-1", "brut n-1", "n 1", "cloture n 1", "ouverture n 1"
-        )):
+        if any(k in label for k in ("precedent", "precedant", "annee prec", "exercice prec", "cloture prec")):
             return "n1"
         if "n-2" in col_lower or "n - 2" in col_lower or "n2" in compact:
             return "n2"
         # Colonnes N : exercice courant, 31/12/N, net N, montant N
-        if col_lower.strip() in ("exercice_n", "n"):
-            return "n"
         if "exercice" in label or "n " in label or label.endswith(" n"):
             return "n"
         if "31/12" in col_label or "31 12" in compact:
@@ -3258,7 +3244,7 @@ class SemanticBalanceFiller:
         Apply formulas to columns that have formula definitions in headers.
         This is called after filling values, to insert Excel formulas in computed columns.
         """
-        strict_no_n1 = not bool(self.previous_balance_accounts) and not self.allow_n1_fallback_without_prev
+        strict_no_n1 = not bool(self.previous_balance_accounts)
         for sheet_name, detector in self.formula_detectors.items():
             ws = self.wb[sheet_name]
             formula_columns = detector.get_formula_columns()

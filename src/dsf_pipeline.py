@@ -17,13 +17,13 @@ from dsf_general_prefill import DSFGeneralPrefiller
 from smart_general_filler import SmartGeneralFiller
 from dsf_inventory import DSFInventory
 from dsf_reporting import generate_reports
-from dsf_rule_config import DSFRuleSet, load_rule_set
+from dsf_rule_confihttps://github.com/lightGroup25/dsf/pull/1/conflict?name=src%252Fdsf_pipeline.py&ancestor_oid=351480c4c66912f2302c6d9c7dc1b973cf451ff5&base_oid=b5edf5a408da02a2695d643914244031c9fe2f46&head_oid=2ddd07ba9f154f3d7010afcb241ffa82e696222bg import DSFRuleSet, load_rule_set
 from dsf_rule_engine import RuleEngine, RuleEngineResult
 from dsf_secure_writer import ProtectedDSFWriter
 from semantic_balance_filler import CellAssignment, SemanticBalanceFiller
 from semantic_validators import SemanticFillerValidator
 from openpyxl.utils import coordinate_to_tuple, range_boundaries
-from dsf_calculation_applier import DSFCalculationApplier, apply_calculations_to_dsf
+from dsf_calculation_applier import DSFCalculationApplier
 # P2 — Nouveaux modules
 from dsf_fiscal_controls import run_fiscal_controls, FiscalReport
 from dsf_notes_filler import fill_notes_from_balance
@@ -119,13 +119,13 @@ class DSFPipelineConfig:
     use_opening_columns_as_n1: bool = True
     # P2 — Contrôles fiscaux (A1)
     enable_fiscal_controls: bool = True
-    # P2 — Remplissage Notes Annexes 1-12 (A3) — désactivé par défaut pour plus de vitesse
-    enable_notes_filler: bool = False
-    # P2 — Tableau des Flux de Trésorerie (A4) — désactivé par défaut pour plus de vitesse
-    enable_cash_flow: bool = False
+    # P2 — Remplissage Notes Annexes 1-12 (A3)
+    enable_notes_filler: bool = True
+    # P2 — Tableau des Flux de Trésorerie (A4)
+    enable_cash_flow: bool = True
     # Extraction et application des formules Excel depuis un DSF référence
     formula_reference_dsf: Optional[Path] = Path("input/DSF GULFCAM 2023 V3.xlsx")  # Si None, utilise template_dsf
-    enable_formula_extraction: bool = False
+    enable_formula_extraction: bool = True
 
     def __post_init__(self) -> None:
         self.template_dsf = Path(self.template_dsf)
@@ -378,90 +378,9 @@ class DSFPipeline:
         logger.info("Pré-remplissage ENTETE/R1/R2/R3/NOTE13: %s éléments", filled)
         return prefilled_path
 
-    def _apply_rule_overlay_hybrid_on_file(
-        self,
-        dsf_output: Path,
-        result_rules: RuleEngineResult,
-    ) -> None:
-        """
-        Mode hybride : applique les affectations issues du moteur de règles
-        sur le DSF déjà rempli de façon sémantique.
-
-        Priorité :
-        - cellules protégées (Bilan / CR / notes clés) : règles > sémantique
-        - autres cellules : on remplit uniquement si la cellule est vide / placeholder.
-        """
-        from openpyxl import load_workbook
-
-        try:
-            wb = load_workbook(dsf_output)
-        except Exception as exc:
-            logger.warning("Overlay hybride : impossible de rouvrir le DSF '%s' : %s", dsf_output, exc)
-            return
-
-        try:
-            protected = self._build_protected_cell_set()
-
-            for assign in result_rules.assignments:
-                key = (assign.sheet, assign.cell)
-                try:
-                    ws = wb[assign.sheet]
-                    cell = ws[assign.cell]
-                except Exception as exc:
-                    logger.debug("Overlay hybride : cellule %s!%s introuvable (%s)", assign.sheet, assign.cell, exc)
-                    continue
-
-                # Cas 1 : cellule critique → la règle est prioritaire
-                if key in protected:
-                    # Ne jamais écraser une formule existante
-                    if isinstance(cell.value, str) and cell.value.lstrip().startswith("="):
-                        continue
-                    value = float(assign.amount)
-                    cell.value = value
-                    continue
-
-                # Cas 2 : cellule non critique → on ne remplit que si vide / placeholder
-                if self._is_placeholder(cell.value):
-                    # Ne jamais écraser une formule existante
-                    if isinstance(cell.value, str) and cell.value.lstrip().startswith("="):
-                        continue
-                    value = float(assign.amount)
-                    cell.value = value
-                    continue
-
-                # Sinon : on laisse le remplissage sémantique / manuel tel quel
-
-            wb.save(dsf_output)
-        except Exception as exc:
-            logger.warning("Overlay hybride : échec lors de l'application des règles : %s", exc)
-        finally:
-            try:
-                wb.close()
-            except Exception:
-                pass
-
-    @staticmethod
-    def _is_placeholder(val) -> bool:
-        """
-        Vrai si la valeur de cellule peut être considérée comme vide / neutre
-        (None, chaîne vide, ellipsis, tiret, zéro numérique).
-        """
-        if val is None:
-            return True
-        if isinstance(val, str):
-            stripped = val.strip()
-            return stripped in ("", "…", "...", "-", "_", "0")
-        if isinstance(val, (int, float)) and val == 0:
-            return True
-        return False
-
     def _resolve_previous_column_overrides(self) -> Optional[Dict[str, object]]:
         """
         Retourne les column_overrides à utiliser pour la balance N-1.
-
-        Principe : les comptes d'ouverture de l'année N sont les comptes de clôture de l'année N-1.
-        On utilise donc les colonnes d'ouverture de la balance N pour remplir toutes les cellules
-        du DSF qui demandent des infos N-1 (colonnes "N-1", "exercice précédent", etc.).
 
         - Si une balance N-1 séparée est fournie (previous_balance_input) :
             utilise previous_balance_column_overrides si défini, sinon balance_column_overrides.
@@ -513,15 +432,11 @@ class DSFPipeline:
 
         logger.info("Mode: Remplissage sémantique par analyse de libellés")
 
-        # N-1 : balance séparée OU colonnes d'ouverture de la balance N (clôture N-1 = ouverture N)
+        # N-1 : balance séparée OU colonnes d'ouverture de la balance N (use_opening_columns_as_n1)
         prev_overrides = self._resolve_previous_column_overrides()
         prev_file = self.config.previous_balance_input
         if prev_file is None and prev_overrides is not None:
             prev_file = self.config.balance_input
-            logger.info(
-                "N-1 non fourni : utilisation des colonnes d'ouverture de la balance N "
-                "(clôture N-1 = ouverture N) pour remplir toutes les cellules N-1 du DSF."
-            )
 
         filler = SemanticBalanceFiller(
             prefilled_template,
@@ -531,7 +446,6 @@ class DSFPipeline:
             column_overrides=self.config.balance_column_overrides,
             previous_balance_file=prev_file,
             previous_column_overrides=prev_overrides,
-            allow_n1_fallback_without_prev=self.config.use_opening_columns_as_n1,
         )
         filler.load()
         filled = filler.fill()
@@ -651,89 +565,222 @@ class DSFPipeline:
             metadata=rule_set.metadata,
         )
 
+    def _apply_rule_assignments_to_workbook(
+        self,
+        wb,
+        result: RuleEngineResult,
+        filler: Optional[SemanticBalanceFiller] = None,
+        *,
+        notes_only: bool = True,
+    ) -> int:
+        if not self.inventory:
+            raise RuntimeError("Inventaire non chargé")
+        applied = 0
+        skipped = 0
+        appended = 0
+        removed_unmatched = 0
+        existing_keys = set()
+        if filler is not None:
+            existing_keys = {(a.sheet, a.cell) for a in filler.assignments}
+        for assignment in result.assignments:
+            sheet_upper = assignment.sheet.upper()
+            if notes_only and "NOTE" not in sheet_upper:
+                skipped += 1
+                continue
+            field = self.inventory.get_field(assignment.sheet, assignment.cell)
+            if not field:
+                skipped += 1
+                continue
+            if self._is_n1_column_type(getattr(field, "column_type", None)):
+                # Rule engine currently reads only balance N. Never let it feed N-1 cells.
+                skipped += 1
+                continue
+            if field.has_formula:
+                skipped += 1
+                continue
+            if field.locked:
+                if "NOTE" not in sheet_upper and "SYNTHESE" not in sheet_upper and "SYNTH" not in sheet_upper:
+                    skipped += 1
+                    continue
+            row, col = coordinate_to_tuple(assignment.cell)
+            if getattr(field, "merged", False) and field.merge_range:
+                min_col, min_row, _, _ = range_boundaries(field.merge_range)
+                row, col = min_row, min_col
+            ws = wb[assignment.sheet]
+            cell = ws.cell(row=row, column=col)
+            if cell.value not in (None, ""):
+                skipped += 1
+                continue
+            cell.value = assignment.amount
+            applied += 1
+            if filler is not None:
+                key = (assignment.sheet, assignment.cell)
+                if key not in existing_keys:
+                    filler.assignments.append(
+                        CellAssignment(
+                            sheet=assignment.sheet,
+                            cell=assignment.cell,
+                            row_label=field.label or "",
+                            col_label=field.column_type or "",
+                            is_total=False,
+                            matched_accounts=[],
+                            total_amount=assignment.amount,
+                            source_accounts=[
+                                acc.get("compte", "")
+                                for acc in (assignment.accounts or [])
+                                if isinstance(acc, dict)
+                            ],
+                            confidence=0.88,
+                            notes="source=rule_engine_note",
+                        )
+                    )
+                    existing_keys.add(key)
+                    appended += 1
+                before = len(filler.unmatched_cells)
+                filler.unmatched_cells = [
+                    need
+                    for need in filler.unmatched_cells
+                    if not (need.sheet == assignment.sheet and need.cell == assignment.cell)
+                ]
+                removed_unmatched += max(0, before - len(filler.unmatched_cells))
+        logger.info(
+            "Rule overlay (notes_only=%s): applied=%s skipped=%s report_sync_added=%s report_sync_removed_unmatched=%s",
+            notes_only,
+            applied,
+            skipped,
+            appended,
+            removed_unmatched,
+        )
+        return applied
+
+    @staticmethod
+    def _is_n1_column_type(column_type: Optional[str]) -> bool:
+        txt = (column_type or "").lower().replace(" ", "")
+        return "n-1" in txt or "n1" in txt or "exercice_n1" in txt
+
+    def _write_assignments(self, template: Path, result: RuleEngineResult) -> Path:
+        if not self.inventory:
+            raise RuntimeError("Inventaire non chargé")
+        writer = ProtectedDSFWriter(template, self.config.dsf_output, self.inventory, chunk_size=self.config.writer_chunk_size)
+        try:
+            safe_assignments = []
+            skipped_n1 = 0
+            for assignment in result.assignments:
+                field = self.inventory.get_field(assignment.sheet, assignment.cell)
+                if field and self._is_n1_column_type(getattr(field, "column_type", None)):
+                    skipped_n1 += 1
+                    continue
+                safe_assignments.append(assignment)
+            if skipped_n1:
+                logger.info("Rule-based: %s assignments N-1 ignorées (balance N-1 non supportée par rule-engine)", skipped_n1)
+            writer.write_assignments(safe_assignments)
+            return writer.save()
+        finally:
+            writer.close()
+
+    def _evaluate_controls(self, result: RuleEngineResult) -> ControlReport:
+        if not self.rule_set:
+            raise RuntimeError("Règles non chargées")
+        suite = ControlSuite(self.rule_set, tolerance=self.config.control_tolerance)
+        report = suite.evaluate(result)
+        logger.info("Contrôles: %s", report.summary)
+        return report
+
     def _apply_calculations(self, dsf_output: Path) -> None:
         """
-        Applique les calculs (TOTAL, VARIATION, RATIOS) au DSF.
-        Utilise le DSFCalculationApplier.
+        Apply automatic calculations to DSF:
+        - Generate =SUM() formulas for TOTAL rows (P3-M5 : formules Excel préservées)
+        - Calculate VARIATION (Closing - Opening)
+        - Calculate PERCENTAGES and RATIOS
+        P3-m1 : erreurs non silencieuses — warnings collectés, alerte si > 5
         """
+        warnings_collected: list = []
+
+        # --- Calculs DSF (TOTAL, VARIATION, RATIOS) ---
         try:
             # P3- Lot B : Application des calculs (formules Excel ou valeurs)
             count = apply_calculations_to_dsf(
                 dsf_output,
-                use_formulas=self.config.use_calculation_formulas
+                use_formulas=self.config.use_calculation_formulas,
+                has_previous_balance_n1=bool(
+                self.config.previous_balance_input
+                or (self.config.use_opening_columns_as_n1 and self._resolve_previous_column_overrides())
+            ),
+                enforce_n1_from_previous_only=True,
+                overwrite_formulas=False,  # P3-M5 : préserver les formules Excel du template
             )
-            logger.info("✓ %d calculs appliqués à %s", count, dsf_output.name)
-        except Exception as exc:
-            logger.warning("Échec de l'application des calculs : %s", exc)
-
-    def _post_generation_enrichment(self, dsf_output: Path) -> None:
-        """
-        Étapes post-génération communes :
-        - Remplissage Notes Annexes
-        - Bilan composite (liens vers notes)
-        - Tableau des Flux de Trésorerie
-        - Contrôles fiscaux
-        - Détection de soldes anormaux
-        - Validation pré-soumission DGI
-        """
-        warnings_collected: list[str] = []
-
-        # Tentative de réouverture du DSF pour enrichissements (notes / TFT / bilan composite)
-        try:
-            from openpyxl import load_workbook
-
-            wb = load_workbook(dsf_output)
-        except Exception as exc:
-            msg = f"Post-génération : impossible de rouvrir le DSF pour enrichissements : {exc}"
+            count = applier.apply()
+            logger.info(
+                "✓ %d calculs appliqués (%d formules Excel du template préservées)",
+                count, applier.preserved_formulas,
+            )
+        except Exception as e:
+            msg = f"Calculs DSF : {e}"
             logger.warning(msg)
-            self._pipeline_warnings = [msg]
-            return
+            warnings_collected.append(msg)
 
-        normalized_rows = getattr(self, "_normalized_rows", [])
-        previous_rows = getattr(self, "_previous_normalized_rows", [])
-
-        # P2-A3 : Remplissage des Notes Annexes
-        if self.config.enable_notes_filler:
+        # --- Extraction et application des formules depuis le DSF référence ---
+        if self.config.enable_formula_extraction:
             try:
-                n_notes = fill_notes_from_balance(wb, normalized_rows, previous_rows)
-                logger.info("✓ Notes annexes : %d lignes remplies", n_notes)
+                from dsf_formula_extractor_applier import extract_and_apply_formulas
+                ref_dsf = self.config.formula_reference_dsf or self.config.template_dsf
+                if ref_dsf.exists():
+                    n_formulas = extract_and_apply_formulas(
+                        ref_dsf,
+                        dsf_output,
+                        overwrite_existing_formulas=False,
+                        overwrite_filled_cells=False,
+                    )
+                    if n_formulas > 0:
+                        logger.info("✓ %d formules Excel appliquées depuis %s", n_formulas, ref_dsf.name)
+                else:
+                    logger.debug("DSF formule référence absent: %s", ref_dsf)
             except Exception as exc:
-                msg = f"Notes annexes : {exc}"
+                logger.warning("Extraction formules: %s", exc)
+
+        # P2-A3 : Remplissage des Notes Annexes 1-12
+        if self.config.enable_notes_filler and hasattr(self, "_normalized_rows"):
+            try:
+                from openpyxl import load_workbook
+                wb = load_workbook(dsf_output)
+                prev_rows = getattr(self, "_previous_normalized_rows", None)
+                n_notes = fill_notes_from_balance(wb, self._normalized_rows, prev_rows)
+                wb.save(dsf_output)
+                wb.close()
+                logger.info("✓ Notes Annexes : %d lignes remplies", n_notes)
+            except Exception as exc:
+                msg = f"Notes Annexes : {exc}"
                 logger.warning(msg)
                 warnings_collected.append(msg)
 
-        # P3-B1 : Remplissage des cellules composites du BILAN
+        # P3-B1 : Remplissage cellules composites BILAN (références aux Notes)
         try:
-            n_bilan = fill_bilan_composite_cells(wb)
-            if n_bilan:
-                logger.info("✓ Bilan composite : %d cellules écrites", n_bilan)
+            from openpyxl import load_workbook
+            wb = load_workbook(dsf_output)
+            n_composite = fill_bilan_composite_cells(wb)
+            wb.save(dsf_output)
+            wb.close()
+            if n_composite > 0:
+                logger.info("✓ Cellules composites BILAN : %d cellules remplies", n_composite)
         except Exception as exc:
-            msg = f"Bilan composite : {exc}"
+            msg = f"Cellules composites BILAN : {exc}"
             logger.warning(msg)
             warnings_collected.append(msg)
 
         # P2-A4 : Tableau des Flux de Trésorerie
-        if self.config.enable_cash_flow:
+        if self.config.enable_cash_flow and hasattr(self, "_normalized_rows"):
             try:
-                n_tft = fill_cash_flow(wb, normalized_rows, previous_rows)
+                from openpyxl import load_workbook
+                wb = load_workbook(dsf_output)
+                prev_rows = getattr(self, "_previous_normalized_rows", None)
+                n_tft = fill_cash_flow(wb, self._normalized_rows, prev_rows)
+                wb.save(dsf_output)
+                wb.close()
                 logger.info("✓ Tableau des Flux : %d cellules écrites", n_tft)
             except Exception as exc:
                 msg = f"Tableau des Flux de Trésorerie : {exc}"
                 logger.warning(msg)
                 warnings_collected.append(msg)
-
-        # Sauvegarde du workbook enrichi
-        try:
-            wb.save(dsf_output)
-        except Exception as exc:
-            msg = f"Sauvegarde du DSF enrichi : {exc}"
-            logger.warning(msg)
-            warnings_collected.append(msg)
-        finally:
-            try:
-                wb.close()
-            except Exception:
-                pass
 
         # P2-A1 : Contrôles fiscaux post-génération
         if self.config.enable_fiscal_controls:
@@ -742,9 +789,7 @@ class DSFPipeline:
                 summary = fiscal_report.summary
                 logger.info(
                     "✓ Contrôles fiscaux : %d PASS / %d WARN / %d FAIL",
-                    summary["PASS"],
-                    summary["WARN"],
-                    summary["FAIL"],
+                    summary["PASS"], summary["WARN"], summary["FAIL"],
                 )
                 if fiscal_report.has_failures():
                     msg = f"Contrôles fiscaux : {summary['FAIL']} contrôle(s) en ÉCHEC"
@@ -756,11 +801,11 @@ class DSFPipeline:
                 warnings_collected.append(msg)
 
         # P3-MF4 : Détection soldes anormaux
-        if normalized_rows:
+        if hasattr(self, "_normalized_rows"):
             try:
-                anomaly_reports = detect_abnormal_balances(normalized_rows)
+                anomaly_reports = detect_abnormal_balances(self._normalized_rows)
                 n_error = sum(1 for r in anomaly_reports if r.severity == "ERROR")
-                n_warn = sum(1 for r in anomaly_reports if r.severity == "WARNING")
+                n_warn  = sum(1 for r in anomaly_reports if r.severity == "WARNING")
                 if n_error > 0:
                     msg = f"P3-MF4 : {n_error} solde(s) anormal(aux) ERREUR détecté(s) dans la balance"
                     logger.error(msg)
@@ -773,10 +818,9 @@ class DSFPipeline:
         # P3-MF1 : Validation pré-soumission DGI
         try:
             from openpyxl import load_workbook as _lwb
-
-            _wb_val = _lwb(dsf_output, data_only=True)
-            _balance = normalized_rows
-            _gi = getattr(self, "_general_info", None)
+            _wb_val = _lwb(dsf_output)
+            _balance = getattr(self, "_normalized_rows", [])
+            _gi      = getattr(self, "_general_info", None)
             presubmit_report = run_presubmission_validation(_wb_val, _balance, _gi)
             _wb_val.close()
             if not presubmit_report.is_valid:

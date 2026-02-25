@@ -1,0 +1,192 @@
+{
+  "_commentaire": "Configuration GULFCAM SAS — Exercice 2024. Éditable sans modifier le code source.",
+  "denomination_sociale": "GULFCAM SAS",
+  "num_identification_fiscale": "M050900027774W",
+  "adresse_complete": "CENTRE DES AFFAIRES MARITIMES, B.P 3876 DOUALA",
+  "forme_juridique": "08",
+  "registre_fiscal": "1",
+  "registre_commerce": "RC/DLA/2021/B/1234",
+  "cnps": "1234567890",
+  "capital_social": 4672610000,
+  "telephone": "+237 233 42 00 00",
+  "email": "contact@gulfcam.cm",
+  "secteur_activite": "TRANSPORT ET COMMERCE",
+  "code_activite": "0 3 1 0 0",
+  "activite_principale": "VENTE DES PRODUITS PETROLIERS ET AUTRES",
+  "premiere_annee": false,
+  "code_importateur": "",
+  "exercice_debut": "2024-01-01",
+  "exercice_fin": "2024-12-31",
+  "date_arrete_comptes": "2024-12-31",
+  "duree_mois": 12,
+  "activites": [
+    {
+      "designation": "TRANSPORT MARITIME",
+      "code_nomenclature": "0 3 4 0 0",
+      "chiffre_affaire_ht": 3744332179,
+      "pourcentage_ca": 0.04
+    },
+    {
+      "designation": "VENTE DES PRODUITS PETROLIERS ET AUTRES",
+      "code_nomenclature": "0 3 1 0 0",
+      "chiffre_affaire_ht": 16797523137,
+      "pourcentage_ca": 0.94
+    },
+    {
+      "designation": "AUTRES SERVICES VENDUS",
+      "code_nomenclature": "0 3 8 0 0",
+      "chiffre_affaire_ht": 3312121101,
+      "pourcentage_ca": 0.02
+    }
+  ],
+  "dirigeants": [
+    {
+      "nom": "NYODOG",
+      "prenoms": "PERRIAL JEAN",
+      "qualite": "PRESIDENT",
+      "adresse": "3876 DOUALA, CAMEROUN"
+    },
+    {
+      "nom": "BOU",
+      "prenoms": "ALBERT ROGER",
+      "qualite": "DG",
+      "adresse": "3876 DOUALA, CAMEROUN"
+    },
+    {
+      "nom": "MIKE",
+      "prenoms": "LEOPOLD",
+      "qualite": "DGA",
+      "adresse": "3876 DOUALA, CAMEROUN"
+    }
+  ],
+  "conseil_administration": [
+    {
+      "nom": "MBAYEN",
+      "prenoms": "RENE",
+      "qualite": "PRESIDENT CONSEIL SURVEILLANCE",
+      "adresse": "DOUALA, CAMEROUN"
+    },
+    {
+      "nom": "NYODOG",
+      "prenoms": "PERRIAL JEAN",
+      "qualite": "PRESIDENT DU DIRECTOIRE",
+      "adresse": "DOUALA, CAMEROUN"
+    },
+    {
+      "nom": "TCHOUTA MOUSSA",
+      "prenoms": "ESTHER",
+      "qualite": "MEMBRE",
+      "adresse": "DOUALA, CAMEROUN"
+    },
+    {
+      "nom": "NJOVAGE",
+      "prenoms": "GEORGES",
+      "qualite": "MEMBRE",
+      "adresse": "DOUALA, CAMEROUN"
+    },
+    {
+      "nom": "MBAYEN HEGBA",
+      "prenoms": "FLORIAN",
+      "qualite": "MEMBRE",
+      "adresse": "DOUALA, CAMEROUN"
+    },
+    {
+      "nom": "NGO MBAYEN Epse MALANANGE DORA",
+      "prenoms": "",
+      "qualite": "MEMBRE",
+      "adresse": "DOUALA, CAMEROUN"
+    },
+    {
+      "nom": "FAYCAL",
+      "prenoms": "ABDOULAYE",
+      "qualite": "MEMBRE",
+      "adresse": "YAOUNDE, CAMEROUN"
+    },
+    {
+      "nom": "WOLINO Epse BOOTO A N",
+      "prenoms": "COLETTE",
+      "qualite": "MEMBRE",
+      "adresse": "DOUALA, CAMEROUN"
+    }
+  ],
+  "actionnaires": [
+    {
+      "nom": "SOFIMAR SICAV",
+      "nationalite": "CAMEROUNAISE",
+      "nature_actions": "ORDINAIRES",
+      "nombre": 276954,
+      "montant_total": 2769540000
+    },
+    {
+      "nom": "MINISTERE DES FINANCES",
+      "nationalite": "CAMEROUNAISE",
+      "nature_actions": "ORDINAIRES",
+      "nombre": 66657,
+      "montant_total": 666570000
+    },
+    {
+      "nom": "LIQUIDATION CIC",
+      "nationalite": "CAMEROUNAISE",
+      "nature_actions": "ORDINAIRES",
+      "nombre": 50443,
+      "montant_total": 504430000
+    },
+    {
+      "nom": "CIP-GIE",
+      "nationalite": "CAMEROUNAISE",
+      "nature_actions": "ORDINAIRES",
+      "nombre": 32291,
+      "montant_total": 322910000
+    },
+    {
+      "nom": "TRIANGLE SA",
+      "nationalite": "CAMEROUNAISE",
+      "nature_actions": "ORDINAIRES",
+      "nombre": 19050,
+      "montant_total": 190500000
+    },
+    {
+      "nom": "SNI",
+      "nationalite": "CAMEROUNAISE",
+      "nature_actions": "ORDINAIRES",
+      "nombre": 8716,
+      "montant_total": 87160000
+    },
+    {
+      "nom": "TCHOUTA MOUSSA ESTHER",
+      "nationalite": "CAMEROUNAISE",
+      "nature_actions": "ORDINAIRES",
+      "nombre": 5062,
+      "montant_total": 50620000
+    },
+    {
+      "nom": "MBAYEN RENE",
+      "nationalite": "CAMEROUNAISE",
+      "nature_actions": "ORDINAIRES",
+      "nombre": 4000,
+      "montant_total": 40000000
+    },
+    {
+      "nom": "CAPLAME",
+      "nationalite": "CAMEROUNAISE",
+      "nature_actions": "ORDINAIRES",
+      "nombre": 2405,
+      "montant_total": 24050000
+    },
+    {
+      "nom": "HESNAULT",
+      "nationalite": "CAMEROUNAISE",
+      "nature_actions": "ORDINAIRES",
+      "nombre": 1683,
+      "montant_total": 16830000
+    },
+    {
+      "nom": "Apporteurs, capital non appelé",
+      "nationalite": "",
+      "nature_actions": null,
+      "nombre": 467261,
+      "montant_total": 4672610000
+    }
+  ],
+  "note_13_commentaire": "L'actionnariat repose sur l'opération de fusion-absorption de CAMSHIP-CLGG par GULFIN devenue GULFCAM du 28 octobre 2021, AGM du 18 novembre 2021 et AGE du 22 juin 2022."
+}

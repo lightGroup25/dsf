@@ -26,6 +26,37 @@
         "attribute": "num_identification_fiscale",
         "value_template": "N° d'identification fiscale : {}"
       },
+      "A35": {
+        "attribute": "registre_commerce",
+        "value_template": "N° RCCM : {}",
+        "optional": true
+      },
+      "A37": {
+        "attribute": "cnps",
+        "value_template": "N° CNPS : {}",
+        "optional": true
+      },
+      "A39": {
+        "attribute": "capital_social",
+        "format": "currency",
+        "value_template": "Capital social : {} FCFA",
+        "optional": true
+      },
+      "A41": {
+        "attribute": "telephone",
+        "value_template": "Téléphone : {}",
+        "optional": true
+      },
+      "A43": {
+        "attribute": "email",
+        "value_template": "Email : {}",
+        "optional": true
+      },
+      "A45": {
+        "attribute": "activite_principale",
+        "value_template": "Activité principale : {}",
+        "optional": true
+      },
       "C36": {
         "attribute": "systeme_comptable",
         "value_template": "Système : {}"
@@ -99,27 +130,19 @@
   "Fiche R2": {
     "title": "FICHE R2",
     "cells": {
-      "A4": {
-        "attribute": "denomination_sociale",
-        "value_template": "Désignation entité : {}                                                                                 Exercice clos le 31-12-2024"
-      },
-      "A5": {
-        "attribute": "num_identification_fiscale",
-        "value_template": "Numéro d'identification : {}                                                              Durée (en mois) : 12"
-      },
-      "B9": {
+      "B29": {
         "attribute": "forme_juridique",
         "label": "Forme Juridique"
       },
-      "B11": {
+      "B31": {
         "attribute": "registre_fiscal",
-        "label": "Regisme Fiscal"
+        "label": "Régime fiscal"
       },
-      "B13": {
+      "B33": {
         "attribute": "pays_siege_social",
         "label": "Pays"
       },
-      "B20": {
+      "B40": {
         "attribute": "premiere_annee",
         "label": "1ere annee",
         "optional": true
@@ -127,7 +150,7 @@
     },
     "tables": {
       "activites": {
-        "data_start_row": "B29",
+        "data_start_row": "B49",
         "fields": {
           "B": "designation",
           "F": "code_nomenclature",
@@ -139,16 +162,7 @@
   },
   "Fiche R3": {
     "title": "FICHE R3",
-    "cells": {
-      "A4": {
-        "attribute": "denomination_sociale",
-        "value_template": "Désignation entité : {}                                                                                 Exercice clos le 31-12-2024"
-      },
-      "A5": {
-        "attribute": "num_identification_fiscale",
-        "value_template": "Numéro d'identification : {}                                                              Durée (en mois) : 12"
-      }
-    },
+    "cells": {},
     "tables": {
       "dirigeants": {
         "data_start_row": "A11",
@@ -161,52 +175,22 @@
         }
       },
       "conseil_administration": {
-        "sections": [
-          {
-            "label": "first_section",
-            "data_start_row": "A26",
-            "fields": {
-              "B": "nom",
-              "C": "prenoms",
-              "D": "qualite",
-              "E": "adresse"
-            },
-            "row_count": 4
-          },
-          {
-            "label": "second_section",
-            "explicit_rows": [31, 33, 34, 35],
-            "fields": {
-              "B": "nom_prenoms",
-              "E": "adresse"
-            }
-          }
-        ]
+        "data_start_row": "A34",
+        "fields": {
+          "A": "nom",
+          "B": "prenoms",
+          "C": "qualite",
+          "E": "adresse"
+        }
       },
       "actionnaires": {
-        "sections": [
-          {
-            "label": "merged_cd_rows",
-            "data_start_row": "A40",
-            "row_count": 4,
-            "fields": {
-              "A": "nom",
-              "C": "nombre",
-              "E": "montant_total"
-            }
-          },
-          {
-            "label": "standard_rows",
-            "data_start_row": "A44",
-            "row_count": 20,
-            "fields": {
-              "A": "nom",
-              "C": "nationalite",
-              "D": "nombre",
-              "E": "montant_total"
-            }
-          }
-        ]
+        "data_start_row": "A44",
+        "fields": {
+          "A": "nom",
+          "B": "nationalite",
+          "D": "nombre",
+          "E": "montant_total"
+        }
       }
     }
   },
