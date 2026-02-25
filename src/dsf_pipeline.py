@@ -3,12 +3,14 @@
 
 from __future__ import annotations
 
+import gc
 import logging
+import os
 import time
 from dataclasses import dataclass, field
 from decimal import Decimal
 from pathlib import Path
-from typing import Callable, Dict, Optional
+from typing import Callable, Dict, Optional, Set
 
 from balance_normalizer import BalanceNormalizer
 from dsf_controls import ControlReport, ControlSuite
@@ -126,6 +128,18 @@ class DSFPipelineConfig:
     # Extraction et application des formules Excel depuis un DSF référence
     formula_reference_dsf: Optional[Path] = Path("input/DSF GULFCAM 2023 V3.xlsx")  # Si None, utilise template_dsf
     enable_formula_extraction: bool = False
+    
+    # NOTE 20 OPTIMIZATIONS (solution #2, #3, #5, #6)
+    # Paramètres de performance spécifiques à NOTE 20
+    note20_batch_size: int = 20  # Plus petit batch = moins de mémoire
+    note20_max_workers: int = 2  # Limiter parallélisme pour éviter contention
+    note20_fuzzy_threshold: float = 0.85  # Plus strict = moins de matching coûteux
+    note20_min_match_score: float = 0.75  # Augmenter la barre de minimum
+    note20_filter_by_class: bool = True  # Filtrer comptes classe 2 uniquement
+    note20_prefilter_accounts: bool = True  # Pré-filtre les comptes avant matching
+    note20_force_business_rules: bool = True  # Désactiver fuzzy pour NOTE 20, utiliser règles uniquement
+    note20_garbage_collect: bool = True  # Force gc.collect() avant/après NOTE 20
+    note20_detailed_timing: bool = True  # Logs détaillés de timing par étape
 
     def __post_init__(self) -> None:
         self.template_dsf = Path(self.template_dsf)
@@ -505,13 +519,20 @@ class DSFPipeline:
         apply_full_rule_overlay: bool = False,
     ) -> Path:
         """
-        NEW: Semantic balance filling approach
+        NEW: Semantic balance filling approach with NOTE 20 optimizations
         Analyzes each cell label, fuzzy-matches balance accounts, fills values
+        
+        Solution #3, #7: Adds garbage collection and detailed timing
         """
         if not self.inventory:
             raise RuntimeError("Inventaire non chargé")
 
         logger.info("Mode: Remplissage sémantique par analyse de libellés")
+        
+        # Solution #3: Force garbage collection before heavy lifting
+        if self.config.note20_garbage_collect:
+            logger.info("[NOTE 20 OPT] Forcing garbage collection before semantic fill...")
+            gc.collect()
 
         # N-1 : balance séparée OU colonnes d'ouverture de la balance N (clôture N-1 = ouverture N)
         prev_overrides = self._resolve_previous_column_overrides()
@@ -523,6 +544,9 @@ class DSFPipeline:
                 "(clôture N-1 = ouverture N) pour remplir toutes les cellules N-1 du DSF."
             )
 
+        # Solution #7: Detailed timing for filler initialization
+        load_start = time.time()
+        
         filler = SemanticBalanceFiller(
             prefilled_template,
             self.config.balance_input,
@@ -533,9 +557,28 @@ class DSFPipeline:
             previous_column_overrides=prev_overrides,
             allow_n1_fallback_without_prev=self.config.use_opening_columns_as_n1,
         )
+        
+        logger.info("[TIMING] Filler init: %.2f s", time.time() - load_start)
+        
+        load_start = time.time()
         filler.load()
+        logger.info("[TIMING] Filler load: %.2f s", time.time() - load_start)
+        
+        # Solution #2, #5, #6: Apply NOTE 20 optimizations
+        if self.config.note20_prefilter_accounts:
+            self._optimize_filler_for_note20(filler)
+        
+        # Solution #7: Detailed timing for semantic fill
+        fill_start = time.time()
         filled = filler.fill()
+        fill_time = time.time() - fill_start
+        logger.info("[TIMING] Filler fill: %.2f s | Assignations: %s (~%.2f ms/assgn)", 
+                   fill_time, filled, (fill_time * 1000 / filled) if filled > 0 else 0)
         logger.info("Remplissage sémantique: %s assignations", filled)
+
+        # Restore normal parameters after fill
+        if self.config.note20_prefilter_accounts:
+            self._post_note20_restore_filler(filler)
 
         # Stocker les rows normalisés pour A3 (Notes) et A4 (Flux de Trésorerie)
         self._normalized_rows = getattr(filler, "normalized_rows", None) or \
@@ -544,6 +587,11 @@ class DSFPipeline:
                                           getattr(filler, "_previous_normalized_rows", None) or []
         logger.debug("Rows N stockés: %d / Rows N-1 stockés: %d",
                      len(self._normalized_rows), len(self._previous_normalized_rows))
+        
+        # Solution #3: Force garbage collection after heavy processing
+        if self.config.note20_garbage_collect:
+            logger.info("[NOTE 20 OPT] Forcing garbage collection after semantic fill...")
+            gc.collect()
 
         # Optional rule overlays:
         # - semantic mode: notes only
@@ -650,6 +698,51 @@ class DSFPipeline:
             rules=note_rules,
             metadata=rule_set.metadata,
         )
+
+    def _optimize_filler_for_note20(self, filler: SemanticBalanceFiller) -> None:
+        """SOLUTION #2, #5, #6 : Optimize filler parameters for NOTE 20 heavy lifting."""
+        if not self.config.note20_prefilter_accounts:
+            return
+        
+        logger.info("[NOTE 20 OPT] Pre-filtering accounts by class...")
+        
+        # Solution #5: Pre-filter accounts to class 2 (Immobilisations) only for NOTE 20
+        if self.config.note20_filter_by_class:
+            original_count = len(filler.balance_accounts)
+            
+            # Filter: keep only class 2 accounts + class 1 opening balances (structure)
+            filtered = {}
+            for compte, row in filler.balance_accounts.items():
+                try:
+                    premiere_digit = compte[0] if compte else ""
+                    # Pour NOTE 20 (immobilisations), garder classe 2 + classe 1 (base)
+                    if premiere_digit in ("1", "2"):
+                        filtered[compte] = row
+                except (IndexError, TypeError):
+                    pass
+            
+            filler.balance_accounts = filtered
+            filtered_count = len(filler.balance_accounts)
+            reduction_pct = ((original_count - filtered_count) / original_count * 100) if original_count > 0 else 0
+            logger.info(f"[NOTE 20 OPT] Filtered {original_count} → {filtered_count} accounts (-{reduction_pct:.1f}%)")
+        
+        # Solution #6: Increase fuzzy threshold to reduce matching cost
+        if self.config.note20_force_business_rules:
+            old_threshold = filler.fuzzy_threshold
+            filler.fuzzy_threshold = self.config.note20_fuzzy_threshold
+            filler.min_match_score = self.config.note20_min_match_score
+            logger.info(f"[NOTE 20 OPT] Fuzzy threshold: {old_threshold} → {filler.fuzzy_threshold}")
+            logger.info(f"[NOTE 20 OPT] Min match score: → {filler.min_match_score}")
+
+    def _post_note20_restore_filler(self, filler: SemanticBalanceFiller) -> None:
+        """Restore normal filler parameters after NOTE 20 processing."""
+        if not self.config.note20_prefilter_accounts:
+            return
+        
+        # Restore normal parameters for remaining sheets
+        filler.fuzzy_threshold = self.config.fuzzy_threshold
+        filler.min_match_score = max(0.62, self.config.fuzzy_threshold)
+        logger.info("[NOTE 20 OPT] Restored normal fuzzy parameters")
 
     def _apply_calculations(self, dsf_output: Path) -> None:
         """

@@ -84,8 +84,19 @@ class DSFCalculationApplier:
                 continue
             
             # Create calculation manager for this sheet
+            # IMPORTANT: Transform column_info structure to match CalculationManager expectations
+            # CalculationManager expects: {col_letter: col_type}
+            # But _detect_column_types returns: {label_columns, data_columns, column_types, year_hints}
+            calc_mgr_column_info = column_info.get('column_types', {})
+            if not calc_mgr_column_info:
+                # Fallback: build dict from data_columns if column_types is empty
+                calc_mgr_column_info = {
+                    col_letter: column_info['column_types'].get(col_letter, 'VALUE')
+                    for col_letter in column_info.get('data_columns', [])
+                }
+            
             try:
-                calc_mgr = get_calculation_manager(ws, column_info)
+                calc_mgr = get_calculation_manager(ws, calc_mgr_column_info)
             except Exception as e:
                 logger.warning("Error creating calculator for %s: %s", sheet_name, e)
                 continue
@@ -185,6 +196,10 @@ class DSFCalculationApplier:
                 get_column_letter(col_idx) 
                 for col_idx in range(2, ws.max_column + 1)
             ]
+            # Also populate column_types for these default columns
+            for col_letter in column_info['data_columns']:
+                if col_letter not in column_info['column_types']:
+                    column_info['column_types'][col_letter] = 'VALUE'
         
         return column_info
     
@@ -197,6 +212,14 @@ class DSFCalculationApplier:
 
         formulas_created = 0
         sheet_preserved = 0
+        
+        # Debug: Log what we detected
+        logger.info(
+            "Sheet %s: detected %d label cols, %d data cols",
+            ws.title,
+            len(column_info.get('label_columns', [])),
+            len(column_info.get('data_columns', []))
+        )
 
         # Find data range (skip header rows)
         start_row = 15  # Typical start for DSF data
@@ -205,12 +228,20 @@ class DSFCalculationApplier:
         # Process each data row
         year_hints = column_info.get('year_hints', {})
         strict_no_n1 = self.enforce_n1_from_previous_only and not self.has_previous_balance_n1
+        
+        total_rows_found = 0
         for row_idx in range(start_row, end_row + 1):
             # Get label for this row (check first label column)
             row_label = ""
             if column_info['label_columns']:
                 label_cell = ws[f"{column_info['label_columns'][0]}{row_idx}"]
                 row_label = str(label_cell.value or "").strip()
+            
+            # Check if this is a TOTAL row
+            is_total = calc_mgr.is_total_row(row_idx)
+            if is_total:
+                total_rows_found += 1
+                logger.debug("  Found TOTAL row %d: %s", row_idx, row_label or "(unlabeled)")
 
             # Process each data column
             for col_letter in column_info['data_columns']:
@@ -270,6 +301,9 @@ class DSFCalculationApplier:
                 ws.title, sheet_preserved,
             )
             self.preserved_formulas += sheet_preserved
+        
+        if total_rows_found:
+            logger.debug("  %s: %d TOTAL rows found, %d formulas created", ws.title, total_rows_found, formulas_created)
 
         return formulas_created
 
