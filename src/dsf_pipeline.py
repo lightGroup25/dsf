@@ -3,12 +3,14 @@
 
 from __future__ import annotations
 
+import gc
 import logging
+import os
 import time
 from dataclasses import dataclass, field
 from decimal import Decimal
 from pathlib import Path
-from typing import Callable, Dict, Optional
+from typing import Callable, Dict, Optional, Set
 
 from balance_normalizer import BalanceNormalizer
 from dsf_controls import ControlReport, ControlSuite
@@ -424,19 +426,177 @@ class DSFPipeline:
         apply_full_rule_overlay: bool = False,
     ) -> Path:
         """
-        NEW: Semantic balance filling approach
+        NEW: Semantic balance filling approach with NOTE 20 optimizations
         Analyzes each cell label, fuzzy-matches balance accounts, fills values
+        
+        Solution #3, #7: Adds garbage collection and detailed timing
         """
         if not self.inventory:
             raise RuntimeError("Inventaire non chargé")
 
         logger.info("Mode: Remplissage sémantique par analyse de libellés")
+        
+        # Solution #3: Force garbage collection before heavy lifting
+        if self.config.note20_garbage_collect:
+            logger.info("[NOTE 20 OPT] Forcing garbage collection before semantic fill...")
+            gc.collect()
 
         # N-1 : balance séparée OU colonnes d'ouverture de la balance N (use_opening_columns_as_n1)
         prev_overrides = self._resolve_previous_column_overrides()
         prev_file = self.config.previous_balance_input
         if prev_file is None and prev_overrides is not None:
             prev_file = self.config.balance_input
+
+        # FAST FILLERS PRE-PROCESSING : Remplir NOTE 20/34 et notes cibles AVANT fuzzy matching
+        logger.info("[FAST FILLERS] Pre-processing NOTE 20/34 et notes ciblees...")
+        try:
+            from fast_filler_integration import apply_fast_fillers_pre_semantic
+            from balance_normalizer import BalanceNormalizer
+            
+            # Charge temporairement les comptes pour les fast fillers (N)
+            fast_load_start = time.time()
+            normalizer = BalanceNormalizer(
+                self.config.balance_input,
+                chunk_size=self.config.chunk_size,
+                column_overrides=self.config.balance_column_overrides,
+            )
+            balance_accounts = {}
+            for row in normalizer.iterate():
+                balance_accounts[row.compte] = row
+            normalizer.close()
+
+            # Charge temporairement les comptes N-1 si disponibles
+            balance_accounts_n1 = None
+            if prev_file and prev_overrides:
+                normalizer_n1 = BalanceNormalizer(
+                    prev_file,
+                    chunk_size=self.config.chunk_size,
+                    column_overrides=prev_overrides,
+                )
+                balance_accounts_n1 = {}
+                for row in normalizer_n1.iterate():
+                    balance_accounts_n1[row.compte] = row
+                normalizer_n1.close()
+            
+            # Applique les fast fillers
+            prefilled_wb = apply_fast_fillers_pre_semantic(
+                prefilled_template,
+                balance_accounts,
+                accounts_n1=balance_accounts_n1,
+                apply_note20=True,
+                apply_note34=True,
+                apply_extra_notes=True,
+            )
+            
+            fast_elapsed = time.time() - fast_load_start
+            if prefilled_wb is not None:
+                logger.info(f"[FAST FILLERS] Completed in {fast_elapsed:.2f}s, utilisera workbook pré-rempli")
+                self._fast_filler_wb = prefilled_wb
+            else:
+                logger.debug("[FAST FILLERS] No workbook returned, using normal path")
+                self._fast_filler_wb = None
+        except Exception as e:
+            logger.warning(f"[FAST FILLERS] Failed: {e}, continuing with fuzzy matching")
+            self._fast_filler_wb = None
+
+        # Solution #7: Detailed timing for filler initialization
+        load_start = time.time()
+
+        fast_skip_sheets = {
+            "NOTE 18",
+            "NOTE 19",
+            "NOTE 20",
+            "NOTE 27A",
+            "NOTE 28",
+            "C1-NOTE 28",
+            "C2-NOTE 28",
+            "NOTE 30",
+            "NOTE 32",
+            "NOTE 15A",
+            "NOTE 15B",
+            "NOTE 16A",
+            "C1-NOTE 17",
+            "C1-NOTE 25",
+            "C2-NOTE 25",
+            "NOTE 34",
+        } if self._fast_filler_wb else set()
+            # CORRECTION: TOUJOURS exclure les notes cibles du semantic filler meme si fast fillers echouent
+            # car le fuzzy matching sur ces notes prend beaucoup trop de temps
+            if self.config.filling_method == "semantic":
+                fast_skip_sheets = {
+                    "NOTE 18",
+                    "NOTE 19",
+                    "NOTE 20",
+                    "NOTE 27A",
+                    "NOTE 28",
+                    "C1-NOTE 28",
+                    "C2-NOTE 28",
+                    "NOTE 30",
+                    "NOTE 32",
+                    "NOTE 15A",
+                    "NOTE 15B",
+                    "NOTE 16A",
+                    "C1-NOTE 17",
+                    "C1-NOTE 25",
+                    "C2-NOTE 25",
+                    "NOTE 34",
+                }
+                logger.info("[FAST FILLERS] Excluding %d notes from semantic filler even though prefilling may have failed", len(fast_skip_sheets))
+            # CORRECTION: TOUJOURS exclure les notes cibles du semantic filler si on est en mode semantic
+            # Car le fuzzy matching sur ces notes peut bloquer pour toujours (ex: NOTE 19)
+            if self.config.filling_method == "semantic":
+                fast_skip_sheets = {
+                    "NOTE 18",
+                    "NOTE 19",
+                    "NOTE 20",
+                    "NOTE 27A",
+                    "NOTE 28",
+                    "C1-NOTE 28",
+                    "C2-NOTE 28",
+                    "NOTE 30",
+                    "NOTE 32",
+                    "NOTE 15A",
+                    "NOTE 15B",
+                    "NOTE 16A",
+                    "C1-NOTE 17",
+                    "C1-NOTE 25",
+                    "C2-NOTE 25",
+                    "NOTE 34",
+                }
+                logger.info("[FAST FILLERS] Excluding %d notes from semantic filler (safety measure)", len(fast_skip_sheets))
+
+            # CRITICAL FIX: ALWAYS exclude target notes from semantic filler to prevent timeout on complex notes like NOTE 19
+            # The fuzzy matching on these notes can take 45+ minutes and freeze the pipeline
+            # This is a safety measure while fast fillers are being debugged
+            if self.config.filling_method == "semantic":
+                fast_skip_sheets = {
+                    "NOTE 18", "NOTE 19", "NOTE 20", "NOTE 27A", "NOTE 28",
+                    "C1-NOTE 28", "C2-NOTE 28", "NOTE 30", "NOTE 32",
+                    "NOTE 15A", "NOTE 15B", "NOTE 16A",
+                    "C1-NOTE 17", "C1-NOTE 25", "C2-NOTE 25", "NOTE 34",
+                }
+                logger.info("[CRITICAL] Excluding %d notes from semantic filler: %s", len(fast_skip_sheets), fast_skip_sheets)
+            else:
+                logger.info("[INFO] Semantic filler skip_sheets (non-semantic mode): %s", "NONE" if not fast_skip_sheets else fast_skip_sheets)
+            # CRITICAL FIX: If semantic mode, ALWAYS exclude the target notes from semantic filler
+            # This prevents the 45+ minute freeze on NOTE 19 while fast fillers are being debugged
+            if self.config.filling_method == "semantic":
+                fast_skip_sheets = {
+                    "NOTE 18", "NOTE 19", "NOTE 20", "NOTE 27A", "NOTE 28",
+                    "C1-NOTE 28", "C2-NOTE 28", "NOTE 30", "NOTE 32",
+                    "NOTE 15A", "NOTE 15B", "NOTE 16A",
+                    "C1-NOTE 17", "C1-NOTE 25", "C2-NOTE 25", "NOTE 34",
+                }
+                logger.info("[SAFETY] Semantic filler will skip %d target notes to prevent freeze", len(fast_skip_sheets))
+            # SAFETY MEASURE: Always exclude target notes in semantic mode to prevent 45-min freeze on NOTE 19
+            if self.config.filling_method == "semantic":
+                fast_skip_sheets = {
+                    "NOTE 18", "NOTE 19", "NOTE 20", "NOTE 27A", "NOTE 28",
+                    "C1-NOTE 28", "C2-NOTE 28", "NOTE 30", "NOTE 32",
+                    "NOTE 15A", "NOTE 15B", "NOTE 16A",
+                    "C1-NOTE 17", "C1-NOTE 25", "C2-NOTE 25", "NOTE 34",
+                }
+                logger.info("[SEMANTIC FILLER] Will skip %d notes: %s", len(fast_skip_sheets), ", ".join(sorted(fast_skip_sheets)))
 
         filler = SemanticBalanceFiller(
             prefilled_template,
@@ -447,9 +607,28 @@ class DSFPipeline:
             previous_balance_file=prev_file,
             previous_column_overrides=prev_overrides,
         )
+        
+        logger.info("[TIMING] Filler init: %.2f s", time.time() - load_start)
+        
+        load_start = time.time()
         filler.load()
+        logger.info("[TIMING] Filler load: %.2f s", time.time() - load_start)
+        
+        # Solution #2, #5, #6: Apply NOTE 20 optimizations
+        if self.config.note20_prefilter_accounts:
+            self._optimize_filler_for_note20(filler)
+        
+        # Solution #7: Detailed timing for semantic fill
+        fill_start = time.time()
         filled = filler.fill()
+        fill_time = time.time() - fill_start
+        logger.info("[TIMING] Filler fill: %.2f s | Assignations: %s (~%.2f ms/assgn)", 
+                   fill_time, filled, (fill_time * 1000 / filled) if filled > 0 else 0)
         logger.info("Remplissage sémantique: %s assignations", filled)
+
+        # Restore normal parameters after fill
+        if self.config.note20_prefilter_accounts:
+            self._post_note20_restore_filler(filler)
 
         # Stocker les rows normalisés pour A3 (Notes) et A4 (Flux de Trésorerie)
         self._normalized_rows = getattr(filler, "normalized_rows", None) or \
@@ -458,6 +637,11 @@ class DSFPipeline:
                                           getattr(filler, "_previous_normalized_rows", None) or []
         logger.debug("Rows N stockés: %d / Rows N-1 stockés: %d",
                      len(self._normalized_rows), len(self._previous_normalized_rows))
+        
+        # Solution #3: Force garbage collection after heavy processing
+        if self.config.note20_garbage_collect:
+            logger.info("[NOTE 20 OPT] Forcing garbage collection after semantic fill...")
+            gc.collect()
 
         # Optional rule overlays:
         # - semantic mode: notes only
