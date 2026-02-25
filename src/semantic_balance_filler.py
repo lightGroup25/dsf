@@ -977,11 +977,18 @@ class SemanticBalanceFiller:
             else:
                 row_label_default = row_label
 
-            for col_num in range(1, metadata.max_col + 1):
-                cell_coord = f"{get_column_letter(col_num)}{row_num}"
-                
-                if self._is_merged_child_cached(sheet_name, cell_coord):
-                    continue
+    def _infer_required_column_type(self, col_label: Optional[str]) -> Optional[str]:
+        """Infer expected inventory column_type from column label (strict)."""
+        if not col_label:
+            return None
+        label = col_label.lower()
+        if "n-1" in label or "n - 1" in label or "n- 1" in label or label == "exercice_n1":
+            return "exercice_n1"
+        if any(k in label for k in ("precedent", "precedant", "annee prec", "cloture prec")):
+            return "exercice_n1"
+        if ("exercice" in label or "exerc" in label) and "n-1" not in label and "n - 1" not in label and "precedent" not in label:
+            return "exercice_n"
+        return None
 
                 if formula_detector and formula_detector.has_formula(get_column_letter(col_num)):
                     continue
@@ -1106,6 +1113,140 @@ class SemanticBalanceFiller:
                 self._need_cache[cache_key] = assignment
             return assignment
 
+        a_text = col_a.strip() if isinstance(col_a, str) else ""
+        if a_text and not re.fullmatch(r"[A-Z0-9]{1,4}", a_text):
+            return a_text
+
+        if b_text:
+            return b_text
+        if a_text:
+            return a_text
+        return None
+
+    def _extract_col_label(self, ws, col_num: int) -> Optional[str]:
+        """Build a stable column label from header rows (lignes 1-20, cellules fusionnées prises en compte)."""
+        parts: List[str] = []
+        seen: Set[str] = set()
+
+        for row in range(1, min(21, (ws.max_row or 21) + 1)):
+            cell = ws.cell(row=row, column=col_num)
+            # Si la cellule fait partie d'une fusion, prendre la valeur de la cellule maître
+            val = cell.value
+            if val is None and ws.merged_cells:
+                coord = f"{get_column_letter(col_num)}{row}"
+                for merged in ws.merged_cells.ranges:
+                    if coord in merged:
+                        val = ws[merged.start_cell.coordinate].value
+                        break
+            if not isinstance(val, str):
+                continue
+            val = " ".join(val.strip().split())
+            if not val:
+                continue
+            val_norm = self._normalize_text(val)
+            if any(
+                noise in val_norm
+                for noise in ("designation entite", "numero d identification", "duree", "au 31 decembre")
+            ):
+                continue
+            if len(val_norm) > 120:
+                continue
+            if val not in seen:
+                seen.add(val)
+                parts.append(val)
+
+        if not parts:
+            return None
+
+        priority = [p for p in parts if any(k in self._normalize_text(p) for k in (
+            "exercice", "montant", "solde", "net", "brut", "debit", "credit", "ouverture", "cloture",
+            "n-1", "n 1", "precedent", "n-2", "variation"
+        ))]
+        if priority:
+            return " | ".join(priority[:2])
+        return " | ".join(parts[:2])
+
+    def _extract_col_label_cached(self, ws, col_num: int) -> Optional[str]:
+        key = (ws.title, col_num)
+        if key in self._col_label_cache:
+            return self._col_label_cache[key]
+        label = self._extract_col_label(ws, col_num)
+        self._col_label_cache[key] = label
+        return label
+
+    def _is_fillable_cell(self, cell) -> bool:
+        """Check if cell is fillable (empty, no formula, structural)"""
+        if cell.value is not None:
+            return False
+        if cell.data_type == "f":  # Formula
+            return False
+        # Ignore merged cells for now (read-only in openpyxl)
+        if cell.data_type == "e":  # Empty merged cell
+            return False
+        return True
+
+    def _satisfy_cell_need(self, need: CellNeed, field=None) -> Optional[CellAssignment]:
+        """
+        Strict cell-by-cell logic:
+        - infer expected data source from column semantics (N/N-1, opening/closing/movement)
+        - match account labels mainly on row semantics
+        - enforce confidence and ambiguity checks
+        """
+        if not need.row_label:
+            return None
+
+        row_label_lower = self._normalize_text(need.row_label)
+        is_total = (
+            "total" in row_label_lower
+            or "somme" in row_label_lower
+            or self._looks_like_section_heading(need.row_label)
+        )
+        col_type, year_hint, value_source = self._derive_cell_contract(need, field)
+        effective_source = value_source
+        if year_hint == "n1" and not self.previous_balance_accounts:
+            # Strict policy: do not populate N-1 cells without an explicit N-1 balance dataset.
+            return None
+        expected_classes = self._expected_classes_for_sheet(need.sheet, need.cell)
+        preferred_prefixes = self._preferred_prefixes_for_label(need.row_label)
+        sheet_group = self._sheet_group(need.sheet)
+
+        # Clé de cache pour éviter de refaire le même matching sur des cellules
+        # partageant le même contexte (feuille, libellés, année/source).
+        cache_key = (
+            sheet_group,
+            self._normalize_text(need.row_label or ""),
+            (need.col_label or "").lower(),
+            (col_type or "") + "|" + (year_hint or ""),
+            value_source or "",
+        )
+
+        # Force NOTE 3C via deterministic amortization rules before fuzzy/business matching.
+        forced_note3c = self._compute_note3c_amortization_value(need, col_type, year_hint)
+        if forced_note3c is not None:
+            derived_match = MatchedAccount(
+                compte="__DERIVED__:NOTE3C_AMORTIZATION_PREFIX_SUM",
+                label="note3c_amortization_prefix_sum",
+                amount=forced_note3c,
+                side=col_type or "debit",
+                similarity_score=0.90,
+            )
+            assignment = CellAssignment(
+                sheet=need.sheet,
+                cell=need.cell,
+                row_label=need.row_label,
+                col_label=need.col_label,
+                is_total=True,
+                matched_accounts=[derived_match],
+                total_amount=forced_note3c,
+                source_accounts=[],
+                confidence=0.90,
+                notes=f"source=final; year={year_hint or 'n'}; derived=note3c_amortization_prefix_sum",
+            )
+            self._need_cache[cache_key] = assignment
+            return assignment
+
+        # Force NOTE 3A with deterministic sub-row mapping to avoid duplicated fills
+        # across adjacent sections (terrains/batiments, etc.).
         forced_note3a = self._compute_note3a_targeted_value(need, col_type, year_hint, value_source)
         if forced_note3a is not None:
             assignment = self._create_derived_assignment(need, forced_note3a, col_type, year_hint, "note3a_targeted")
@@ -2570,8 +2711,7 @@ class SemanticBalanceFiller:
         if year_hint == "n1":
             if self.previous_balance_accounts:
                 return self.previous_balance_accounts, self.previous_account_time_slices, True
-            if self.allow_n1_fallback_without_prev:
-                return self.balance_accounts, self.account_time_slices, False
+            # Strict behavior: N-1 must come only from the N-1 balance dataset.
             return {}, {}, True
         return self.balance_accounts, self.account_time_slices, False
 
@@ -2679,13 +2819,28 @@ class SemanticBalanceFiller:
                 return dec
         return Decimal("0")
 
-    def _extract_col_label_cached(self, ws, col_num: int) -> Optional[str]:
-        key = (ws.title, col_num)
-        if key in self._col_label_cache:
-            return self._col_label_cache[key]
-        label = self._extract_col_label(ws, col_num)
-        self._col_label_cache[key] = label
-        return label
+    def _infer_year_hint(self, col_label: Optional[str]) -> Optional[str]:
+        if not col_label:
+            return None
+        label = self._normalize_text(col_label)
+        compact = label.replace(" ", "")
+        col_lower = col_label.lower()
+        # N-1 explicite
+        if "n-1" in col_lower or "n - 1" in col_lower or "n1" in compact or "n1" in label:
+            return "n1"
+        if any(k in label for k in ("precedent", "precedant", "annee prec", "exercice prec", "cloture prec")):
+            return "n1"
+        if "n-2" in col_lower or "n - 2" in col_lower or "n2" in compact:
+            return "n2"
+        # Colonnes N : exercice courant, 31/12/N, net N, montant N
+        if "exercice" in label or "n " in label or label.endswith(" n"):
+            return "n"
+        if "31/12" in col_label or "31 12" in compact:
+            if "n-1" not in col_lower and "precedent" not in label:
+                return "n"
+        if ("net" in label or "montant" in label or "solde" in label) and "n-1" not in col_lower and "precedent" not in label:
+            return "n"
+        return None
 
     def _is_zero_placeholder_match(self, matches: List[MatchedAccount]) -> bool:
         return bool(matches) and all(m.compte.startswith("__ZERO__") for m in matches)
@@ -3618,7 +3773,11 @@ class SemanticBalanceFiller:
             return False
 
     def _apply_column_formulas(self) -> None:
-        strict_no_n1 = not bool(self.previous_balance_accounts) and not self.allow_n1_fallback_without_prev
+        """
+        Apply formulas to columns that have formula definitions in headers.
+        This is called after filling values, to insert Excel formulas in computed columns.
+        """
+        strict_no_n1 = not bool(self.previous_balance_accounts)
         for sheet_name, detector in self.formula_detectors.items():
             ws = self.wb[sheet_name]
             formula_columns = detector.get_formula_columns()

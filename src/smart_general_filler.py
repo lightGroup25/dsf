@@ -227,9 +227,19 @@ class SmartGeneralFiller:
                 break
 
         if r3_sheet:
-            # P3-A3 : Le client ne souhaite plus voir les actionnaires dans la fiche R3
-            logger.info("Fiche R3 détectée : saut du remplissage automatique des actionnaires (demande utilisateur)")
-            pass # On ne remplit plus R3 ici
+            logger.info(f"Filling R3 actionnaires table: {len(info.actionnaires)} actionnaires")
+            # TABLEAU 3: ACTIONNAIRES (données à partir ligne 44 d'après le mapping/template estimé)
+            actionnaires_start_row = 44
+            for idx, actionnaire in enumerate(info.actionnaires):
+                if idx >= 10:  # Limite raisonnable
+                    break
+                row_num = actionnaires_start_row + idx
+                self._write_cell_safe(r3_sheet, row_num, 1, actionnaire.nom)  # A
+                self._write_cell_safe(r3_sheet, row_num, 2, actionnaire.nationalite)  # B
+                self._write_cell_safe(r3_sheet, row_num, 4, actionnaire.adresse or "")  # D
+                self._write_cell_safe(r3_sheet, row_num, 6, actionnaire.nombre or 0)  # F
+                self._write_cell_safe(r3_sheet, row_num, 8, actionnaire.montant_total or 0)  # H
+                filled += 5
         
         # Aussi remplir Note 13 si elle existe
         n13_sheet = None
@@ -248,7 +258,7 @@ class SmartGeneralFiller:
                 row_num = n13_start_row + idx
                 self._write_cell_safe(n13_sheet, row_num, 1, actionnaire.nom)
                 self._write_cell_safe(n13_sheet, row_num, 2, actionnaire.nationalite)
-                self._write_cell_safe(n13_sheet, row_num, 4, "") # Pas d'adresse dans Actionnaire
+                self._write_cell_safe(n13_sheet, row_num, 4, actionnaire.adresse or "")
                 self._write_cell_safe(n13_sheet, row_num, 6, actionnaire.nombre or 0)
                 self._write_cell_safe(n13_sheet, row_num, 8, actionnaire.montant_total or 0)
                 filled += 5

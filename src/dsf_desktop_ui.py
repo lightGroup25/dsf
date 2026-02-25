@@ -1740,7 +1740,12 @@ class ExcelIntegratedWidget(QWidget):
             return
             
         try:
-            self.excel.Visible = True
+            # Essayer de rendre Excel visible (protégé car certains COM ne le permettent pas)
+            try:
+                self.excel.Visible = True
+            except Exception:
+                # Visible peut déjà être à True par défaut, ignorer l'erreur
+                pass
             
             # Chercher la fenêtre Excel
             def find_excel_window(hwnd, ctx):
@@ -1985,10 +1990,11 @@ class ExcelIntegratedWidget(QWidget):
                     # Réinitialiser le compteur d'erreurs
                     self.rpc_error_count = 0
                     self.excel = Dispatch("Excel.Application")
-                    # Ne pas définir DisplayAlerts ici car cela peut causer des erreurs
-                    # self.excel.DisplayAlerts = False
+                    # Vérifier que l'objet est valide
+                    _ = self.excel.Name
                     print("Nouvelle instance Excel créée avec succès")
                 except Exception as e:
+                    self.excel = None
                     QMessageBox.critical(self, "Erreur GULFCAM", f"Impossible de démarrer Excel :\n{str(e)}")
                     return False
                 
@@ -2006,7 +2012,11 @@ class ExcelIntegratedWidget(QWidget):
                     self.workbook = None
                     
             # Ouvrir le nouveau fichier - GARANTIE QUE C'EST LE BON FICHIER
-            self.excel.Visible = True
+            try:
+                self.excel.Visible = True
+            except Exception:
+                # Visible est souvent défini par défaut, ignorer les erreurs
+                pass
             
             # Si le classeur est déjà ouvert avec le bon fichier, on le garde
             if self.workbook is None:
@@ -2414,8 +2424,9 @@ class MainWorkView(QWidget):
         
         # Barre de navigation
         nav_bar = QFrame()
+        nav_bar.setObjectName("mainNavBar")
         nav_bar.setStyleSheet(f"""
-            QFrame {{
+            QFrame#mainNavBar {{
                 background-color: {self.colors['card-bg']};
                 border-bottom: 2px solid {self.colors['primary']}20;
                 padding: 8px 24px;
@@ -2426,15 +2437,16 @@ class MainWorkView(QWidget):
         
         # Logo GULFCAM
         logo_container = QFrame()
+        logo_container.setStyleSheet("QFrame { background: transparent; border: none; }")
         logo_layout = QHBoxLayout(logo_container)
         logo_layout.setSpacing(8)
 
         logo_image = QLabel()
-        logo_pixmap = load_logo_pixmap(80, 60)
+        logo_pixmap = load_logo_pixmap(104, 74)
         if not logo_pixmap.isNull():
             logo_image.setPixmap(logo_pixmap)
             logo_image.setAlignment(Qt.AlignCenter)
-            logo_image.setFixedSize(84, 64)
+            logo_image.setFixedSize(logo_pixmap.size())
         else:
             logo_image.setText("G")
             logo_image.setStyleSheet(f"""
@@ -2712,8 +2724,10 @@ class MainWorkView(QWidget):
 
         # Section Rapports et historique DSF - AGRANDIE
         reports_card = ModernCard(colors=self.colors)
-        reports_card.setMinimumHeight(400)  # Augmentation de la hauteur minimale
+        reports_card.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
         reports_layout = QVBoxLayout(reports_card)
+        reports_layout.setContentsMargins(20, 20, 20, 20)
+        reports_layout.setSpacing(12)
 
         reports_title = QLabel("4. Rapports et historique")
         reports_title.setStyleSheet(f"""
@@ -2725,16 +2739,25 @@ class MainWorkView(QWidget):
         
         # Zone des rapports récents avec plus d'espace
         reports_frame = QFrame()
-        reports_frame.setMinimumHeight(150)
+        reports_frame.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
+        reports_frame.setStyleSheet(f"""
+            QFrame {{
+                background-color: {self.colors['light']};
+                border: 1px solid {self.colors['light-gray']};
+                border-radius: 10px;
+            }}
+        """)
         reports_frame_layout = QVBoxLayout(reports_frame)
-        reports_frame_layout.setContentsMargins(0, 0, 0, 0)
+        reports_frame_layout.setContentsMargins(14, 12, 14, 12)
         
         self.report_status_label = QLabel("Aucun rapport généré pour le moment.")
         self.report_status_label.setStyleSheet(f"""
-            color: {self.colors['gray']};
-            font-size: 13px;
-            padding: 20px;
-            background-color: {self.colors['light']};
+            color: {self.colors['dark']};
+            font-size: 14px;
+            font-weight: 500;
+            padding: 18px;
+            background-color: {self.colors['card-bg']};
+            border: 1px solid {self.colors['light-gray']};
             border-radius: 8px;
         """)
         reports_frame_layout.addWidget(self.report_status_label)
@@ -2744,34 +2767,41 @@ class MainWorkView(QWidget):
 
         # Historique des DSF générés - PLUS GRAND
         history_header = QHBoxLayout()
+        history_header.setContentsMargins(0, 6, 0, 0)
+        history_header.setSpacing(12)
         history_label = QLabel("Historique des DSF produits (30 derniers)")
         history_label.setStyleSheet(f"""
-            font-size: 16px;
-            font-weight: 600;
+            font-size: 20px;
+            font-weight: 700;
             color: {self.colors['primary']};
-            margin-top: 16px;
-            margin-bottom: 8px;
         """)
         history_refresh_btn = QPushButton("Actualiser")
         history_refresh_btn.setCursor(Qt.PointingHandCursor)
+        history_refresh_btn.setMinimumHeight(36)
+        history_refresh_btn.setMinimumWidth(118)
+        history_refresh_btn.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         history_refresh_btn.setStyleSheet(f"""
             QPushButton {{ 
-                font-size: 12px; 
-                padding: 4px 12px; 
-                color: {self.colors['primary']}; 
-                background: transparent; 
+                font-size: 13px; 
+                padding: 6px 16px; 
+                color: {self.colors['card-bg']}; 
+                background-color: {self.colors['primary']}; 
                 border: 1px solid {self.colors['primary']}; 
-                border-radius: 4px; 
-                font-weight: 500;
+                border-radius: 8px; 
+                font-weight: 700;
             }}
             QPushButton:hover {{ 
-                background-color: {self.colors['primary']}15; 
+                background-color: {self.colors['primary_light']}; 
+                border-color: {self.colors['primary_light']};
+            }}
+            QPushButton:pressed {{
+                background-color: {self.colors['primary']}CC;
             }}
         """)
         history_refresh_btn.clicked.connect(self._refresh_dsf_history)
-        history_header.addWidget(history_label)
-        history_header.addStretch()
-        history_header.addWidget(history_refresh_btn)
+        history_header.addWidget(history_label, 0, Qt.AlignLeft | Qt.AlignVCenter)
+        history_header.addStretch(1)
+        history_header.addWidget(history_refresh_btn, 0, Qt.AlignRight | Qt.AlignVCenter)
         reports_layout.addLayout(history_header)
         
         # Table d'historique agrandie
@@ -2779,36 +2809,64 @@ class MainWorkView(QWidget):
         self.dsf_history_list.setHorizontalHeaderLabels(["Fichier", "Date", ""])
         self.dsf_history_list.horizontalHeader().setStretchLastSection(False)
         self.dsf_history_list.horizontalHeader().setSectionResizeMode(0, QHeaderView.Stretch)
-        self.dsf_history_list.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeToContents)
-        self.dsf_history_list.horizontalHeader().setSectionResizeMode(2, QHeaderView.Fixed)
-        self.dsf_history_list.setColumnWidth(2, 100)
+        self.dsf_history_list.horizontalHeader().setSectionResizeMode(1, QHeaderView.Fixed)
+        self.dsf_history_list.horizontalHeader().setSectionResizeMode(2, QHeaderView.ResizeToContents)
+        self.dsf_history_list.setColumnWidth(1, 190)
+        self.dsf_history_list.setColumnWidth(2, 160)
+        self.dsf_history_list.setAlternatingRowColors(True)
+        self.dsf_history_list.setShowGrid(False)
         self.dsf_history_list.verticalHeader().setVisible(False)
-        self.dsf_history_list.setMinimumHeight(250)  # Hauteur minimale augmentée
-        self.dsf_history_list.setMaximumHeight(400)  # Hauteur maximale augmentée
+        self.dsf_history_list.verticalHeader().setDefaultSectionSize(44)
+        self.dsf_history_list.horizontalHeader().setMinimumHeight(40)
+        self.dsf_history_list.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        self.dsf_history_list.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        self.dsf_history_list.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.dsf_history_list.setStyleSheet(f"""
             QTableWidget {{
                 background-color: {self.colors['card-bg']};
+                color: {self.colors['dark']};
                 border: 1px solid {self.colors['light-gray']};
                 border-radius: 8px;
-                gridline-color: {self.colors['light-gray']};
+                font-size: 13px;
+                selection-background-color: {self.colors['primary']}22;
+                selection-color: {self.colors['dark']};
             }}
             QTableWidget::item {{
-                padding: 8px;
+                padding: 8px 10px;
+                border-bottom: 1px solid {self.colors['light-gray']};
+            }}
+            QTableWidget::item:alternate {{
+                background-color: {self.colors['light']}B0;
             }}
             QHeaderView::section {{
-                background-color: {self.colors['light']};
+                background-color: {self.colors['primary']}14;
                 color: {self.colors['primary']};
                 border: none;
                 border-bottom: 2px solid {self.colors['primary']};
-                padding: 8px;
-                font-weight: 600;
+                padding: 10px;
+                font-weight: 700;
+                font-size: 14px;
+            }}
+            QTableWidget QScrollBar:vertical {{
+                background: {self.colors['light']};
+                width: 11px;
+                border-radius: 5px;
+            }}
+            QTableWidget QScrollBar::handle:vertical {{
+                background: {self.colors['primary']}80;
+                min-height: 28px;
+                border-radius: 5px;
+            }}
+            QTableWidget QScrollBar::add-line:vertical,
+            QTableWidget QScrollBar::sub-line:vertical {{
+                height: 0px;
             }}
         """)
-        reports_layout.addWidget(self.dsf_history_list)
+        reports_layout.addWidget(self.dsf_history_list, 1)
         self._refresh_dsf_history()
 
         self.section_widgets["reports"] = reports_card
-        content_layout.addWidget(reports_card)
+        content_layout.addWidget(reports_card, 1)
         
         # Footer
         footer = QLabel(f"{GULFCAM_LOGO_TEXT} • {GULFCAM_TAGLINE} • DSF Mapper v1.0")
@@ -2854,37 +2912,91 @@ class MainWorkView(QWidget):
                     pass
 
         entries.sort(key=lambda x: x[1], reverse=True)
+        max_action_col_width = 0
         for path, mtime in entries[:30]:
             row = self.dsf_history_list.rowCount()
             self.dsf_history_list.insertRow(row)
-            self.dsf_history_list.setItem(row, 0, QTableWidgetItem(path.name))
-            self.dsf_history_list.setItem(row, 1, QTableWidgetItem(time.strftime("%d/%m/%Y %H:%M", time.localtime(mtime))))
+            file_item = QTableWidgetItem(path.name)
+            file_item.setTextAlignment(Qt.AlignLeft | Qt.AlignVCenter)
+            self.dsf_history_list.setItem(row, 0, file_item)
+
+            date_item = QTableWidgetItem(time.strftime("%d/%m/%Y %H:%M", time.localtime(mtime)))
+            date_item.setTextAlignment(Qt.AlignCenter)
+            self.dsf_history_list.setItem(row, 1, date_item)
             
             # Bouton d'ouverture stylisé
             btn_widget = QWidget()
             btn_layout = QHBoxLayout(btn_widget)
-            btn_layout.setContentsMargins(4, 2, 4, 2)
+            btn_layout.setContentsMargins(8, 4, 8, 4)
+            btn_layout.setSpacing(0)
             btn_layout.setAlignment(Qt.AlignCenter)
             
-            btn = QPushButton("Ouvrir")
+            btn = QPushButton("Ouvrir DSF")
             btn.setCursor(Qt.PointingHandCursor)
+            btn.setMinimumHeight(22)
+            btn.setMinimumWidth(65)
+            btn.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed)
             btn.setStyleSheet(f"""
                 QPushButton {{ 
                     background-color: {self.colors['primary']}; 
                     color: white;
-                    border: none; 
-                    border-radius: 4px; 
-                    padding: 4px 12px; 
-                    font-weight: 600;
-                    font-size: 11px;
+                    border: 1px solid {self.colors['primary']}; 
+                    border-radius: 8px; 
+                    padding: 6px 14px; 
+                    font-weight: 700;
+                    font-size: 8px;
                 }}
                 QPushButton:hover {{ 
                     background-color: {self.colors['primary_light']}; 
+                    border-color: {self.colors['primary_light']};
+                }}
+                QPushButton:pressed {{
+                    background-color: {self.colors['primary']}CC;
                 }}
             """)
             btn.clicked.connect(lambda checked, fp=path: self._open_dsf_from_history(fp))
-            btn_layout.addWidget(btn)
+            btn_layout.addWidget(btn, 0, Qt.AlignCenter)
             self.dsf_history_list.setCellWidget(row, 2, btn_widget)
+
+            row_height = max(
+                self.dsf_history_list.verticalHeader().defaultSectionSize(),
+                btn.sizeHint().height() + btn_layout.contentsMargins().top() + btn_layout.contentsMargins().bottom() + 2,
+            )
+            self.dsf_history_list.setRowHeight(row, row_height)
+
+            action_col_width = (
+                btn.sizeHint().width()
+                + btn_layout.contentsMargins().left()
+                + btn_layout.contentsMargins().right()
+                + 8
+            )
+            max_action_col_width = max(max_action_col_width, action_col_width)
+
+        if max_action_col_width > 0:
+            self.dsf_history_list.setColumnWidth(2, max(152, max_action_col_width))
+            self.dsf_history_list.resizeColumnToContents(2)
+            self.dsf_history_list.setColumnWidth(
+                2, max(self.dsf_history_list.columnWidth(2), max(152, max_action_col_width))
+            )
+
+        self._resize_history_table_to_content()
+
+    def _resize_history_table_to_content(self) -> None:
+        """Adapte la hauteur du tableau d'historique au nombre de lignes."""
+        if not hasattr(self, "dsf_history_list"):
+            return
+        row_count = self.dsf_history_list.rowCount()
+        header_h = self.dsf_history_list.horizontalHeader().height() or 40
+        row_h = self.dsf_history_list.verticalHeader().defaultSectionSize() or 44
+        frame = self.dsf_history_list.frameWidth() * 2
+        target_rows = max(4, row_count)
+        rows_height = sum(self.dsf_history_list.rowHeight(i) for i in range(row_count))
+        rows_height = max(rows_height, target_rows * row_h)
+        content_margins = self.dsf_history_list.contentsMargins()
+        margins_height = content_margins.top() + content_margins.bottom()
+        h_scroll_h = self.dsf_history_list.horizontalScrollBar().sizeHint().height()
+        total_height = header_h + rows_height + frame + margins_height + h_scroll_h + 6
+        self.dsf_history_list.setMinimumHeight(total_height)
 
     def _open_dsf_from_history(self, path: Path) -> None:
         """Ouvre un DSF depuis l'historique dans le widget Excel."""

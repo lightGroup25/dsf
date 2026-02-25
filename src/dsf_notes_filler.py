@@ -222,19 +222,7 @@ NOTE_ACCOUNT_MAPPING: Dict[str, List[Tuple[str, str, str]]] = {
     "NOTE 26": [ ("65", "Autres charges", "variation") ],
     "NOTE 27A": [ ("66", "Charges de personnel", "variation") ],
     "NOTE 27B": [ ("42", "Personnel", "net") ],
-    # Note 28 — Provisions et Dépréciations inscrites au bilan
-    # Structure colonnes : B=Initial(A), C=DotExpl(B), D=DotFin, E=DotHAO,
-    #                      F=RepExpl(C), G=RepFin, H=RepHAO, I=Clôture(D=A+B-C)
-    # Chaque entrée : (prefixe_stock, label_ligne, prefixe_dot_expl, prefixe_dot_fin,
-    #                  prefixe_dot_hao, prefixe_rep_expl, prefixe_rep_fin, prefixe_rep_hao)
-    "NOTE 28": [
-        ("14",  "Provisions reglementees",               "6815", "6875", "83",  "7815", "7875", "84"),
-        ("19",  "Provisions financieres pour risques",   "6597", "6974", "839", "7597", "7974", "849"),
-        ("29",  "Depreciations des immobilisations",     "6811", "6813", "831", "7811", "7813", "841"),
-        ("39",  "Depreciations des stocks",              "6591", "6593", "835", "7591", "7593", "845"),
-        ("49",  "Depreciations clients",                 "6591", "6593", "835", "7591", "7593", "845"),
-        ("59",  "Depreciations fournisseurs",            "6596", "6976", "838", "7596", "7976", "848"),
-    ],
+    "NOTE 28": [ ("68", "Amortissements", "variation") ],
     "NOTE 29": [ ("67", "Frais financiers", "variation") ],
     "NOTE 30": [ ("8", "Opérations HAO", "variation") ],
     "NOTE 31": [ ("47", "Comptes de regularisation", "net") ],
@@ -266,20 +254,10 @@ NOTE_ACCOUNT_MAPPING: Dict[str, List[Tuple[str, str, str]]] = {
         ("64",  "Impots et taxes",                "variation"),
     ],
     "C1-NOTE 28": [
-        ("14",  "Provisions reglementees",  "6815", "6875", "83",  "7815", "7875", "84"),
-        ("19",  "Provisions financieres",   "6597", "6974", "839", "7597", "7974", "849"),
-        ("29",  "Depreciations immos",      "6811", "6813", "831", "7811", "7813", "841"),
-        ("39",  "Depreciations stocks",     "6591", "6593", "835", "7591", "7593", "845"),
-        ("49",  "Depreciations creances",   "6591", "6593", "835", "7591", "7593", "845"),
-        ("59",  "Depreciations tresorerie", "6596", "6976", "838", "7596", "7976", "848"),
+        ("68",  "Amortissements",                 "variation"),
     ],
     "C2-NOTE 28": [
-        ("14",  "Provisions reglementees",  "6815", "6875", "83",  "7815", "7875", "84"),
-        ("19",  "Provisions financieres",   "6597", "6974", "839", "7597", "7974", "849"),
-        ("29",  "Depreciations immos",      "6811", "6813", "831", "7811", "7813", "841"),
-        ("39",  "Depreciations stocks",     "6591", "6593", "835", "7591", "7593", "845"),
-        ("49",  "Depreciations creances",   "6591", "6593", "835", "7591", "7593", "845"),
-        ("59",  "Depreciations tresorerie", "6596", "6976", "838", "7596", "7976", "848"),
+        ("68",  "Amortissements",                 "variation"),
     ],
     "C1-NOTE 27A": [
         ("66",  "Charges de personnel",           "variation"),
@@ -405,9 +383,6 @@ class DSFNotesFiller:
     # API publique
     # ------------------------------------------------------------------
 
-    # Set of note names that use the Note-28 matrix format
-    _NOTE28_NAMES: set = {"NOTE 28", "C1-NOTE 28", "C2-NOTE 28"}
-
     def fill_all_notes(self) -> int:
         """Remplit toutes les Notes disponibles dans le workbook. Retourne le nombre de lignes écrites."""
         total = 0
@@ -415,17 +390,10 @@ class DSFNotesFiller:
         for note_name, account_lines in NOTE_ACCOUNT_MAPPING.items():
             ws = self._find_sheet(note_name)
             if ws is None:
-                logger.debug("Feuille non trouvée pour '%s' (feuilles: %s)", note_name, self.wb.sheetnames)
                 continue
-
-            # Note 28 uses a special matrix layout (Initial/DotExpl/DotFin/DotHAO/RepExpl/RepFin/RepHAO/Final)
-            if note_name in self._NOTE28_NAMES:
-                written = self._fill_note28(ws, account_lines, note_name)
-            else:
-                col_map = self._detect_columns(ws)
-                lines = self._compute_note_lines(note_name, account_lines)
-                written = self._write_note_structured(ws, lines, col_map, note_name)
-
+            col_map = self._detect_columns(ws)
+            lines = self._compute_note_lines(note_name, account_lines)
+            written = self._write_note_structured(ws, lines, col_map, note_name)
             total += written
             if written > 0:
                 logger.info("Note %s : %d lignes écrites", note_name, written)
@@ -452,185 +420,6 @@ class DSFNotesFiller:
             note_name: self._compute_note_lines(note_name, account_lines)
             for note_name, account_lines in NOTE_ACCOUNT_MAPPING.items()
         }
-
-    # ------------------------------------------------------------------
-    # Remplissage spécialisé Note 28 (Provisions et Dépréciations)
-    # ------------------------------------------------------------------
-
-    def _fill_note28(self, ws, account_lines: list, note_name: str) -> int:
-        """
-        Remplit la Note 28 selon sa structure matricielle :
-        Col B=Initial(A), C=Dot.Expl(B), D=Dot.Fin, E=Dot.HAO,
-        F=Rep.Expl(C), G=Rep.Fin, H=Rep.HAO, I=Clôture(D=A+B-C).
-
-        account_lines contient des tuples de 8 éléments :
-        (prefixe_stock, label_ligne,
-         pref_dot_expl, pref_dot_fin, pref_dot_hao,
-         pref_rep_expl, pref_rep_fin, pref_rep_hao)
-        """
-        # Détection des colonnes Note-28 par header
-        col_map = self._detect_note28_columns(ws)
-        logger.debug("Note 28 col_map: %s", col_map)
-
-        written = 0
-        for entry in account_lines:
-            if len(entry) != 8:
-                # Ancienne ligne (3 éléments), on skip
-                logger.warning("Note 28: entrée ignorée (format incorrect): %s", entry)
-                continue
-            (
-                stock_prefix, label,
-                pref_dot_expl, pref_dot_fin, pref_dot_hao,
-                pref_rep_expl, pref_rep_fin, pref_rep_hao,
-            ) = entry
-
-            # Calcul des valeurs depuis la balance
-            stock_n  = self._sum_by_prefix(self._index_n,  stock_prefix)
-            stock_n1 = self._sum_by_prefix(self._index_n1, stock_prefix)
-
-            dot_expl = self._sum_by_prefix(self._index_n, pref_dot_expl)["final"]
-            dot_fin  = self._sum_by_prefix(self._index_n, pref_dot_fin) ["final"]
-            dot_hao  = self._sum_by_prefix(self._index_n, pref_dot_hao) ["final"]
-
-            rep_expl = self._sum_by_prefix(self._index_n, pref_rep_expl)["final"]
-            rep_fin  = self._sum_by_prefix(self._index_n, pref_rep_fin) ["final"]
-            rep_hao  = self._sum_by_prefix(self._index_n, pref_rep_hao) ["final"]
-
-            # Pour les comptes de provision (passif - classe 1-4) le solde créditeur est positif
-            # L'initial  = solde final N-1 (ou solde initial N si dispo)
-            initial   = stock_n1["final"]
-            cloture   = stock_n ["final"]
-
-            # Skip si tout est zéro
-            if all(v == 0 for v in [initial, dot_expl, dot_fin, dot_hao,
-                                    rep_expl, rep_fin, rep_hao, cloture]):
-                continue
-
-            row_idx = self._find_row_by_label(ws, label, min_row=13)
-            if row_idx is None:
-                logger.debug("Note 28: libellé introuvable '%s' dans %s", label, ws.title)
-                continue
-
-            col_written = 0
-            values_to_write = [
-                ("initial_n",  initial),
-                ("dot_expl_n", dot_expl),
-                ("dot_fin_n",  dot_fin),
-                ("dot_hao_n",  dot_hao),
-                ("rep_expl_n", rep_expl),
-                ("rep_fin_n",  rep_fin),
-                ("rep_hao_n",  rep_hao),
-                # La clôture (col I) est souvent une formule D=A+B-C, on ne la force pas
-                # mais on l'écrit si la cellule est vide et qu'il n'y a pas de formule.
-                ("cloture_n",  cloture),
-            ]
-            for role, val in values_to_write:
-                col_idx = col_map.get(role)
-                if col_idx is None:
-                    continue
-                cell = ws.cell(row=row_idx, column=col_idx)
-                if not _is_placeholder(cell.value):
-                    continue
-                # Ne pas écraser les formules
-                if isinstance(cell.value, str) and cell.value.startswith("="):
-                    continue
-                try:
-                    cell.value = float(val)
-                    col_written += 1
-                except Exception as exc:
-                    logger.warning("Note 28 écriture %s!%s%d : %s",
-                                   ws.title, cell.column_letter, row_idx, exc)
-            if col_written > 0:
-                written += 1
-
-        return written
-
-    def _detect_note28_columns(self, ws) -> Dict[str, Optional[int]]:
-        """
-        Détecte les colonnes spécifiques de la Note 28 :
-        B=Initial(A), C=DotExpl, D=DotFin, E=DotHAO,
-        F=RepExpl, G=RepFin, H=RepHAO, I=Clôture(D=A+B-C).
-        Utilise les lettres de colonne fixes si les headers confirment la structure,
-        sinon fallback sur les lettres standard B-I.
-        """
-        role_map: Dict[str, Optional[int]] = {
-            "initial_n":  None,
-            "dot_expl_n": None,
-            "dot_fin_n":  None,
-            "dot_hao_n":  None,
-            "rep_expl_n": None,
-            "rep_fin_n":  None,
-            "rep_hao_n":  None,
-            "cloture_n":  None,
-        }
-
-        # Phase 1 : scanner les 15 premières lignes pour trouver les headers
-        header_texts: Dict[int, str] = {}
-        for row_idx in range(1, min(16, ws.max_row + 1)):
-            for col_idx in range(1, min(ws.max_column + 1, 15)):
-                val = ws.cell(row=row_idx, column=col_idx).value
-                if isinstance(val, str) and val.strip():
-                    existing = header_texts.get(col_idx, "")
-                    header_texts[col_idx] = (existing + " " + val.strip()).strip()
-
-        # Phase 2 : assignation par mots-clés
-        dot_cols: List[int] = []
-        rep_cols: List[int] = []
-
-        for col_idx, raw_header in header_texts.items():
-            h = _normalize_label(raw_header)
-            if ("ouverture" in h or "initial" in h or "debut" in h) and role_map["initial_n"] is None:
-                role_map["initial_n"] = col_idx
-            elif ("cloture" in h or "fermeture" in h or "d a b c" in h or "d=a" in h) and role_map["cloture_n"] is None:
-                role_map["cloture_n"] = col_idx
-            elif "dotation" in h or "augmentation" in h:
-                dot_cols.append(col_idx)
-            elif "reprise" in h or "diminution" in h:
-                rep_cols.append(col_idx)
-
-        # Phase 3 : identifier les sous-colonnes Expl/Fin/HAO
-        def _assign_sub_cols(cols: List[int], role_prefix: str, role_map: dict, ws) -> None:
-            """Sous-classification des colonnes par exploitation/financiere/hao."""
-            if not cols:
-                return
-            annotated = []
-            for c in cols:
-                h = _normalize_label(header_texts.get(c, ""))
-                if any(k in h for k in ("exploitation", "d exploitat")):
-                    annotated.append(("expl", c))
-                elif any(k in h for k in ("financier", "financiere", "fin")):
-                    annotated.append(("fin", c))
-                elif any(k in h for k in ("hao", "hors activit", "hors activites")):
-                    annotated.append(("hao", c))
-                else:
-                    annotated.append(("unknown", c))  # fallback
-
-            for kind, cidx in annotated:
-                role_key = f"{role_prefix}_{kind}_n" if kind != "unknown" else f"{role_prefix}_expl_n"
-                if role_key in role_map and role_map[role_key] is None:
-                    role_map[role_key] = cidx
-
-        _assign_sub_cols(sorted(dot_cols), "dot", role_map, ws)
-        _assign_sub_cols(sorted(rep_cols), "rep", role_map, ws)
-
-        # Phase 4 : fallback sur colonnes fixes si la détection echoue
-        # Standard Note 28 SYSCOHADA: B=2, C=3, D=4, E=5, F=6, G=7, H=8, I=9
-        defaults = {
-            "initial_n":  2,   # col B
-            "dot_expl_n": 3,   # col C
-            "dot_fin_n":  4,   # col D
-            "dot_hao_n":  5,   # col E
-            "rep_expl_n": 6,   # col F
-            "rep_fin_n":  7,   # col G
-            "rep_hao_n":  8,   # col H
-            "cloture_n":  9,   # col I
-        }
-        for role, default_col in defaults.items():
-            if role_map[role] is None:
-                role_map[role] = default_col
-
-        logger.debug("Note 28 colonnes détectées pour '%s': %s", ws.title, role_map)
-        return role_map
 
     # ------------------------------------------------------------------
     # Calculs
@@ -691,9 +480,6 @@ class DSFNotesFiller:
         """
         Construit un index multidimensionnel {compte: {initial, debit, credit, final}} 
         depuis les NormalizedBalanceRow.
-        Supporte deux sources de données:
-        1. metadata.raw (si dispo, de balance_transformer)
-        2. debit_balance / credit_balance / solde_final (de BalanceNormalizer.iterate)
         """
         index: Dict[str, Dict[str, Decimal]] = {}
         for row in rows:
@@ -702,18 +488,13 @@ class DSFNotesFiller:
                 if not compte:
                     continue
                 
-                # Source 1 : métadonnées brutes (balance_transformer)
+                # Récupération des données brutes depuis les métadonnées
                 raw = getattr(row, "metadata", {}).get("raw", {})
                 
                 initial = Decimal(str(raw.get("solde_initial", 0) or 0))
                 debit   = Decimal(str(raw.get("debit", 0) or 0))
                 credit  = Decimal(str(raw.get("credit", 0) or 0))
                 final   = Decimal(str(getattr(row, "solde_final", 0) or 0))
-
-                # Source 2 : fallback sur les champs directs (BalanceNormalizer.iterate)
-                if debit == 0 and credit == 0:
-                    debit  = Decimal(str(getattr(row, "debit_balance",  0) or 0))
-                    credit = Decimal(str(getattr(row, "credit_balance", 0) or 0))
                 
                 if compte not in index:
                     index[compte] = {
@@ -737,7 +518,7 @@ class DSFNotesFiller:
     def _detect_columns(self, ws) -> Dict[str, Optional[int]]:
         """
         Détecte les colonnes de destination en lisant les headers de la feuille
-        (lignes 1-20). Retourne un dictionnaire {rôle: numéro_colonne}.
+        (lignes 1-12 max). Retourne un dictionnaire {rôle: numéro_colonne}.
         Rôles : "label", "brut_n", "amort_n", "net_n", "net_n1", "variation_n", "variation_n1"
         """
         key = ws.title
@@ -754,8 +535,8 @@ class DSFNotesFiller:
         }
 
         header_texts: Dict[int, str] = {}   # {col_num: texte normalisé cumulé}
-        for row_idx in range(1, min(21, ws.max_row + 1)):
-            for col_idx in range(1, min(ws.max_column + 1, 40)):
+        for row_idx in range(1, 13):
+            for col_idx in range(1, ws.max_column + 1):
                 val = ws.cell(row=row_idx, column=col_idx).value
                 if isinstance(val, str) and val.strip():
                     existing = header_texts.get(col_idx, "")
@@ -763,7 +544,7 @@ class DSFNotesFiller:
 
         for col_idx, header_raw in header_texts.items():
             h = _normalize_label(header_raw)
-            if role_map["label"] is None and any(k in h for k in ("libelle", "designation", "intitule", "nature", "compte")):
+            if role_map["label"] is None and any(k in h for k in ("libelle", "designation", "intitule", "nature")):
                 role_map["label"] = col_idx
             elif any(k in h for k in ("ouverture", "initial", "debut", "stock au 01")) and (
                 "n-1" in h or "n 1" in h or "precedent" in h or "precedant" in h
@@ -779,12 +560,12 @@ class DSFNotesFiller:
                 role_map["brut_n"] = col_idx
             elif any(k in h for k in ("amort", "depreciation", "provision")) and "n-1" not in h:
                 role_map["amort_n"] = col_idx
-            elif ("net" in h or "valeur nette" in h or "montant" in h or "solde" in h or "exercice n" in h or "cloture n" in h) and (
+            elif ("net" in h or "valeur nette" in h or "montant" in h or "solde" in h) and (
                 "n-1" in h or "n 1" in h or "precedent" in h or "precedant" in h
-                or "annee prec" in h or "cloture prec" in h or "exercice prec" in h or "exercice n 1" in h
+                or "annee prec" in h or "cloture prec" in h or "exercice prec" in h
             ):
                 role_map["net_n1"] = col_idx
-            elif ("net" in h or "valeur nette" in h or "montant" in h or "solde" in h or "exercice n" in h or "cloture n" in h) and "n-1" not in h and "precedent" not in h and "precedant" not in h:
+            elif ("net" in h or "valeur nette" in h or "montant" in h or "solde" in h) and "n-1" not in h and "precedent" not in h:
                 role_map["net_n"] = col_idx
             elif ("variation" in h or "ecart" in h) and (
                 "n-1" in h or "precedent" in h or "precedant" in h or "annee prec" in h
@@ -793,25 +574,9 @@ class DSFNotesFiller:
             elif "variation" in h or "ecart" in h:
                 role_map["variation_n"] = col_idx
 
-        # Fallback : si label présent mais pas net_n/net_n1, prendre les 2 premières colonnes numériques après le label
-        label_col = role_map.get("label") or 2
-        if not role_map.get("net_n") or not role_map.get("net_n1"):
-            numeric_cols: List[int] = []
-            for col_idx in range(label_col + 1, min(label_col + 7, ws.max_column + 1)):
-                for row_idx in range(1, min(ws.max_row + 1, 100)):
-                    v = ws.cell(row=row_idx, column=col_idx).value
-                    if v is not None and isinstance(v, (int, float)) and col_idx not in numeric_cols:
-                        numeric_cols.append(col_idx)
-                        break
-            if not role_map.get("net_n") and len(numeric_cols) >= 1:
-                role_map["net_n"] = numeric_cols[0]
-            if not role_map.get("net_n1") and len(numeric_cols) >= 2:
-                role_map["net_n1"] = numeric_cols[1]
-            elif not role_map.get("net_n1") and len(numeric_cols) == 1:
-                role_map["net_n1"] = numeric_cols[0]  # même colonne en secours
-
+        # Fallback : si label pas détecté, utiliser col A ou B
         if role_map["label"] is None:
-            role_map["label"] = 2
+            role_map["label"] = 2  # Colonne B par défaut
 
         self._col_header_cache[key] = role_map
         logger.debug("Colonnes détectées pour %s : %s", ws.title, role_map)
@@ -884,58 +649,36 @@ class DSFNotesFiller:
     # ------------------------------------------------------------------
 
     @staticmethod
-    def _find_row_by_label(ws, label: str, min_row: int = 1) -> Optional[int]:
-        """Cherche la ligne dont une cellule (colonnes 1-5) contient le libellé (normalisé, ou mots clés).
-        
-        min_row : ignorer les lignes avant ce numéro (utile pour passer les entêtes de section).
-        """
+    def _find_row_by_label(ws, label: str) -> Optional[int]:
+        """Cherche la ligne dont la cellule de la colonne A ou B contient le libellé (normalisé)."""
         label_norm = _normalize_label(label)
-        # Mots significatifs du libellé (longueur >= 2, pour matcher "et" / "au" etc. avec prudence)
-        label_words = [w for w in label_norm.split() if len(w) >= 2]
-        for row in ws.iter_rows(min_row=min_row, max_row=ws.max_row):
-            for cell in row[:5]:   # Colonnes A à E
-                if not isinstance(cell.value, str) or not cell.value.strip():
-                    continue
-                cell_norm = _normalize_label(cell.value)
-                if label_norm in cell_norm:
-                    return cell.row
-                # Correspondance partielle : au moins 2 mots du libellé présents dans la cellule
-                if len(label_words) >= 2 and sum(1 for w in label_words if w in cell_norm) >= 2:
-                    return cell.row
-                # Un seul mot long (ex: "fournisseurs") peut suffire si très spécifique
-                if label_words and len(label_words[0]) >= 6 and label_words[0] in cell_norm:
-                    return cell.row
+        for row in ws.iter_rows(min_row=1, max_row=ws.max_row):
+            for cell in row[:3]:   # Cherche dans les 3 premières colonnes
+                if isinstance(cell.value, str):
+                    if label_norm in _normalize_label(cell.value):
+                        return cell.row
         return None
 
     def _find_sheet(self, note_name: str):
-        """Cherche la feuille correspondant à une Note (tolérant espaces, tirets, casse)."""
-        # Variantes : avec/sans espaces, avec/sans tirets (ex: C1-NOTE 25 / C1 NOTE 25)
-        note_up = note_name.upper().replace(" ", "").replace("-", "")
-
+        """Cherche la feuille correspondant à une Note (tolérant aux espaces/casse)."""
+        note_up = note_name.upper().replace(" ", "")
+        
+        # P3-Q1 : Correspondance exacte d'abord (sans espaces)
         for name in self.wb.sheetnames:
-            clean_name = name.upper().replace(" ", "").replace("-", "")
+            clean_name = name.upper().replace(" ", "")
             if clean_name == note_up:
                 return self.wb[name]
-            # NOTE 4, NOTE 5, NOTE 25, etc. : feuille peut s'appeler "NOTE 4 - Stocks" -> "NOTE4STOCKS"
-            if clean_name.startswith(note_up):
-                # Éviter NOTE 3 = NOTE 30 : si note_up est "NOTE3", pas accepter "NOTE30"
-                after = clean_name[len(note_up):]
-                if not after or not after[0].isdigit():
-                    return self.wb[name]
-
-        # Correspondance partielle (note_up contenu dans le nom)
+        
+        # P3-Q1 : Puis correspondance partielle intelligente (éviter de confondre 3 et 30)
         for name in self.wb.sheetnames:
-            clean_name = name.upper().replace(" ", "").replace("-", "")
+            clean_name = name.upper().replace(" ", "")
             if note_up in clean_name:
+                # Vérifier si ce n'est pas un faux positif (ex: NOTE 3 dans NOTE 30)
+                # On accepte si c'est suivi d'une lettre (3A, 3B) mais pas d'un autre chiffre
                 idx = clean_name.find(note_up)
                 after = clean_name[idx + len(note_up):]
                 if not after or not after[0].isdigit():
                     return self.wb[name]
-        # Feuille nommée uniquement par le numéro/sous-numéro (ex: "15A", "16A", "17")
-        for name in self.wb.sheetnames:
-            clean_name = name.upper().replace(" ", "").replace("-", "")
-            if len(clean_name) >= 2 and note_up.endswith(clean_name):
-                return self.wb[name]
         return None
 
 

@@ -52,8 +52,7 @@ class DSFGeneralPrefiller:
         ("FICHE R2", "activites"): 25,
         ("FICHE R3", "dirigeants"): 13,
         ("FICHE R3", "conseil_administration"): 9,
-        ("FICHE R3", "actionnaires"): 0,
-        ("R3", "actionnaires"): 0,
+        ("FICHE R3", "actionnaires"): 15,
         ("NOTE 13", "actionnaires"): 20,
     }
 
