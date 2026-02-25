@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Semantic Balance Filler - Intelligent cell-by-cell matching
-Analyzes cell labels (row + column), fuzzy-matches balance accounts, and fills values.
+Semantic Balance Filler - Version Ultra-Optimisée
+Traitement accéléré pour sheets 20 et 34 avec caches intelligents
 """
 from __future__ import annotations
 
@@ -18,7 +18,6 @@ from functools import lru_cache
 from pathlib import Path
 from threading import Lock
 from typing import Dict, List, Optional, Set, Tuple, Any
-import signal
 import time
 
 from openpyxl import load_workbook
@@ -89,24 +88,35 @@ class BusinessRule:
 @dataclass
 class SheetMetadata:
     """Cache optimisé des métadonnées d'une feuille"""
-    merged_masters: Set[str]  # ⚡ Seulement les cellules maîtres, pas les enfants
-    merged_ranges: List[str]  # Liste des plages pour vérification rapide
+    merged_masters: Set[str]
+    merged_ranges: List[str]
     col_labels: Dict[int, str]
     max_row: int
     max_col: int
     row_labels: Dict[int, str] = field(default_factory=dict)
     row_norms: Dict[int, str] = field(default_factory=dict)
     row_tokens: Dict[int, Set[str]] = field(default_factory=dict)
-    has_heavy_merges: bool = False  # Flag pour les feuilles avec trop de fusions
+    has_heavy_merges: bool = False
+    row_patterns: Dict[int, Dict[str, Any]] = field(default_factory=dict)  # Patterns pré-calculés
 
 
 @dataclass
 class PrecomputedBalance:
     """Montants pré-calculés pour tous les comptes"""
     by_compte: Dict[str, NormalizedBalanceRow]
-    amounts: Dict[Tuple[str, Optional[str]], Decimal]  # (compte, col_type) -> montant
-    amounts_by_prefix: Dict[str, Dict[Optional[str], Decimal]]  # Pré-calcul par préfixe
+    amounts: Dict[Tuple[str, Optional[str]], Decimal]
+    amounts_by_prefix: Dict[str, Dict[Optional[str], Decimal]]
     slices: Dict[str, Dict[str, Decimal]]
+
+
+@dataclass
+class HeavySheetCache:
+    """Cache spécifique pour sheets 20 et 34"""
+    row_patterns: Dict[int, Dict[str, Any]] = field(default_factory=dict)
+    formula_results: Dict[str, Decimal] = field(default_factory=dict)
+    computed_values: Dict[Tuple[int, int], Decimal] = field(default_factory=dict)
+    total_rows: Set[int] = field(default_factory=set)
+    subtotal_rows: Set[int] = field(default_factory=set)
 
 
 # P3-M1 : Paires de termes sémantiquement opposés
@@ -136,6 +146,8 @@ class SemanticBalanceFiller:
         previous_balance_file: Optional[Path | str] = None,
         previous_column_overrides: Optional[Dict[str, object]] = None,
         allow_n1_fallback_without_prev: bool = False,
+        preloaded_workbook: Optional[object] = None,
+        skip_sheets: Optional[Set[str]] = None,
     ):
         self.template_path = Path(template_path)
         self.balance_file = Path(balance_file)
@@ -152,7 +164,9 @@ class SemanticBalanceFiller:
         }
         self.previous_column_overrides = previous_column_overrides or self.column_overrides
         self.allow_n1_fallback_without_prev = allow_n1_fallback_without_prev
-        self.wb = None
+        
+        # Workbooks et données
+        self.wb = preloaded_workbook
         self.balance_accounts: Dict[str, NormalizedBalanceRow] = {}
         self.previous_balance_accounts: Dict[str, NormalizedBalanceRow] = {}
         self.assignments: List[CellAssignment] = []
@@ -164,23 +178,26 @@ class SemanticBalanceFiller:
         self.business_rules: List[BusinessRule] = self._build_business_rules()
         self.account_time_slices: Dict[str, Dict[str, Decimal]] = {}
         self.previous_account_time_slices: Dict[str, Dict[str, Decimal]] = {}
+        self._skip_sheets: Set[str] = set(skip_sheets or [])
         
-        # OPTIMISATION: Nouveaux caches
+        # Caches principaux
         self._sheet_metadata: Dict[str, SheetMetadata] = {}
         self._balance_precomputed: Dict[Optional[str], PrecomputedBalance] = {}
         self._row_match_cache: Dict[Tuple[str, str, str, str], List[MatchedAccount]] = {}
         self._fuzzy_similarity_cache: Dict[Tuple[str, str], float] = {}
-        self._need_cache: Dict[Tuple[str, str, str, str, str], Optional[CellAssignment]] = {}
+        self._need_cache: Dict[Tuple[str, str, str, str, str, str], Optional[CellAssignment]] = {}
         self._col_label_cache: Dict[Tuple[str, int], Optional[str]] = {}
         self._sheet_source_hints_cache: Dict[str, Dict[int, Tuple[str, int]]] = {}
         self._sheet_code_row_cache: Dict[str, Dict[str, int]] = {}
         
-        # ⚡ NOUVEAU: Cache LRU pour les vérifications de merged cells
-        self._merged_check_cache: Dict[str, bool] = {}
-        self._merged_check_cache_size = 10000
-        
-        # ⚡ NOUVEAU: Cache pour les montants par préfixe
+        # Caches spécialisés pour sheets lourdes
+        self._heavy_sheet_cache: Dict[str, HeavySheetCache] = {}
+        self._merged_bitmap: Dict[str, bool] = {}
+        self._heavy_results_cache: Dict[Tuple[str, str, str], Optional[CellAssignment]] = {}
         self._prefix_amounts_cache: Dict[Tuple[str, ...], Dict[Optional[str], Decimal]] = {}
+        
+        # Compteurs de performance
+        self._previous_assignments_count: Dict[str, int] = {}
         
         # Locks pour thread safety
         self._cache_lock = Lock()
@@ -189,10 +206,12 @@ class SemanticBalanceFiller:
         self._merged_cache_lock = Lock()
         
         # Constantes de performance
-        self.BATCH_SIZE = 50
-        self.PARALLEL_THRESHOLD = 10
-        self.MAX_MERGED_CELLS = 100000  # Seuil pour mode light
-        self.CACHE_TIMEOUT = 60  # Timeout en secondes par feuille
+        self.BATCH_SIZE = 25  # Réduit pour sheets lourdes
+        self.HEAVY_BATCH_SIZE = 10
+        self.PARALLEL_THRESHOLD = 5
+        self.MAX_MERGED_CELLS = 50000
+        self.CACHE_TIMEOUT = 30
+        self.HEAVY_SHEETS = {"20", "34", "NOTE 3A", "NOTE 3C", "NOTE 34", "NOTE 4"}
 
     def load(self) -> None:
         """Load template and normalize balance with optimisations"""
@@ -203,10 +222,13 @@ class SemanticBalanceFiller:
         if self.previous_balance_file and not self.previous_balance_file.exists():
             raise FileNotFoundError(f"Previous balance not found: {self.previous_balance_file}")
 
-        # Load template workbook
-        self.wb = load_workbook(self.template_path, data_only=False)
+        # Load template workbook unless we already have one
+        if self.wb is None:
+            self.wb = load_workbook(self.template_path, data_only=False)
+        else:
+            logger.info("Using preloaded workbook for semantic fill")
         
-        # OPTIMISATION: Cache toutes les métadonnées des feuilles au chargement avec timeout
+        # Cache toutes les métadonnées
         logger.info("Caching sheet metadata...")
         for sheet_name in self.wb.sheetnames:
             success = self._cache_sheet_metadata_with_timeout(sheet_name)
@@ -233,7 +255,7 @@ class SemanticBalanceFiller:
         )
         logger.info("Loaded timeslices for %s accounts", len(self.account_time_slices))
 
-        # OPTIMISATION: Pré-calcule tous les montants pour N
+        # Pré-calcule tous les montants pour N
         self._balance_precomputed['n'] = self._precompute_balance_amounts(
             self.balance_accounts, 
             self.account_time_slices,
@@ -256,7 +278,6 @@ class SemanticBalanceFiller:
                 self.previous_column_overrides,
             )
             
-            # OPTIMISATION: Pré-calcule tous les montants pour N-1
             if self.previous_balance_accounts:
                 self._balance_precomputed['n1'] = self._precompute_balance_amounts(
                     self.previous_balance_accounts,
@@ -274,33 +295,27 @@ class SemanticBalanceFiller:
         logger.info(f"  Accounts with non-zero amounts: {non_zero}/{len(self.balance_accounts)}")
 
     def _cache_sheet_metadata_with_timeout(self, sheet_name: str) -> bool:
-    
-        # Solution 1: Utiliser threading.Timer pour Windows
+        """Cache metadata with timeout protection"""
         import threading
-        import time
         
         timeout_occurred = False
-        result = None
         
         def timeout_handler():
             nonlocal timeout_occurred
             timeout_occurred = True
         
-        # Créer le timer
         timer = threading.Timer(self.CACHE_TIMEOUT, timeout_handler)
         timer.daemon = True
         timer.start()
         
         try:
-            # Exécuter le cache
             self._cache_sheet_metadata_optimized(sheet_name)
-            timer.cancel()  # Annuler le timer si terminé avant timeout
+            timer.cancel()
             return not timeout_occurred
         except Exception as e:
             timer.cancel()
             if timeout_occurred:
                 logger.warning(f"⚠️ Cache timeout pour {sheet_name} - mode light")
-                # Fallback: cache minimal
                 ws = self.wb[sheet_name]
                 self._sheet_metadata[sheet_name] = SheetMetadata(
                     merged_masters=set(),
@@ -317,10 +332,11 @@ class SemanticBalanceFiller:
             raise e
 
     def _cache_sheet_metadata_optimized(self, sheet_name: str) -> None:
-        """Cache optimisé pour les feuilles avec beaucoup de merged cells"""
+        """Cache optimisé pour toutes les feuilles"""
         ws = self.wb[sheet_name]
+        is_heavy = sheet_name in self.HEAVY_SHEETS or "NOTE" in sheet_name.upper()
         
-        # ⚡ OPTIMISATION 1: Compter d'abord le nombre total de cellules fusionnées
+        # Compter les merged cells
         total_merged_cells = 0
         merged_ranges_list = []
         for merged_range in ws.merged_cells.ranges:
@@ -328,31 +344,40 @@ class SemanticBalanceFiller:
             total_merged_cells += cells_count
             merged_ranges_list.append(merged_range.coord)
         
-        # ⚡ OPTIMISATION 2: Si trop de fusions, mode light (pas de cache des enfants)
+        # Mode light si trop de fusions
         if total_merged_cells > self.MAX_MERGED_CELLS:
             logger.warning(f"  ⚠️ {sheet_name}: {total_merged_cells} merged cells - mode light")
             merged_masters = set()
-            # Ne stocker que les masters
             for merged_range in ws.merged_cells.ranges:
                 merged_masters.add(merged_range.start_cell.coordinate)
             
-            # Cache column labels (limité)
+            # Cache limité
             col_labels = {}
-            max_cols = min(ws.max_column, 50)  # Limite à 50 colonnes
+            max_cols = min(ws.max_column, 30)
             for col_num in range(1, max_cols + 1):
                 col_labels[col_num] = self._extract_col_label(ws, col_num)
             
-            # Cache row labels (limité)
             row_labels = {}
             row_norms = {}
             row_tokens = {}
-            max_rows = min(ws.max_row, 500)  # Limite à 500 lignes
+            row_patterns = {}
+            max_rows = min(ws.max_row, 300)
+            
             for row_num in range(11, max_rows + 1):
                 label = self._extract_row_label(ws, row_num)
                 if label:
                     row_labels[row_num] = label
-                    row_norms[row_num] = self._normalize_text(label)
+                    norm = self._normalize_text(label)
+                    row_norms[row_num] = norm
                     row_tokens[row_num] = self._tokenize(label)
+                    
+                    # Pré-calcul des patterns
+                    if is_heavy:
+                        row_patterns[row_num] = {
+                            'is_total': 'total' in norm or 'somme' in norm,
+                            'is_subtotal': 'sous total' in norm,
+                            'prefixes': self._preferred_prefixes_for_label(label)
+                        }
             
             self._sheet_metadata[sheet_name] = SheetMetadata(
                 merged_masters=merged_masters,
@@ -363,11 +388,17 @@ class SemanticBalanceFiller:
                 row_labels=row_labels,
                 row_norms=row_norms,
                 row_tokens=row_tokens,
+                row_patterns=row_patterns,
                 has_heavy_merges=True
             )
+            
+            # Initialiser cache heavy sheet
+            if is_heavy:
+                self._init_heavy_sheet_cache(sheet_name, row_patterns)
+            
             return
         
-        # ⚡ OPTIMISATION 3: Mode normal - cache intelligent
+        # Mode normal
         merged_masters = set()
         for merged_range in ws.merged_cells.ranges:
             merged_masters.add(merged_range.start_cell.coordinate)
@@ -377,10 +408,12 @@ class SemanticBalanceFiller:
         for col_num in range(1, ws.max_column + 1):
             col_labels[col_num] = self._extract_col_label(ws, col_num)
         
-        # Cache row labels pour les lignes importantes (>10)
+        # Cache row labels avec patterns
         row_labels = {}
         row_norms = {}
         row_tokens = {}
+        row_patterns = {}
+        
         for row_num in range(11, ws.max_row + 1):
             label = self._extract_row_label(ws, row_num)
             if label:
@@ -388,6 +421,14 @@ class SemanticBalanceFiller:
                 norm = self._normalize_text(label)
                 row_norms[row_num] = norm
                 row_tokens[row_num] = self._tokenize(label)
+                
+                # Pré-calcul des patterns pour sheets lourdes
+                if is_heavy:
+                    row_patterns[row_num] = {
+                        'is_total': 'total' in norm or 'somme' in norm,
+                        'is_subtotal': 'sous total' in norm,
+                        'prefixes': self._preferred_prefixes_for_label(label)
+                    }
         
         self._sheet_metadata[sheet_name] = SheetMetadata(
             merged_masters=merged_masters,
@@ -398,27 +439,54 @@ class SemanticBalanceFiller:
             row_labels=row_labels,
             row_norms=row_norms,
             row_tokens=row_tokens,
+            row_patterns=row_patterns,
             has_heavy_merges=False
         )
         
+        # Initialiser cache heavy sheet
+        if is_heavy:
+            self._init_heavy_sheet_cache(sheet_name, row_patterns)
+        
         logger.info(f"  ✓ {sheet_name}: {len(merged_masters)} masters, {len(col_labels)} cols, {len(row_labels)} rows")
 
-    @lru_cache(maxsize=10000)
+    def _init_heavy_sheet_cache(self, sheet_name: str, row_patterns: Dict[int, Dict]) -> None:
+        """Initialise le cache pour sheets lourdes"""
+        heavy_cache = HeavySheetCache(row_patterns=row_patterns)
+        
+        # Pré-remplir les ensembles de totaux
+        for row_num, pattern in row_patterns.items():
+            if pattern.get('is_total'):
+                heavy_cache.total_rows.add(row_num)
+            if pattern.get('is_subtotal'):
+                heavy_cache.subtotal_rows.add(row_num)
+        
+        self._heavy_sheet_cache[sheet_name] = heavy_cache
+
+    @lru_cache(maxsize=20000)
     def _is_merged_child_cached(self, sheet_name: str, cell_coord: str) -> bool:
-        """Vérification avec cache LRU si une cellule est enfant d'une fusion"""
+        """Vérification avec cache LRU"""
         metadata = self._sheet_metadata.get(sheet_name)
         if not metadata:
             return False
         
-        # Si c'est un master, ce n'est pas un enfant
         if cell_coord in metadata.merged_masters:
             return False
         
-        # Vérification rapide avec les plages
+        # Vérification rapide bitmap pour sheets lourdes
+        if sheet_name in self.HEAVY_SHEETS:
+            cache_key = f"{sheet_name}:{cell_coord}"
+            if cache_key in self._merged_bitmap:
+                return self._merged_bitmap[cache_key]
+        
         ws = self.wb[sheet_name]
         for merged_range in ws.merged_cells.ranges:
             if cell_coord in merged_range:
+                if sheet_name in self.HEAVY_SHEETS:
+                    self._merged_bitmap[cache_key] = True
                 return True
+        
+        if sheet_name in self.HEAVY_SHEETS:
+            self._merged_bitmap[cache_key] = False
         return False
 
     def _precompute_balance_amounts(
@@ -427,7 +495,7 @@ class SemanticBalanceFiller:
         slices: Dict[str, Dict[str, Decimal]],
         year_hint: str
     ) -> PrecomputedBalance:
-        """Pré-calcule tous les montants pour tous les comptes et types de colonne"""
+        """Pré-calcule tous les montants"""
         amounts = {}
         amounts_by_prefix = {}
         
@@ -443,7 +511,7 @@ class SemanticBalanceFiller:
                 )
                 amounts[(compte, col_type or 'any')] = amount
                 
-                # Aussi pour opening et movement si disponibles
+                # Aussi pour opening et movement
                 if 'opening_signed' in slices.get(compte, {}):
                     opening = self._resolve_amount_fast(
                         row, col_type, year_hint, 'opening', slices
@@ -462,7 +530,7 @@ class SemanticBalanceFiller:
                     )
                     amounts[(compte, f'{col_type or "any"}_movement_credit')] = movement_credit
             
-            # Pré-calcul par préfixe pour les agrégations rapides
+            # Pré-calcul par préfixe
             prefix = compte[:2] if len(compte) >= 2 else compte
             if prefix not in amounts_by_prefix:
                 amounts_by_prefix[prefix] = {}
@@ -483,7 +551,7 @@ class SemanticBalanceFiller:
         value_source: str,
         slices: Dict[str, Dict[str, Decimal]]
     ) -> Decimal:
-        """Version rapide de _resolve_amount sans accès aux dictionnaires"""
+        """Version rapide de _resolve_amount"""
         compte = normalized_row.compte
         account_slices = slices.get(compte, {})
         
@@ -515,16 +583,19 @@ class SemanticBalanceFiller:
             raise RuntimeError("Filler not loaded. Call load() first.")
 
         assignments_count = 0
-
         EXCLUDED_SHEETS = {
             "ENTETE", "ENTÊTE", "Fiche R1", "R1", "Fiche R2", "R2",
             "Fiche R3", "R3", "PAGE DE GARDE", "INFORMATIONS GENERALES",
             "INFORMATIONS GÉNÉRALES", "SOMMAIRE"
         }
+        excluded_sheets = EXCLUDED_SHEETS | self._skip_sheets
 
         for sheet_name in self.wb.sheetnames:
-            if sheet_name in EXCLUDED_SHEETS:
-                logger.info(f"Skipping general info sheet: {sheet_name}")
+            if sheet_name in excluded_sheets:
+                if sheet_name in self._skip_sheets:
+                    logger.info(f"Skipping sheet (fast filler prefilled): {sheet_name}")
+                else:
+                    logger.info(f"Skipping sheet: {sheet_name}")
                 continue
 
             metadata = self._sheet_metadata.get(sheet_name)
@@ -533,20 +604,286 @@ class SemanticBalanceFiller:
                 continue
 
             logger.info(f"Processing sheet: {sheet_name} (rows: {metadata.max_row}, cols: {metadata.max_col})")
+            
+            # Réinitialiser le compteur pour cette sheet
+            self._previous_assignments_count[sheet_name] = len(self.assignments)
 
-            # OPTIMISATION: Traitement adaptatif selon la charge
-            if metadata.has_heavy_merges or metadata.max_row > self.PARALLEL_THRESHOLD:
+            # Traitement adaptatif selon la charge
+            is_heavy = sheet_name in self.HEAVY_SHEETS or "NOTE" in sheet_name.upper()
+            
+            if is_heavy:
+                count = self._process_heavy_sheet(sheet_name, metadata)
+            elif metadata.has_heavy_merges or metadata.max_row > self.PARALLEL_THRESHOLD:
                 count = self._process_sheet_parallel(sheet_name, metadata)
             else:
                 count = self._process_sheet_sequential(sheet_name, metadata)
             
             assignments_count += count
+            logger.info(f"  → {count} assignments for {sheet_name}")
 
         logger.info("Applying column formulas...")
         self._apply_column_formulas()
         logger.info(f"Applied {self.formulas_applied} column formulas")
         
         return assignments_count
+
+    def _process_heavy_sheet(self, sheet_name: str, metadata: SheetMetadata) -> int:
+        """Traitement spécialisé pour sheets lourdes (20, 34, etc.)"""
+        ws = self.wb[sheet_name]
+        has_formula_detector = sheet_name in self.formula_detectors
+        formula_detector = self.formula_detectors.get(sheet_name) if has_formula_detector else None
+        
+        is_bilan = self._canonical_sheet_name(sheet_name) == "BILAN PAYSAGE"
+        heavy_cache = self._heavy_sheet_cache.get(sheet_name, HeavySheetCache())
+        
+        # Filtrer les lignes rapidement
+        valid_rows = []
+        for row_num in range(11, metadata.max_row + 1):
+            if row_num not in metadata.row_labels:
+                continue
+            
+            row_norm = metadata.row_norms[row_num]
+            
+            # Skip rapide pour lignes non-numériques
+            if self._is_non_numeric_row(row_norm):
+                continue
+            
+            valid_rows.append(row_num)
+        
+        logger.info(f"  {sheet_name}: {len(valid_rows)} numeric rows to process")
+        
+        # Traiter par petits lots
+        assignments_count = 0
+        batch_size = self.HEAVY_BATCH_SIZE
+        
+        for i in range(0, len(valid_rows), batch_size):
+            batch_rows = valid_rows[i:i + batch_size]
+            batch_assignments = self._process_heavy_batch(
+                sheet_name, ws, metadata, batch_rows, 
+                formula_detector, is_bilan, heavy_cache
+            )
+            
+            # Écrire les résultats
+            for assignment, need in batch_assignments:
+                with self._assignments_lock:
+                    self.assignments.append(assignment)
+                    self._write_cell(ws, need, assignment)
+                    self.account_usage.update(assignment.source_accounts)
+                    assignments_count += 1
+        
+        return assignments_count
+
+    def _process_heavy_batch(self, sheet_name: str, ws, metadata: SheetMetadata, 
+                            rows: List[int], formula_detector, is_bilan: bool,
+                            heavy_cache: HeavySheetCache) -> List[Tuple[CellAssignment, CellNeed]]:
+        """Traite un lot de lignes pour sheet lourde"""
+        results = []
+        tasks = []
+        
+        for row_num in rows:
+            row_label = metadata.row_labels[row_num]
+            row_norm = metadata.row_norms[row_num]
+            row_pattern = heavy_cache.row_patterns.get(row_num, {})
+            
+            if is_bilan:
+                row_label_left = row_label
+                row_label_right = metadata.row_labels.get(row_num)
+            else:
+                row_label_default = row_label
+            
+            for col_num in range(1, metadata.max_col + 1):
+                cell_coord = f"{get_column_letter(col_num)}{row_num}"
+                
+                # Vérification merged cells
+                if self._is_merged_child_cached(sheet_name, cell_coord):
+                    continue
+                
+                if formula_detector and formula_detector.has_formula(get_column_letter(col_num)):
+                    continue
+                
+                col_label = metadata.col_labels.get(col_num)
+                if not col_label:
+                    continue
+                
+                if is_bilan:
+                    current_row_label = row_label_right if col_num >= 9 else row_label_left
+                else:
+                    current_row_label = row_label_default
+                
+                if not current_row_label:
+                    continue
+                
+                field = self.inventory.get_field(sheet_name, cell_coord) if self.inventory else None
+                
+                if not self._is_fillable_cell(ws.cell(row=row_num, column=col_num)):
+                    continue
+                
+                tasks.append((
+                    sheet_name, row_num, col_num, cell_coord,
+                    current_row_label, col_label, field, row_norm, row_pattern
+                ))
+        
+        # Traiter les tâches en parallèle (peu de workers)
+        if tasks:
+            with ThreadPoolExecutor(max_workers=2) as executor:
+                futures = [executor.submit(self._process_heavy_cell_task, task) for task in tasks]
+                
+                for future in as_completed(futures):
+                    result = future.result(timeout=5)
+                    if result:
+                        results.append(result)
+        
+        return results
+
+    def _process_heavy_cell_task(self, task: tuple) -> Optional[Tuple[CellAssignment, CellNeed]]:
+        """Traite une cellule pour sheet lourde"""
+        try:
+            sheet_name, row_num, col_num, cell_coord, row_label, col_label, field, row_norm, row_pattern = task
+            
+            # Cache key
+            cache_key = (row_norm, col_label or '', str(field.id if field else 'no_field'))
+            
+            if cache_key in self._heavy_results_cache:
+                cached = self._heavy_results_cache[cache_key]
+                if cached:
+                    need = CellNeed(
+                        sheet=sheet_name, cell=cell_coord, row_num=row_num,
+                        col_num=col_num, row_label=row_label, col_label=col_label
+                    )
+                    return (cached, need)
+                return None
+            
+            need = CellNeed(
+                sheet=sheet_name,
+                cell=cell_coord,
+                row_num=row_num,
+                col_num=col_num,
+                row_label=row_label,
+                col_label=col_label,
+                is_merged=False,
+            )
+            
+            # Assignment avec traitement allégé
+            assignment = self._satisfy_cell_need_heavy(need, field, row_norm, row_pattern)
+            
+            if assignment:
+                self._heavy_results_cache[cache_key] = assignment
+                return (assignment, need)
+            
+            self._heavy_results_cache[cache_key] = None
+            with self._unmatched_lock:
+                self.unmatched_cells.append(need)
+            return None
+            
+        except Exception as e:
+            logger.debug(f"Error in heavy cell task: {e}")
+            return None
+
+    def _satisfy_cell_need_heavy(
+        self,
+        need: CellNeed,
+        field,
+        row_norm: str,
+        row_pattern: Dict[str, Any]
+    ) -> Optional[CellAssignment]:
+        """Version allégée pour sheets lourdes"""
+        if not need.row_label:
+            return None
+
+        is_total = row_pattern.get('is_total', False) or "total" in row_norm
+        preferred_prefixes = row_pattern.get('prefixes')
+        
+        col_type, year_hint, value_source = self._derive_cell_contract(need, field)
+        
+        # Règles spécifiques par sheet
+        if need.sheet in ["20", "NOTE 3A"]:
+            forced_value = self._compute_note3a_targeted_value(need, col_type, year_hint, value_source)
+            if forced_value is not None:
+                return self._create_derived_assignment(need, forced_value, col_type, year_hint, "note3a_targeted")
+        
+        if need.sheet in ["34", "NOTE 34"]:
+            forced_ebe = self._compute_note34_ebe_from_cr(need, year_hint)
+            if forced_ebe is not None:
+                return self._create_derived_assignment(need, forced_ebe, col_type, year_hint, "note34_ebe")
+            
+            forced_flux = self._compute_note34_flux_value(need, year_hint)
+            if forced_flux is not None:
+                return self._create_derived_assignment(need, forced_flux, col_type, year_hint, "note34_flux")
+        
+        if need.sheet == "NOTE 3C":
+            forced_amort = self._compute_note3c_amortization_value(need, col_type, year_hint)
+            if forced_amort is not None:
+                return self._create_derived_assignment(need, forced_amort, col_type, year_hint, "note3c_amortization")
+        
+        if need.sheet == "NOTE 4":
+            forced_net = self._compute_note4_total_net_depreciation(need)
+            if forced_net is not None:
+                return self._create_derived_assignment(need, forced_net, col_type, year_hint, "note4_net_depreciation")
+        
+        # Utiliser la balance pré-calculée
+        precomputed = self._balance_precomputed.get('n' if year_hint != 'n1' else 'n1')
+        if not precomputed:
+            return None
+        
+        # Règles métier
+        rule = self._find_business_rule(need.sheet, need.row_label)
+        if rule:
+            matches = self._match_with_business_rules_fast(
+                row_norm, need, col_type, year_hint, value_source,
+                self._expected_classes_for_sheet(need.sheet, need.cell),
+                precomputed
+            )
+            if matches:
+                total_amount = sum(m.amount for m in matches)
+                return CellAssignment(
+                    sheet=need.sheet,
+                    cell=need.cell,
+                    row_label=need.row_label,
+                    col_label=need.col_label,
+                    is_total=is_total,
+                    matched_accounts=matches,
+                    total_amount=total_amount,
+                    source_accounts=[m.compte for m in matches if not m.compte.startswith("__ZERO__")],
+                    confidence=matches[0].similarity_score,
+                    notes=f"source={value_source}; year={year_hint or 'n'}; heavy_optimized",
+                )
+        
+        # Fallback zéro pour les totaux
+        if is_total:
+            zero_match = MatchedAccount(
+                compte=f"__ZERO__:{need.sheet}",
+                label="deterministic_zero",
+                amount=Decimal("0"),
+                side=col_type or "debit",
+                similarity_score=0.60,
+            )
+            return CellAssignment(
+                sheet=need.sheet,
+                cell=need.cell,
+                row_label=need.row_label,
+                col_label=need.col_label,
+                is_total=is_total,
+                matched_accounts=[zero_match],
+                total_amount=Decimal("0"),
+                source_accounts=[],
+                confidence=0.60,
+                notes=f"source={value_source}; year={year_hint or 'n'}; heavy_zero_fallback",
+            )
+        
+        return None
+
+    def _is_non_numeric_row(self, row_norm: str) -> bool:
+        """Détection rapide des lignes non-numériques"""
+        skip_patterns = {
+            'commentaire', 'indiquer', 'detailler', 'descriptif',
+            'nature de la creance', 'echeance', 'justifier', 'commenter',
+            'cocher la case', 'si possible', 'pour les banques',
+            'modes d amortissement', 'designation entite', 'numero d identification',
+            'ligue', 'nature du produit', 'plafonne a', 'cocher',
+            'avantages', 'delai restant', 'toute variation doit etre commentee',
+            'doit etre commentee'
+        }
+        return any(pattern in row_norm for pattern in skip_patterns)
 
     def _process_sheet_sequential(self, sheet_name: str, metadata: SheetMetadata) -> int:
         """Traitement séquentiel pour petites feuilles"""
@@ -573,20 +910,16 @@ class SemanticBalanceFiller:
             for col_num in range(1, metadata.max_col + 1):
                 cell_coord = f"{get_column_letter(col_num)}{row_num}"
                 
-                # ⚡ OPTIMISATION: Vérification rapide avec cache LRU
                 if self._is_merged_child_cached(sheet_name, cell_coord):
                     continue
 
-                # Skip formula columns
                 if formula_detector and formula_detector.has_formula(get_column_letter(col_num)):
                     continue
 
-                # Get column label from cache
                 col_label = metadata.col_labels.get(col_num)
                 if not col_label:
                     continue
 
-                # Determine row label based on side
                 if is_bilan:
                     current_row_label = row_label_right if col_num >= 9 else row_label_left
                 else:
@@ -595,7 +928,6 @@ class SemanticBalanceFiller:
                 if not current_row_label:
                     continue
 
-                # Get field from inventory
                 field = self.inventory.get_field(sheet_name, cell_coord) if self.inventory else None
 
                 if not self._is_fillable_cell(ws.cell(row=row_num, column=col_num)):
@@ -630,7 +962,7 @@ class SemanticBalanceFiller:
         
         is_bilan = self._canonical_sheet_name(sheet_name) == "BILAN PAYSAGE"
         
-        # Préparer les tâches par lots
+        # Préparer les tâches
         tasks = []
         for row_num in range(11, metadata.max_row + 1):
             if row_num not in metadata.row_labels:
@@ -696,7 +1028,7 @@ class SemanticBalanceFiller:
         return assignments_count
 
     def _process_cell_task(self, task: tuple) -> Optional[Tuple[CellAssignment, CellNeed]]:
-        """Traite une cellule individuelle (pour parallélisation)"""
+        """Traite une cellule individuelle"""
         sheet_name, row_num, col_num, cell_coord, row_label, col_label, field, row_norm = task
         
         need = CellNeed(
@@ -715,7 +1047,7 @@ class SemanticBalanceFiller:
         else:
             with self._unmatched_lock:
                 self.unmatched_cells.append(need)
-            return False
+            return None
 
     def _satisfy_cell_need_fast(
         self,
@@ -723,9 +1055,7 @@ class SemanticBalanceFiller:
         field,
         row_norm: str
     ) -> Optional[CellAssignment]:
-        """
-        Version optimisée de _satisfy_cell_need utilisant les caches
-        """
+        """Version optimisée de _satisfy_cell_need"""
         if not need.row_label:
             return None
 
@@ -737,7 +1067,7 @@ class SemanticBalanceFiller:
         
         col_type, year_hint, value_source = self._derive_cell_contract(need, field)
         
-        # Cache key simplifié
+        # Cache key
         cache_key = (
             self._sheet_group(need.sheet),
             row_norm,
@@ -754,7 +1084,7 @@ class SemanticBalanceFiller:
                     return None
                 return replace(cached, cell=need.cell)
 
-        # Règles déterministes pour les pourcentages et mouvements
+        # Valeurs dérivées
         forced_percentage = self._compute_percentage_value(need, col_type, year_hint, value_source)
         if forced_percentage is not None:
             assignment = self._create_derived_assignment(need, forced_percentage, col_type, year_hint, "percentage")
@@ -797,11 +1127,10 @@ class SemanticBalanceFiller:
                 self._need_cache[cache_key] = assignment
             return assignment
 
-        # Matching avec balances pré-calculées
+        # Matching avec balances
         expected_classes = self._expected_classes_for_sheet(need.sheet, need.cell)
         preferred_prefixes = self._preferred_prefixes_for_label(need.row_label)
         
-        # Utiliser la balance pré-calculée appropriée
         balance_key = 'n1' if year_hint == 'n1' else 'n'
         precomputed = self._balance_precomputed.get(balance_key)
         
@@ -813,7 +1142,7 @@ class SemanticBalanceFiller:
                 self._need_cache[cache_key] = None
             return None
 
-        # Matching avec caches
+        # Matching
         matches = self._match_explicit_account_codes_fast(
             row_norm, need, col_type, year_hint, value_source,
             expected_classes, precomputed
@@ -871,11 +1200,10 @@ class SemanticBalanceFiller:
         year_hint: Optional[str],
         value_source: str,
     ) -> Optional[Decimal]:
-        """Calcule les valeurs de pourcentage (ratios, taux)"""
+        """Calcule les valeurs de pourcentage"""
         col_norm = self._normalize_text(need.col_label or "")
         row_norm = self._normalize_text(need.row_label or "")
         
-        # Détecter si c'est une colonne de pourcentage
         is_percentage = (
             "%" in (need.col_label or "") or
             "ratio" in col_norm or
@@ -886,10 +1214,8 @@ class SemanticBalanceFiller:
         if not is_percentage:
             return None
         
-        # Récupérer les valeurs sources pour calculer le ratio
         ws = self.wb[need.sheet]
         
-        # Chercher les lignes de numérateur et dénominateur
         numerator_row = None
         denominator_row = None
         
@@ -898,7 +1224,6 @@ class SemanticBalanceFiller:
             if not current_label:
                 continue
             
-            # Patterns de recherche
             if "total" in current_label and any(x in row_norm for x in ["marge", "taux"]):
                 denominator_row = row_idx
             elif any(x in current_label for x in ["resultat", "benefice", "marge"]) and "taux" in row_norm:
@@ -921,10 +1246,9 @@ class SemanticBalanceFiller:
         year_hint: Optional[str],
         value_source: str,
     ) -> Optional[Decimal]:
-        """Calcule les valeurs de mouvement (variations, flux)"""
+        """Calcule les valeurs de mouvement"""
         col_norm = self._normalize_text(need.col_label or "")
         
-        # Détecter si c'est une colonne de mouvement
         is_movement = (
             "variation" in col_norm or
             "mouvement" in col_norm or
@@ -935,14 +1259,12 @@ class SemanticBalanceFiller:
         if not is_movement:
             return None
         
-        # Pour les mouvements, utiliser la balance pré-calculée avec source appropriée
         balance_key = 'n1' if year_hint == 'n1' else 'n'
         precomputed = self._balance_precomputed.get(balance_key)
         
         if not precomputed:
             return None
         
-        # Déterminer le type de mouvement
         if "variation" in col_norm or "ecart" in col_norm:
             source = "variation"
         elif "flux" in col_norm:
@@ -954,7 +1276,6 @@ class SemanticBalanceFiller:
         else:
             source = "variation"
         
-        # Utiliser les préfixes de la ligne pour trouver les comptes
         prefixes = self._preferred_prefixes_for_label(need.row_label or "")
         if not prefixes:
             return None
@@ -978,7 +1299,7 @@ class SemanticBalanceFiller:
         expected_classes: Optional[Set[str]],
         precomputed: PrecomputedBalance
     ) -> List[MatchedAccount]:
-        """Version optimisée du matching explicite"""
+        """Matching explicite optimisé"""
         account_codes: Set[str] = set(re.findall(r"\bcompte\s*(\d{2,6})\b", row_norm))
         if re.fullmatch(r"\d{2,6}", row_norm):
             account_codes.add(row_norm)
@@ -1027,17 +1348,15 @@ class SemanticBalanceFiller:
         preferred_prefixes: Optional[Set[str]],
         precomputed: PrecomputedBalance
     ) -> List[MatchedAccount]:
-        """Version ultra-optimisée du fuzzy matching"""
+        """Fuzzy matching ultra-optimisé"""
         sheet_group = self._sheet_group(need.sheet)
         row_tokens = self._tokenize(need.row_label)
         
-        # Cache key pour réutilisation
         cache_key = (sheet_group, row_norm, col_type or "", year_hint or "")
         
         with self._cache_lock:
             if cache_key in self._row_match_cache:
                 cached = self._row_match_cache[cache_key]
-                # Mettre à jour les montants
                 updated = []
                 for match in cached:
                     amount_key = (match.compte, col_type or 'any')
@@ -1049,13 +1368,11 @@ class SemanticBalanceFiller:
 
         matches: List[Tuple[float, MatchedAccount]] = []
         
-        # Seuil de significativité adaptatif
         if "total" in row_norm or "somme" in row_norm:
-            significance_threshold = Decimal("100")  # Plus bas pour les totaux
+            significance_threshold = Decimal("100")
         else:
             significance_threshold = Decimal("1000")
         
-        # Parcourir les comptes pré-calculés
         for compte, normalized_row in precomputed.by_compte.items():
             if expected_classes and normalized_row.classe not in expected_classes:
                 continue
@@ -1073,10 +1390,8 @@ class SemanticBalanceFiller:
                 compte
             )
             
-            # Pénalité d'usage
             score -= min(0.18, self.account_usage.get(compte, 0) * 0.02)
             
-            # Bonus pour préfixes préférés
             if preferred_prefixes and any(compte.startswith(p) for p in preferred_prefixes):
                 score += 0.08
             
@@ -1099,7 +1414,6 @@ class SemanticBalanceFiller:
         if not matches:
             return []
         
-        # Ambiguity guard (moins strict pour les totaux)
         if len(matches) > 1 and "total" not in row_norm:
             gap = matches[0][0] - matches[1][0]
             if gap < 0.07 and matches[0][0] < 0.86:
@@ -1119,15 +1433,13 @@ class SemanticBalanceFiller:
         normalized_row: NormalizedBalanceRow,
         compte: str
     ) -> float:
-        """Version optimisée du scoring"""
+        """Scoring optimisé"""
         acc_norm = self._get_account_label_norm(compte, normalized_row.label)
         account_tokens = self._get_account_label_tokens(compte, normalized_row.label)
         
-        # Fuzzy similarity avec cache
         fuzzy = self._fuzzy_similarity_cached(row_norm, acc_norm)
         overlap = self._token_overlap(row_tokens, account_tokens)
         
-        # Poids adaptatif selon le contexte
         if "total" in row_norm or "somme" in row_norm:
             fuzzy_weight = 0.40
             overlap_weight = 0.60
@@ -1137,22 +1449,20 @@ class SemanticBalanceFiller:
         
         score = (fuzzy_weight * fuzzy) + (overlap_weight * overlap)
         
-        # Pénalités spécifiques
         if "incorporelle" in row_norm and "corporelle" in acc_norm and "incorporelle" not in acc_norm:
             score -= 0.20
         if "corporelle" in row_norm and "incorporelle" in acc_norm and "corporelle" not in acc_norm:
             score -= 0.20
         
-        # P3-M1 : pénalités cross
         penalty = self._forbidden_cross_penalty(row_norm, acc_norm)
         if penalty < 0:
             score += penalty
         
         return score
 
-    @lru_cache(maxsize=5000)
+    @lru_cache(maxsize=10000)
     def _fuzzy_similarity_cached(self, str1: str, str2: str) -> float:
-        """Fuzzy similarity avec cache LRU"""
+        """Fuzzy similarity avec cache"""
         return SequenceMatcher(None, str1, str2).ratio()
 
     def _match_with_business_rules_fast(
@@ -1165,7 +1475,7 @@ class SemanticBalanceFiller:
         expected_classes: Optional[Set[str]],
         precomputed: PrecomputedBalance
     ) -> List[MatchedAccount]:
-        """Version optimisée des business rules"""
+        """Règles métier optimisées"""
         rule = self._find_business_rule(need.sheet, need.row_label)
         if not rule:
             return []
@@ -1187,16 +1497,14 @@ class SemanticBalanceFiller:
 
         candidates: List[Tuple[float, MatchedAccount]] = []
         
-        # Utiliser les montants par préfixe si disponible pour les agrégations
         if rule.aggregate:
             for prefix in prefixes:
                 if prefix in precomputed.amounts_by_prefix:
                     amount = precomputed.amounts_by_prefix[prefix].get(col_type or 'any', Decimal('0'))
                     if amount > 0:
-                        # Trouver un compte représentatif pour ce préfixe
                         for compte, normalized_row in precomputed.by_compte.items():
                             if compte.startswith(prefix):
-                                score = 0.65  # Score de base pour les règles
+                                score = 0.65
                                 candidates.append((
                                     score,
                                     MatchedAccount(
@@ -1211,14 +1519,12 @@ class SemanticBalanceFiller:
             if candidates:
                 return [c[1] for c in sorted(candidates, key=lambda x: -x[0])[:rule.max_accounts]]
         
-        # Sinon, parcourir les comptes individuellement
         for compte, normalized_row in precomputed.by_compte.items():
             if effective_classes and normalized_row.classe not in effective_classes:
                 continue
             if prefixes and not any(compte.startswith(prefix) for prefix in prefixes):
                 continue
             
-            # Utiliser le montant pré-calculé
             amount_key = (compte, col_type or 'any')
             amount = precomputed.amounts.get(amount_key, Decimal('0'))
             
@@ -1324,19 +1630,16 @@ class SemanticBalanceFiller:
             notes=f"source=final; year={year_hint or 'n'}; derived={source_type}",
         )
 
-    @lru_cache(maxsize=5000)
+    @lru_cache(maxsize=10000)
     def _get_account_label_norm(self, compte: Optional[str], label: str) -> str:
-        """Cache pour les labels normalisés des comptes"""
+        """Cache pour labels normalisés"""
         return self._normalize_text(label)
 
-    @lru_cache(maxsize=5000)
+    @lru_cache(maxsize=10000)
     def _get_account_label_tokens(self, compte: Optional[str], label: str) -> frozenset:
-        """Cache pour les tokens des comptes (retourne frozenset pour être hashable)"""
+        """Cache pour tokens"""
         return frozenset(self._tokenize(label))
 
-    # Les méthodes suivantes sont conservées avec leurs implémentations originales
-    # car elles contiennent la logique métier qui ne peut pas être simplifiée
-    
     @property
     def normalized_rows(self) -> list:
         return list(self.balance_accounts.values())
@@ -1544,7 +1847,6 @@ class SemanticBalanceFiller:
             return False
 
         if "%" in col_label or any(kw in col_clean for kw in ("ratio", "taux", "pourcentage")):
-            # ⚡ Pour les pourcentages, on garde mais on les traitera différemment
             return True
 
         numeric_hints = (
@@ -2399,7 +2701,6 @@ class SemanticBalanceFiller:
         expected_classes: Optional[Set[str]],
         is_total: bool,
     ) -> List[MatchedAccount]:
-        # Version originale conservée
         return []
 
     def _fuzzy_match_accounts(
@@ -2414,7 +2715,6 @@ class SemanticBalanceFiller:
         sheet_name: Optional[str] = None,
         cell_ref: Optional[str] = None,
     ) -> List[MatchedAccount]:
-        # Version originale conservée
         return []
 
     def _match_with_business_rules(
@@ -2427,7 +2727,6 @@ class SemanticBalanceFiller:
         value_source: str,
         expected_classes: Optional[Set[str]],
     ) -> List[MatchedAccount]:
-        # Version originale conservée
         return []
 
     def _sum_balance_by_prefixes(
